@@ -3239,3 +3239,21 @@ html.namra-animated-cursor-ready * {
     font-size: 11px !important;
   }
 }
+
+@media (min-width: 901px) and (max-width: 980px) {
+  /* The legacy sidebar breakpoint is 980px; match it in the redesigned admin. */
+  .admin-redesign .admin-main {
+    margin-left: 0 !important;
+  }
+  .admin-redesign .admin-menu-toggle {
+    display: grid !important;
+  }
+  .admin-redesign .admin-sidebar-backdrop {
+    position: fixed;
+    z-index: 80;
+    inset: 0;
+    display: block;
+    border: 0;
+    background: rgba(44, 38, 65, .24);
+  }
+}
