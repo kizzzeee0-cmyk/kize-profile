@@ -54,24 +54,36 @@ export async function fetchPublicData(): Promise<PublicData> {
     supabase.from('signature_items').select('*').eq('is_visible', true).order('sort_order'),
   ])
 
-  const errors = [
-    settingsRes.error, profileRes.error, statsRes.error, featuresRes.error, socialsRes.error,
-    navRes.error, milestoneRes.error, archiveRes.error, categoryRes.error, textsRes.error, signaturesRes.error,
-  ].filter(Boolean)
-  if (errors.length) throw errors[0]
+  // A newly-added optional table or a temporarily misconfigured public policy
+  // should not make the entire public site fail. Keep all successful sections and
+  // log only the table that needs attention.
+  const warn = (label: string, error: unknown) => {
+    if (error) console.warn(`[KIZE data] ${label} could not be loaded`, error)
+  }
+  warn('site_settings', settingsRes.error)
+  warn('profile', profileRes.error)
+  warn('profile_stats', statsRes.error)
+  warn('profile_features', featuresRes.error)
+  warn('social_links', socialsRes.error)
+  warn('navigation_links', navRes.error)
+  warn('milestones', milestoneRes.error)
+  warn('archives', archiveRes.error)
+  warn('schedule_categories', categoryRes.error)
+  warn('site_texts', textsRes.error)
+  warn('signature_items', signaturesRes.error)
 
   return {
-    settings: settingsRes.data as SiteSettings | null,
-    profile: profileRes.data as Profile | null,
-    stats: (statsRes.data ?? []) as ProfileStat[],
-    features: (featuresRes.data ?? []) as ProfileFeature[],
-    socialLinks: (socialsRes.data ?? []) as SocialLink[],
-    navigationLinks: (navRes.data ?? []) as NavigationLink[],
-    milestones: (milestoneRes.data ?? []) as Milestone[],
-    archives: (archiveRes.data ?? []) as ArchiveItem[],
-    categories: (categoryRes.data ?? []) as ScheduleCategory[],
-    siteTexts: (textsRes.data ?? []) as SiteText[],
-    signatures: (signaturesRes.data ?? []) as SignatureItem[],
+    settings: settingsRes.error ? null : settingsRes.data as SiteSettings | null,
+    profile: profileRes.error ? null : profileRes.data as Profile | null,
+    stats: statsRes.error ? [] : (statsRes.data ?? []) as ProfileStat[],
+    features: featuresRes.error ? [] : (featuresRes.data ?? []) as ProfileFeature[],
+    socialLinks: socialsRes.error ? [] : (socialsRes.data ?? []) as SocialLink[],
+    navigationLinks: navRes.error ? [] : (navRes.data ?? []) as NavigationLink[],
+    milestones: milestoneRes.error ? [] : (milestoneRes.data ?? []) as Milestone[],
+    archives: archiveRes.error ? [] : (archiveRes.data ?? []) as ArchiveItem[],
+    categories: categoryRes.error ? [] : (categoryRes.data ?? []) as ScheduleCategory[],
+    siteTexts: textsRes.error ? [] : (textsRes.data ?? []) as SiteText[],
+    signatures: signaturesRes.error ? [] : (signaturesRes.data ?? []) as SignatureItem[],
   }
 }
 
@@ -80,7 +92,11 @@ export async function fetchSchedules(startDate: string, endDate: string, include
   let query = sb.from('schedules').select('*, category:schedule_categories(*)').gte('schedule_date', startDate).lte('schedule_date', endDate).order('schedule_date').order('start_time')
   if (!includeHidden) query = query.eq('is_visible', true)
   const { data, error } = await query
-  if (error) throw error
+  if (error) {
+    if (includeHidden) throw error
+    console.warn('[KIZE data] schedules could not be loaded', error)
+    return []
+  }
   return (data ?? []) as ScheduleItem[]
 }
 
@@ -141,7 +157,11 @@ export async function fetchSongs(includeHidden = false): Promise<SongItem[]> {
   let query = supabase.from('songs').select('*').order('genre').order('sort_order').order('title')
   if (!includeHidden) query = query.eq('is_visible', true)
   const { data, error } = await query
-  if (error) throw error
+  if (error) {
+    if (includeHidden) throw error
+    console.warn('[KIZE data] songs could not be loaded', error)
+    return []
+  }
   return (data ?? []) as SongItem[]
 }
 
@@ -153,7 +173,11 @@ export async function fetchWardrobe(includeHidden = false): Promise<WardrobeItem
   let query = supabase.from('wardrobe_items').select('*').order('period_type').order('item_type').order('sort_order').order('name')
   if (!includeHidden) query = query.eq('is_visible', true)
   const { data, error } = await query
-  if (error) throw error
+  if (error) {
+    if (includeHidden) throw error
+    console.warn('[KIZE data] wardrobe_items could not be loaded', error)
+    return []
+  }
   return (data ?? []) as WardrobeItem[]
 }
 
@@ -165,7 +189,11 @@ export async function fetchUpboPeople(includeHidden = false): Promise<UpboPerson
   let query = supabase.from('upbo_people').select('*').order('sort_order').order('soop_name')
   if (!includeHidden) query = query.eq('is_visible', true)
   const { data, error } = await query
-  if (error) throw error
+  if (error) {
+    if (includeHidden) throw error
+    console.warn('[KIZE data] upbo_people could not be loaded', error)
+    return []
+  }
   return (data ?? []) as UpboPerson[]
 }
 
@@ -175,6 +203,9 @@ export async function fetchUpboResults(): Promise<UpboResult[]> {
     return [...demoUpboResults]
   }
   const { data, error } = await supabase.from('upbo_results').select('*').order('sort_order').order('created_at')
-  if (error) throw error
+  if (error) {
+    console.warn('[KIZE data] upbo_results could not be loaded', error)
+    return []
+  }
   return (data ?? []) as UpboResult[]
 }

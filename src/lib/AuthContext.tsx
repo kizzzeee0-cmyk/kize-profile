@@ -8,7 +8,7 @@ type AuthValue = {
   loading: boolean
   adminLoading: boolean
   isAdmin: boolean
-  signIn: (email: string, password: string) => Promise<void>
+  signIn: (password: string) => Promise<void>
   signOut: () => Promise<void>
 }
 
@@ -60,10 +60,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loading,
     adminLoading,
     isAdmin,
-    async signIn(email, password) {
+    async signIn(password) {
       if (!isSupabaseConfigured || !supabase) throw new Error('Supabase 연결이 필요합니다.')
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-      if (error) throw error
+
+      try {
+        const response = await fetch('/api/admin-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        })
+
+        if (response.ok) {
+          const payload = await response.json() as { access_token?: string; refresh_token?: string }
+          if (!payload.access_token || !payload.refresh_token) throw new Error('로그인 응답이 올바르지 않습니다.')
+          const { data, error } = await supabase.auth.setSession({
+            access_token: payload.access_token,
+            refresh_token: payload.refresh_token,
+          })
+          if (error) throw error
+          setSession(data.session)
+          return
+        }
+
+        if (response.status !== 404 && response.status !== 405) {
+          const message = await response.json().catch(() => null) as { error?: string } | null
+          throw new Error(message?.error || '비밀번호가 올바르지 않습니다.')
+        }
+      } catch (error) {
+        if (!(error instanceof TypeError)) throw error
+      }
+
+      const localAdminEmail = (import.meta.env.VITE_ADMIN_EMAIL as string | undefined)?.trim()
+      if (!localAdminEmail) throw new Error('배포 환경의 ADMIN_EMAIL 설정을 확인해 주세요.')
+      const { data, error } = await supabase.auth.signInWithPassword({ email: localAdminEmail, password })
+      if (error) throw new Error('비밀번호가 올바르지 않습니다.')
       setSession(data.session)
     },
     async signOut() {
