@@ -60,14 +60,14 @@ export default function AdminUpboPage() {
     finally { setBusy(false) }
   }
 
-  async function reorderPeople(next: Record<string, any>[]) {
+  async function reorderPeople(next: UpboPerson[]) {
     setBusy(true)
     try { await reorderRows('upbo_people', next.map(row => row.id)); await load() }
     catch (e) { setError(e instanceof Error ? e.message : '정렬 저장 실패'); throw e }
     finally { setBusy(false) }
   }
 
-  async function reorderResults(next: Record<string, any>[]) {
+  async function reorderResults(next: UpboResult[]) {
     setBusy(true)
     try { await reorderRows('upbo_results', next.map(row => row.id)); await load() }
     catch (e) { setError(e instanceof Error ? e.message : '정렬 저장 실패'); throw e }
