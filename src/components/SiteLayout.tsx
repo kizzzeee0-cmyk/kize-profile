@@ -51,11 +51,11 @@ function PublicNavigation() {
 
 function Header() {
   const { data } = usePublicData()
-  const name = data.profile?.korean_name || '유남라'
+  const name = data.profile?.english_name || 'NAMRA'
 
   return <header className="public-topbar">
     <div className="public-topbar-inner">
-      <Link className="public-brand" to="/" aria-label="유남라 프로필 홈">{name}</Link>
+      <Link className="public-brand" to="/" aria-label="NAMRA 프로필 홈">{name}</Link>
       <PublicNavigation />
     </div>
   </header>

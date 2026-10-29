@@ -40,7 +40,7 @@ export type Milestone = { id: string; date: string; title: string; description: 
 export type ArchiveItem = { id: string; date: string; title: string; category: string; description: string | null; video_url: string; platform: string; thumbnail_url: string | null; is_featured: boolean; sort_order: number; is_visible: boolean }
 export type ScheduleCategory = { id: string; name: string; color: string; sort_order: number; is_visible: boolean }
 export type ScheduleItem = { id: string; title: string; schedule_date: string; start_time: string | null; end_time: string | null; category_id: string | null; description: string | null; participants: string | null; related_url: string | null; image_url: string | null; note: string | null; is_visible: boolean; created_at?: string; category?: ScheduleCategory | null }
-export type SignatureItem = { id: string; image_url: string; title: string | null; description?: string | null; important_info?: string | null; sort_order: number; is_visible: boolean }
+export type SignatureItem = { id: string; image_url: string; title: string | null; number_text?: string | null; description?: string | null; important_info?: string | null; sort_order: number; is_visible: boolean }
 
 export type SongItem = {
   id: string

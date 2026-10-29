@@ -2172,7 +2172,7 @@ body {
   .public-shell,
   .admin-shell,
   .modal {
-    cursor: url('/cursors/normal.png') 0 0, auto !important;
+    cursor: url('/cursors/normal.svg') 0 0, url('/cursors/normal.png') 0 0, auto !important;
   }
 
   a,
@@ -2186,7 +2186,7 @@ body {
   input[type='checkbox'],
   input[type='radio'],
   input[type='range'] {
-    cursor: url('/cursors/link.png') 0 0, pointer !important;
+    cursor: url('/cursors/link.svg') 0 0, url('/cursors/link.png') 0 0, pointer !important;
   }
 
   input[type='text'],
@@ -2198,53 +2198,53 @@ body {
   input[type='password'],
   textarea,
   [contenteditable='true'] {
-    cursor: url('/cursors/text.png') 0 0, text !important;
+    cursor: url('/cursors/text.svg') 0 0, url('/cursors/text.png') 0 0, text !important;
   }
 
   button:disabled,
   input:disabled,
   select:disabled,
   [aria-disabled='true'] {
-    cursor: url('/cursors/unavailable.png') 0 0, not-allowed !important;
+    cursor: url('/cursors/unavailable.svg') 0 0, url('/cursors/unavailable.png') 0 0, not-allowed !important;
   }
 
   [aria-busy='true'],
   .cursor-busy,
   [data-cursor='busy'] {
-    cursor: url('/cursors/busy.png') 0 0, wait !important;
+    cursor: url('/cursors/busy.svg') 0 0, url('/cursors/busy.png') 0 0, wait !important;
   }
 
   .skeleton,
   .admin-center,
   .cursor-working,
   [data-cursor='working'] {
-    cursor: url('/cursors/working.png') 0 0, progress !important;
+    cursor: url('/cursors/working.svg') 0 0, url('/cursors/working.png') 0 0, progress !important;
   }
 
   body.admin-is-dragging,
   body.admin-is-dragging *,
   .drag-handle:active {
-    cursor: url('/cursors/move.png') 0 0, grabbing !important;
+    cursor: url('/cursors/move.svg') 0 0, url('/cursors/move.png') 0 0, grabbing !important;
   }
 
   .cursor-resize-ew,
   [data-cursor='resize-ew'] {
-    cursor: url('/cursors/resize-ew.png') 0 0, ew-resize !important;
+    cursor: url('/cursors/resize-ew.svg') 0 0, url('/cursors/resize-ew.png') 0 0, ew-resize !important;
   }
 
   .cursor-resize-ns,
   [data-cursor='resize-ns'] {
-    cursor: url('/cursors/resize-ns.png') 0 0, ns-resize !important;
+    cursor: url('/cursors/resize-ns.svg') 0 0, url('/cursors/resize-ns.png') 0 0, ns-resize !important;
   }
 
   .cursor-resize-nwse,
   [data-cursor='resize-nwse'] {
-    cursor: url('/cursors/resize-nwse.png') 0 0, nwse-resize !important;
+    cursor: url('/cursors/resize-nwse.svg') 0 0, url('/cursors/resize-nwse.png') 0 0, nwse-resize !important;
   }
 
   .cursor-resize-nesw,
   [data-cursor='resize-nesw'] {
-    cursor: url('/cursors/resize-nesw.png') 0 0, nesw-resize !important;
+    cursor: url('/cursors/resize-nesw.svg') 0 0, url('/cursors/resize-nesw.png') 0 0, nesw-resize !important;
   }
 }
 
@@ -2556,4 +2556,273 @@ summary {
 .songbook-table {
   min-width: 0;
   width: 100%;
+}
+
+
+/* Header brand: English NAMRA in Paperlogy */
+.public-brand {
+  font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  letter-spacing: .04em !important;
+}
+
+/* Profile hero: reference-inspired split copy + image layout */
+.home-profile-hero {
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+  align-items: center;
+  gap: 42px;
+  min-height: 390px;
+  padding: 32px 0 18px;
+}
+
+.home-profile-copy {
+  min-width: 0;
+  padding: 14px 0;
+}
+
+.home-profile-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 24px;
+  color: var(--brand-strong);
+  font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: .16em !important;
+}
+
+.home-profile-eyebrow::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  flex: 0 0 auto;
+  background: var(--brand-strong);
+}
+
+.home-profile-badge {
+  display: block;
+  margin-bottom: 13px;
+  color: var(--body);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.home-profile-copy h1 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(44px, 5vw, 58px);
+  line-height: 1.06;
+  font-weight: 400;
+  letter-spacing: -.035em;
+}
+
+.home-profile-copy > strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--brand-strong);
+  font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+
+.home-profile-copy > p {
+  max-width: 430px;
+  margin: 22px 0 0;
+  color: var(--body);
+  font-size: 16px;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.home-profile-copy .home-social-buttons {
+  margin-top: 25px !important;
+}
+
+.home-profile-copy .home-social-buttons a {
+  min-height: 42px !important;
+  padding: 0 14px !important;
+  border-radius: 11px !important;
+  background: #fff !important;
+}
+
+.home-profile-media {
+  min-width: 0;
+}
+
+.home-profile-photo {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  isolation: isolate;
+}
+
+.home-profile-photo::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 9px -10px -10px 10px;
+  border-radius: 24px;
+  background: #eee9fb;
+}
+
+.home-profile-image,
+.home-profile-photo > .home-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(77, 65, 116, .08);
+}
+
+.home-profile-image {
+  display: block;
+  object-fit: cover;
+  object-position: var(--hero-x) var(--hero-y);
+}
+
+.home-profile-photo > .home-photo-placeholder {
+  position: relative;
+  inset: auto;
+}
+
+.home-profile-media-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 9px 0;
+  color: var(--muted);
+}
+
+.home-profile-media-caption span {
+  color: var(--brand-strong);
+  font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.home-profile-media-caption small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Signature cards: text left, number right */
+.signature-probability-button {
+  flex: 0 0 auto;
+}
+
+.signature-diary-copy {
+  padding: 11px 4px 4px !important;
+}
+
+.signature-diary-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.signature-diary-meta strong {
+  min-width: 0;
+  margin: 0 !important;
+  color: var(--text);
+  font-size: 16px !important;
+  line-height: 1.35;
+  font-weight: 400 !important;
+}
+
+.signature-diary-meta em {
+  flex: 0 0 auto;
+  margin: 0 !important;
+  color: var(--brand-strong) !important;
+  font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 19px !important;
+  line-height: 1;
+  font-style: normal;
+  font-weight: 700 !important;
+}
+
+.signature-diary-copy > p {
+  margin: 7px 0 0 !important;
+  color: var(--body) !important;
+  font-size: 13px !important;
+  line-height: 1.5;
+}
+
+/* Crisp enlarged cursor source: 32px native PNG rendered in a 48px SVG canvas */
+@media (pointer: fine) {
+  html,
+  body,
+  .public-shell,
+  .admin-shell,
+  .modal,
+  a,
+  button,
+  select,
+  summary,
+  label[for],
+  [role='button'],
+  input,
+  textarea,
+  [contenteditable='true'] {
+    image-rendering: pixelated;
+  }
+}
+
+@media (max-width: 700px) {
+  .home-profile-hero {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    min-height: 0;
+    padding: 8px 0 2px;
+  }
+
+  .home-profile-copy {
+    padding: 0;
+  }
+
+  .home-profile-eyebrow {
+    margin-bottom: 18px;
+  }
+
+  .home-profile-copy h1 {
+    font-size: 42px;
+  }
+
+  .home-profile-copy > p {
+    margin-top: 17px;
+    font-size: 15px;
+  }
+
+  .home-profile-photo::after {
+    inset: 7px -6px -7px 7px;
+    border-radius: 19px;
+  }
+
+  .home-profile-image,
+  .home-profile-photo > .home-photo-placeholder {
+    border-radius: 19px;
+    object-position: var(--hero-mobile-x) var(--hero-mobile-y);
+  }
+
+  .home-profile-media-caption {
+    padding-inline: 5px;
+  }
+
+  .home-signature-section .diary-section-title {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .signature-probability-button {
+    align-self: flex-start;
+  }
 }

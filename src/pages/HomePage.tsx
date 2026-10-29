@@ -131,6 +131,7 @@ export default function HomePage() {
   } as CSSProperties
 
   const statRows = data.stats.slice(0, 4)
+  const probabilityUrl = data.settings?.roulette_probability_url || ''
   const weekMap = new Map<string, ScheduleItem[]>()
   weekItems.forEach(item => weekMap.set(item.schedule_date, [...(weekMap.get(item.schedule_date) || []), item]))
 
@@ -143,16 +144,12 @@ export default function HomePage() {
       <div className="site-container">
         {(error || scheduleError) && <StatusMessage tone="error">{error || scheduleError}</StatusMessage>}
 
-        <section className={`home-photo-hero text-${profile?.hero_text_position || 'left'}`} style={heroStyle}>
-          {profile?.profile_image_url
-            ? <img className="home-photo-hero-image" src={profile.profile_image_url} alt={`${profile.korean_name} 프로필`} />
-            : <div className="home-photo-placeholder"><AppIcon name="image" /><span>관리자에서 16:9 메인 이미지를 등록해 주세요.</span></div>}
-
-          <div className="home-photo-overlay" />
-
-          <div className="home-photo-copy">
-            <div className="home-name-row"><h1>{profile?.korean_name || '유남라'}</h1></div>
-            <small className="home-english-name">{profile?.english_name || 'NAMRA'}</small>
+        <section className="home-profile-hero" style={heroStyle}>
+          <div className="home-profile-copy">
+            <small className="home-profile-eyebrow">{profile?.english_name || 'NAMRA'} PROFILE</small>
+            {profile?.badge_text && <span className="home-profile-badge">{profile.badge_text}</span>}
+            <h1>{profile?.korean_name || '유남라'}</h1>
+            <strong>{profile?.english_name || 'NAMRA'}</strong>
             <p>{profile?.intro || '좋아하는 것을 기록하는 작은 공간, 함께 즐겁게 이야기해요.'}</p>
 
             {heroLinks.length > 0 && <div className="home-social-buttons">
@@ -161,6 +158,18 @@ export default function HomePage() {
                 <span>{link.label}</span>
               </a>)}
             </div>}
+          </div>
+
+          <div className="home-profile-media">
+            <div className="home-profile-photo">
+              {profile?.profile_image_url
+                ? <img className="home-profile-image" src={profile.profile_image_url} alt={`${profile.korean_name} 프로필`} />
+                : <div className="home-photo-placeholder"><AppIcon name="image" /><span>관리자에서 16:9 메인 이미지를 등록해 주세요.</span></div>}
+            </div>
+            <div className="home-profile-media-caption">
+              <span>{profile?.english_name || 'NAMRA'}</span>
+              <small>{profile?.badge_text || 'SOOP STREAMER'}</small>
+            </div>
           </div>
         </section>
 
@@ -226,16 +235,22 @@ export default function HomePage() {
 
     <section className="home-section home-signature-section" id="signature">
       <div className="site-container">
-        <SectionTitle eyebrow="SIGNATURE BALLOONS" title={t('home_signature_title', '시그니처 풍선')} />
+        <SectionTitle
+          eyebrow="SIGNATURE BALLOONS"
+          title={t('home_signature_title', '시그니처 풍선')}
+          action={probabilityUrl && probabilityUrl !== '#' ? <a className="soft-link-button signature-probability-button" href={probabilityUrl} target="_blank" rel="noopener noreferrer">룰렛 확률 보기 <AppIcon name="external" /></a> : undefined}
+        />
 
         {data.signatures.length
           ? <div className="signature-diary-grid">
             {data.signatures.map(item => <button type="button" className="signature-diary-card" key={item.id} onClick={() => setSelectedSignature(item)}>
               <img src={item.image_url} alt={item.title || '시그니처 풍선'} loading="lazy" />
-              <div>
-                <strong>{item.title || '시그니처 풍선'}</strong>
+              <div className="signature-diary-copy">
+                <div className="signature-diary-meta">
+                  <strong>{item.title || '시그니처 풍선'}</strong>
+                  {(item.number_text || item.important_info) && <em>{item.number_text || item.important_info}</em>}
+                </div>
                 {item.description && <p>{item.description}</p>}
-                {item.important_info && <em>{item.important_info}</em>}
               </div>
             </button>)}
           </div>
