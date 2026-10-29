@@ -2165,90 +2165,7 @@ body {
   color: var(--text) !important;
 }
 
-/* Custom cursors from uploaded ANI set, converted from the first 32px source frame */
-@media (pointer: fine) {
-  html,
-  body,
-  .public-shell,
-  .admin-shell,
-  .modal {
-    cursor: url('/cursors/normal.svg') 0 0, url('/cursors/normal.png') 0 0, auto !important;
-  }
-
-  a,
-  button,
-  select,
-  summary,
-  label[for],
-  [role='button'],
-  input[type='button'],
-  input[type='submit'],
-  input[type='checkbox'],
-  input[type='radio'],
-  input[type='range'] {
-    cursor: url('/cursors/link.svg') 0 0, url('/cursors/link.png') 0 0, pointer !important;
-  }
-
-  input[type='text'],
-  input[type='search'],
-  input[type='url'],
-  input[type='date'],
-  input[type='time'],
-  input[type='number'],
-  input[type='password'],
-  textarea,
-  [contenteditable='true'] {
-    cursor: url('/cursors/text.svg') 0 0, url('/cursors/text.png') 0 0, text !important;
-  }
-
-  button:disabled,
-  input:disabled,
-  select:disabled,
-  [aria-disabled='true'] {
-    cursor: url('/cursors/unavailable.svg') 0 0, url('/cursors/unavailable.png') 0 0, not-allowed !important;
-  }
-
-  [aria-busy='true'],
-  .cursor-busy,
-  [data-cursor='busy'] {
-    cursor: url('/cursors/busy.svg') 0 0, url('/cursors/busy.png') 0 0, wait !important;
-  }
-
-  .skeleton,
-  .admin-center,
-  .cursor-working,
-  [data-cursor='working'] {
-    cursor: url('/cursors/working.svg') 0 0, url('/cursors/working.png') 0 0, progress !important;
-  }
-
-  body.admin-is-dragging,
-  body.admin-is-dragging *,
-  .drag-handle:active {
-    cursor: url('/cursors/move.svg') 0 0, url('/cursors/move.png') 0 0, grabbing !important;
-  }
-
-  .cursor-resize-ew,
-  [data-cursor='resize-ew'] {
-    cursor: url('/cursors/resize-ew.svg') 0 0, url('/cursors/resize-ew.png') 0 0, ew-resize !important;
-  }
-
-  .cursor-resize-ns,
-  [data-cursor='resize-ns'] {
-    cursor: url('/cursors/resize-ns.svg') 0 0, url('/cursors/resize-ns.png') 0 0, ns-resize !important;
-  }
-
-  .cursor-resize-nwse,
-  [data-cursor='resize-nwse'] {
-    cursor: url('/cursors/resize-nwse.svg') 0 0, url('/cursors/resize-nwse.png') 0 0, nwse-resize !important;
-  }
-
-  .cursor-resize-nesw,
-  [data-cursor='resize-nesw'] {
-    cursor: url('/cursors/resize-nesw.svg') 0 0, url('/cursors/resize-nesw.png') 0 0, nesw-resize !important;
-  }
-}
-
-@media (max-width: 900px) {
+\n@media (max-width: 900px) {
   .site-container,
   .diary-page,
   .public-topbar-inner {
@@ -2757,27 +2674,7 @@ summary {
   line-height: 1.5;
 }
 
-/* Crisp enlarged cursor source: 32px native PNG rendered in a 48px SVG canvas */
-@media (pointer: fine) {
-  html,
-  body,
-  .public-shell,
-  .admin-shell,
-  .modal,
-  a,
-  button,
-  select,
-  summary,
-  label[for],
-  [role='button'],
-  input,
-  textarea,
-  [contenteditable='true'] {
-    image-rendering: pixelated;
-  }
-}
-
-@media (max-width: 700px) {
+\n@media (max-width: 700px) {
   .home-profile-hero {
     grid-template-columns: 1fr;
     gap: 26px;
