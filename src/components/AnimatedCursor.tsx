@@ -62,8 +62,9 @@ export function AnimatedCursor() {
     if (!finePointer.matches) return
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const el = cursorRef.current
-    if (!el) return
+    const element = cursorRef.current
+    if (!element) return
+    const el: HTMLDivElement = element
 
     let disposed = false
     let ready = false
