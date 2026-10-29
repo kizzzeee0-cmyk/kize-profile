@@ -47,17 +47,6 @@ export default function SchedulePage() {
   }, [items])
 
   const selectedItems = byDate.get(selectedDate) || []
-  const weekStart = useMemo(() => {
-    const d = new Date(today)
-    d.setDate(d.getDate() - d.getDay())
-    return d
-  }, [today])
-  const weekEnd = useMemo(() => {
-    const d = new Date(weekStart)
-    d.setDate(d.getDate() + 6)
-    return d
-  }, [weekStart])
-  const weekItems = items.filter(item => item.schedule_date >= toDateKey(weekStart) && item.schedule_date <= toDateKey(weekEnd))
   const upcomingEnd = useMemo(() => {
     const d = new Date(today)
     d.setDate(d.getDate() + 14)
@@ -68,10 +57,7 @@ export default function SchedulePage() {
   const weekday = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
   return <div className="diary-page schedule-diary-page">
-    <div className="diary-page-heading">
-      <div><h1>{t('schedule_title', '일정')}</h1><small>{t('schedule_label', 'SCHEDULE')}</small></div>
-      <a className="soft-link-button" href="#upcoming"><AppIcon name="calendar" /> 다가오는 일정 보기</a>
-    </div>
+    <div className="diary-page-heading"><div><h1>{t('schedule_title', '일정')}</h1><small>{t('schedule_label', 'SCHEDULE')}</small></div></div>
     {error && <StatusMessage tone="error">{error}</StatusMessage>}
 
     {loading ? <LoadingBlocks /> : <section className="schedule-dashboard-grid">
@@ -91,37 +77,41 @@ export default function SchedulePage() {
             const isToday = key === toDateKey(today)
             const isSelected = key === selectedDate
             return <button type="button" className={`schedule-day ${sameMonth ? '' : 'outside'} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`} key={key} onClick={() => setSelectedDate(key)}>
-              <span>{date.getDate()}</span>
-              <div>{dateItems.slice(0, 3).map(item => <i key={item.id} style={{ background: item.category?.color || '#A8A1F1' }} title={item.title} />)}</div>
+              <span className="schedule-day-number">{date.getDate()}</span>
+              <div className="schedule-day-events">
+                {dateItems.slice(0, 3).map(item => <div className={`schedule-cell-event ${/휴방/.test(item.category?.name || '') ? 'is-off' : ''}`} key={item.id}>
+                  <em style={{ '--event': item.category?.color || '#A79BD9' } as CSSProperties}>{item.category?.name || '기타'}</em>
+                  <small>{formatTime(item.start_time) || '-'}</small>
+                  <strong>{item.title}</strong>
+                </div>)}
+                {dateItems.length > 3 && <small className="schedule-more">+{dateItems.length - 3}</small>}
+              </div>
             </button>
           })}
         </div>
       </div>
 
-      <div className="diary-card schedule-side-card">
-        <div className="schedule-side-title"><div><h2>{formatShortDate(selectedDate)} 일정</h2><small>SELECTED DAY</small></div><span>{selectedItems.length}개</span></div>
-        <div className="schedule-selected-list">
-          {selectedItems.length ? selectedItems.map(item => <button type="button" key={item.id} onClick={() => setSelected(item)}>
-            <i style={{ background: item.category?.color || '#A8A1F1' }} />
-            <span>{formatTime(item.start_time) || '시간 미정'}</span>
-            <strong>{item.title}</strong>
-            <AppIcon name="chevron-right" />
-          </button>) : <EmptyState>선택한 날짜에 등록된 일정이 없습니다.</EmptyState>}
-        </div>
+      <aside className="schedule-right-column">
+        <section className="diary-card schedule-side-card">
+          <div className="schedule-side-title"><div><h2>{formatShortDate(selectedDate)} 일정</h2><small>SELECTED DAY</small></div><span>{selectedItems.length}개</span></div>
+          <div className="schedule-selected-list">
+            {selectedItems.length ? selectedItems.map(item => <button type="button" key={item.id} onClick={() => setSelected(item)}>
+              <i style={{ background: item.category?.color || '#A79BD9' }} />
+              <span>{formatTime(item.start_time) || '시간 미정'}</span>
+              <strong>{item.title}</strong>
+              <AppIcon name="chevron-right" />
+            </button>) : <EmptyState>선택한 날짜에 등록된 일정이 없습니다.</EmptyState>}
+          </div>
+        </section>
 
-        <div className="schedule-week-summary">
-          <div className="schedule-side-title small"><div><h3>이번 주 일정</h3><small>{formatShortDate(toDateKey(weekStart))} - {formatShortDate(toDateKey(weekEnd))}</small></div></div>
-          {weekItems.length ? weekItems.map(item => <button type="button" key={item.id} onClick={() => setSelected(item)}><span>{formatShortDate(item.schedule_date)}</span><em>{formatTime(item.start_time) || '-'}</em><strong>{item.title}</strong></button>) : <p>이번 주에 등록된 일정이 없습니다.</p>}
-        </div>
-      </div>
+        <section className="diary-card schedule-upcoming-side" id="upcoming">
+          <div className="schedule-side-title"><div><h2>다가오는 일정</h2><small>UPCOMING</small></div></div>
+          {upcoming.length ? <div className="schedule-upcoming-list">{upcoming.slice(0, 8).map(item => <button type="button" key={item.id} onClick={() => setSelected(item)}>
+            <time>{formatShortDate(item.schedule_date)}</time><span>{formatTime(item.start_time) || '-'}</span><strong>{item.title}</strong>
+          </button>)}</div> : <EmptyState>다가오는 일정이 없습니다.</EmptyState>}
+        </section>
+      </aside>
     </section>}
-
-    <section className="diary-card upcoming-diary-card" id="upcoming">
-      <div className="diary-section-title"><div><span className="diary-title-icon"><AppIcon name="calendar" /></span><div><h2>다가오는 일정</h2><small>UPCOMING</small></div></div></div>
-      {upcoming.length ? <div className="upcoming-diary-list">{upcoming.map(item => <button type="button" key={item.id} onClick={() => setSelected(item)}>
-        <time>{formatShortDate(item.schedule_date)}</time><span>{formatTime(item.start_time) || '-'}</span><i style={{ background: item.category?.color || '#A8A1F1' }} /><strong>{item.title}</strong><em>{item.category?.name || '기타'}</em>
-      </button>)}</div> : <EmptyState>다가오는 일정이 없습니다.</EmptyState>}
-    </section>
 
     <Modal open={Boolean(selected)} onClose={() => setSelected(null)} title="일정 상세">
       {selected && <div className="schedule-detail diary-schedule-detail">

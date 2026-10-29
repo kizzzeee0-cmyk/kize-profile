@@ -25,7 +25,7 @@ export default function WardrobePage() {
   return <div className="diary-page wardrobe-diary-page">
     <div className="diary-page-heading">
       <div><h1>{t('wardrobe_title', '옷장')}</h1><small>{t('wardrobe_label', 'CLOSET')}</small></div>
-      {probabilityUrl && probabilityUrl !== '#' && <a className="soft-link-button" href={probabilityUrl} target="_blank" rel="noopener noreferrer">룰렛 확률 확인 <AppIcon name="external" /></a>}
+      {probabilityUrl && probabilityUrl !== '#' && <a className="soft-link-button cream" href={probabilityUrl} target="_blank" rel="noopener noreferrer">룰렛 확률 확인 <AppIcon name="external" /></a>}
     </div>
     {error && <StatusMessage tone="error">{error}</StatusMessage>}
 
@@ -43,8 +43,8 @@ export default function WardrobePage() {
 
       {loading ? <LoadingBlocks /> : filtered.length ? <div className="wardrobe-diary-grid">
         {filtered.map(item => <article className="wardrobe-diary-item" key={item.id}>
-          <div className="wardrobe-diary-image">{item.image_url ? <img src={item.image_url} alt={item.name} loading="lazy" /> : <div><AppIcon name="wardrobe" /></div>}<span><AppIcon name="heart" /></span></div>
-          <div className="wardrobe-diary-copy"><strong>{item.name}</strong>{item.description && <p>{item.description}</p>}</div>
+          <div className="wardrobe-diary-image">{item.image_url ? <img src={item.image_url} alt={item.name} loading="lazy" /> : <div><AppIcon name="wardrobe" /></div>}</div>
+          <div className="wardrobe-diary-copy"><strong>{item.name}</strong><span>{period === 'monthly' ? '이달의 의상' : '기존 의상'} · {type === 'outfit' ? '의상' : '헤어'}</span>{item.description && <p>{item.description}</p>}</div>
         </article>)}
       </div> : <EmptyState>{t('wardrobe_empty', '아직 등록된 항목이 없습니다.')}</EmptyState>}
     </section>

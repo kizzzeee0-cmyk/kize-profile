@@ -38,7 +38,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
 
   return <div className="admin-shell admin-redesign">
     <aside className={`admin-sidebar ${open ? 'open' : ''}`}>
-      <div className="admin-logo"><strong>NAMRA</strong><small>CONTENT MANAGER</small></div>
+      <div className="admin-logo"><strong>유남라</strong><small>CONTENT MANAGER</small></div>
       <nav className="admin-nav-groups">
         {groups.map(group => <section key={group.title}><span>{group.title}</span>{group.links.map(([to, label, icon]) => <NavLink key={to} to={to} onClick={() => setOpen(false)}><AppIcon name={icon} /><em>{label}</em></NavLink>)}</section>)}
       </nav>

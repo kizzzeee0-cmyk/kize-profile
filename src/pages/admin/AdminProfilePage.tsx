@@ -101,7 +101,7 @@ export default function AdminProfilePage() {
     ]} defaults={{ is_visible: true, sort_order: 0 }} />
 
     <CrudEditor table="signature_items" title="시그니처 풍선" description="실제 등록된 이미지만 공개 페이지에 표시됩니다. 293×159 비율을 권장합니다." fields={[
-      { key: 'image_url', label: '시그니처 이미지', type: 'image', required: true }, { key: 'title', label: '이미지 이름' }, { key: 'sort_order', label: '순서', type: 'number' }, { key: 'is_visible', label: '공개', type: 'checkbox' },
+      { key: 'image_url', label: '시그니처 이미지', type: 'image', required: true }, { key: 'title', label: '풍선 이름' }, { key: 'description', label: '설명', type: 'textarea' }, { key: 'important_info', label: '중요 숫자 / 정보', placeholder: '예: 120 / 단챗 3장' }, { key: 'sort_order', label: '순서', type: 'number' }, { key: 'is_visible', label: '공개', type: 'checkbox' },
     ]} defaults={{ is_visible: true, sort_order: 0 }} />
 
     <CrudEditor table="social_links" title="외부 링크" description="팬카페, SOOP 방송국, YouTube 등 프로필 카드에 표시할 링크입니다." fields={[

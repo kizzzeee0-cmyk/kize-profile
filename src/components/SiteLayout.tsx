@@ -26,6 +26,7 @@ function PublicNavigation({ mobile = false, onNavigate }: { mobile?: boolean; on
     url,
     sort_order: index + 1,
   }))
+
   const nav = useMemo(() => {
     const allowed = new Set(Object.keys(menuMeta))
     const saved = data.navigationLinks
@@ -52,20 +53,20 @@ function PublicNavigation({ mobile = false, onNavigate }: { mobile?: boolean; on
 function Sidebar() {
   const { data } = usePublicData()
   const { theme, toggleTheme } = useTheme()
-  const logo = data.settings?.logo_text || data.profile?.english_name || 'NAMRA'
+  const name = data.profile?.korean_name || '유남라'
   const social = data.socialLinks.slice(0, 4)
 
   return <aside className="public-sidebar">
-    <Link className="public-logo" to="/" aria-label="프로필 홈">
-      <span>{logo}</span><i>♡</i>
-    </Link>
+    <Link className="public-logo" to="/" aria-label="프로필 홈">{name}</Link>
     <PublicNavigation />
     <div className="public-sidebar-bottom">
       {social.length > 0 && <div className="public-social-icons">
-        {social.map(link => <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.name}><AppIcon name={/youtube|유튜브/i.test(link.name) ? 'youtube' : /팬카페|cafe/i.test(link.name) ? 'cafe' : 'external'} /></a>)}
+        {social.map(link => <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
+          <AppIcon name={/youtube|유튜브/i.test(link.name) ? 'youtube' : /팬카페|cafe/i.test(link.name) ? 'cafe' : 'external'} />
+        </a>)}
       </div>}
       {data.settings?.dark_mode_enabled !== false && <button className="public-theme-toggle" type="button" onClick={toggleTheme} aria-label={theme === 'dark' ? '라이트 모드' : '다크 모드'}>
-        {theme === 'dark' ? 'LIGHT' : 'DARK'}
+        {theme === 'dark' ? '라이트 모드' : '다크 모드'}
       </button>}
     </div>
   </aside>
@@ -74,10 +75,10 @@ function Sidebar() {
 function MobileHeader() {
   const { data } = usePublicData()
   const [open, setOpen] = useState(false)
-  const logo = data.settings?.logo_text || data.profile?.english_name || 'NAMRA'
+  const name = data.profile?.korean_name || '유남라'
 
   return <header className="public-mobile-header">
-    <Link className="public-mobile-logo" to="/" onClick={() => setOpen(false)}>{logo}<i>♡</i></Link>
+    <Link className="public-mobile-logo" to="/" onClick={() => setOpen(false)}>{name}</Link>
     <button className="public-mobile-menu-button" type="button" aria-label={open ? '메뉴 닫기' : '메뉴 열기'} aria-expanded={open} onClick={() => setOpen(value => !value)}>
       <AppIcon name={open ? 'close' : 'menu'} />
     </button>

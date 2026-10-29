@@ -4,7 +4,7 @@ import { fetchAdminSingleton, saveRow, uploadImage } from '../../lib/data'
 import type { SiteSettings } from '../../types'
 
 const base = {
-  site_title: 'NAMRA', site_description: '', brand_color: '#A8A1F1', footer_text: '© 2026 NAMRA. ALL RIGHTS RESERVED.', logo_text: 'NAMRA', favicon_url: null, seo_image_url: null, dark_mode_enabled: true, roulette_probability_url: '#', calendar_event_title_size: 12,
+  site_title: 'NAMRA', site_description: '', brand_color: '#A79BD9', footer_text: '© 2026 NAMRA. ALL RIGHTS RESERVED.', logo_text: 'NAMRA', favicon_url: null, seo_image_url: null, dark_mode_enabled: true, roulette_probability_url: '#', calendar_event_title_size: 12,
 }
 
 export default function AdminSettingsPage() {
@@ -51,7 +51,7 @@ export default function AdminSettingsPage() {
         <details className="admin-advanced">
           <summary>고급 설정</summary>
           <div className="admin-profile-basic-grid">
-            <FormField label="대표 컬러"><input type="color" value={form.brand_color || '#A8A1F1'} onChange={e => setForm(value => ({ ...value, brand_color: e.target.value }))}/></FormField>
+            <FormField label="대표 컬러"><input type="color" value={form.brand_color || '#A79BD9'} onChange={e => setForm(value => ({ ...value, brand_color: e.target.value }))}/></FormField>
             <FormField label="룰렛 확률 링크"><input type="url" value={form.roulette_probability_url || ''} onChange={e => setForm(value => ({ ...value, roulette_probability_url: e.target.value }))}/></FormField>
             <FormField label="달력 일정 제목 글씨 크기 (px)"><input type="number" min="8" max="20" step="1" value={form.calendar_event_title_size ?? 12} onChange={e => setForm(value => ({ ...value, calendar_event_title_size: Math.min(20, Math.max(8, Number(e.target.value) || 12)) }))}/></FormField>
             <FormField label="다크모드 활성화"><input type="checkbox" checked={Boolean(form.dark_mode_enabled)} onChange={e => setForm(value => ({ ...value, dark_mode_enabled: e.target.checked }))}/></FormField>
@@ -66,6 +66,6 @@ export default function AdminSettingsPage() {
 
     <CrudEditor table="schedule_categories" title="일정 카테고리 색상" fields={[
       { key: 'name', label: '카테고리명', required: true }, { key: 'color', label: '색상', type: 'color' }, { key: 'sort_order', label: '순서', type: 'number' }, { key: 'is_visible', label: '표시', type: 'checkbox' },
-    ]} defaults={{ color: '#A8A1F1', sort_order: 0, is_visible: true }} />
+    ]} defaults={{ color: '#A79BD9', sort_order: 0, is_visible: true }} />
   </>
 }

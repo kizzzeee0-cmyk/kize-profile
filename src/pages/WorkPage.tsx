@@ -20,6 +20,9 @@ export default function WorkPage() {
   const [people, setPeople] = useState<UpboPerson[]>([])
   const [results, setResults] = useState<UpboResult[]>([])
   const [query, setQuery] = useState('')
+  const [resultType, setResultType] = useState('전체 업보')
+  const [status, setStatus] = useState('전체 상태')
+  const [sort, setSort] = useState<'quantity' | 'name' | 'default'>('quantity')
   const [selected, setSelected] = useState<UpboPerson | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -31,46 +34,59 @@ export default function WorkPage() {
       .finally(() => setLoading(false))
   }, [])
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    if (!q) return people
-    return people.filter(person => person.soop_name.toLowerCase().includes(q) || person.soop_id.toLowerCase().includes(q))
-  }, [people, query])
-
   const resultMap = useMemo(() => {
     const map = new Map<string, UpboResult[]>()
     results.forEach(result => map.set(result.person_id, [...(map.get(result.person_id) || []), result]))
     return map
   }, [results])
+
+  const resultTypes = useMemo(() => ['전체 업보', ...Array.from(new Set(results.map(item => item.result_label).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'ko'))], [results])
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    const rows = people.filter(person => {
+      const personResults = resultMap.get(person.id) || []
+      const quantity = personResults.reduce((sum, item) => sum + Number(item.quantity || 0), 0)
+      const queryOk = !q || person.soop_name.toLowerCase().includes(q) || person.soop_id.toLowerCase().includes(q)
+      const typeOk = resultType === '전체 업보' || personResults.some(item => item.result_label === resultType)
+      const statusOk = status === '전체 상태' || (status === '업보 있음' ? quantity > 0 : quantity === 0)
+      return queryOk && typeOk && statusOk
+    })
+    if (sort === 'name') return [...rows].sort((a, b) => a.soop_name.localeCompare(b.soop_name, 'ko'))
+    if (sort === 'quantity') return [...rows].sort((a, b) => {
+      const aq = (resultMap.get(a.id) || []).reduce((sum, item) => sum + Number(item.quantity || 0), 0)
+      const bq = (resultMap.get(b.id) || []).reduce((sum, item) => sum + Number(item.quantity || 0), 0)
+      return bq - aq || a.sort_order - b.sort_order
+    })
+    return [...rows].sort((a, b) => a.sort_order - b.sort_order)
+  }, [people, query, resultType, status, sort, resultMap])
+
   const selectedResults = selected ? (resultMap.get(selected.id) || []) : []
-  const totalQuantity = results.reduce((sum, item) => sum + Number(item.quantity || 0), 0)
 
   return <div className="diary-page upbo-diary-page">
     <div className="diary-page-heading"><div><h1>{t('upbo_title', '업보 현황')}</h1><small>{t('upbo_label', 'UPBO')}</small></div></div>
     {error && <StatusMessage tone="error">{error}</StatusMessage>}
 
-    <label className="diary-search upbo-diary-search"><AppIcon name="search" /><input value={query} onChange={e => setQuery(e.target.value)} placeholder={t('upbo_search_placeholder', 'SOOP 이름 또는 아이디 검색')} aria-label="업보 검색" /></label>
-
-    <section className="diary-card upbo-summary-panel">
-      <div className="upbo-summary-heading"><span className="diary-title-icon"><AppIcon name="upbo" /></span><div><h2>내 업보</h2><small>등록된 업보 데이터 요약</small></div></div>
-      <div className="upbo-number-grid">
-        <div><span>등록 시청자</span><strong>{people.length}</strong><small>명</small></div>
-        <div><span>룰렛 결과</span><strong>{results.length}</strong><small>개</small></div>
-        <div><span>총 수량</span><strong>{totalQuantity}</strong><small>개</small></div>
-      </div>
+    <section className="upbo-filter-bar">
+      <label className="diary-search"><AppIcon name="search" /><input value={query} onChange={e => setQuery(e.target.value)} placeholder={t('upbo_search_placeholder', 'SOOP 이름 또는 아이디 검색')} aria-label="업보 검색" /></label>
+      <select value={resultType} onChange={e => setResultType(e.target.value)}>{resultTypes.map(item => <option key={item}>{item}</option>)}</select>
+      <select value={status} onChange={e => setStatus(e.target.value)}><option>전체 상태</option><option>업보 있음</option><option>업보 없음</option></select>
+      <select value={sort} onChange={e => setSort(e.target.value as 'quantity' | 'name' | 'default')}><option value="quantity">업보 많은 순</option><option value="name">이름순</option><option value="default">등록순</option></select>
     </section>
 
-    <section className="diary-card upbo-list-card">
-      {loading ? <LoadingBlocks /> : filtered.length ? <div className="upbo-diary-list">
-        {filtered.map(person => {
-          const personResults = resultMap.get(person.id) || []
-          const quantity = personResults.reduce((sum, item) => sum + Number(item.quantity || 0), 0)
-          return <button type="button" key={person.id} onClick={() => setSelected(person)}>
-            <Avatar person={person} /><div><strong>{person.soop_name}</strong><span>@{person.soop_id}</span></div><em>{personResults.length}종 · {quantity}개</em><AppIcon name="chevron-right" />
-          </button>
-        })}
-      </div> : <EmptyState>{t('upbo_empty', '검색 조건에 맞는 시청자가 없습니다.')}</EmptyState>}
-    </section>
+    {loading ? <LoadingBlocks /> : filtered.length ? <section className="upbo-card-grid">
+      {filtered.map(person => {
+        const personResults = resultMap.get(person.id) || []
+        const quantity = personResults.reduce((sum, item) => sum + Number(item.quantity || 0), 0)
+        return <button className="upbo-person-card" type="button" key={person.id} onClick={() => setSelected(person)}>
+          <Avatar person={person} />
+          <strong>{person.soop_name}</strong>
+          <span>@{person.soop_id}</span>
+          <em>남은 업보 {quantity}</em>
+          <div className="upbo-card-tags">{personResults.slice(0, 4).map(item => <small key={item.id}>{item.result_label} ×{item.quantity}</small>)}</div>
+        </button>
+      })}
+    </section> : <EmptyState>{t('upbo_empty', '검색 조건에 맞는 시청자가 없습니다.')}</EmptyState>}
 
     <Modal open={Boolean(selected)} onClose={() => setSelected(null)} title="업보 상세">
       {selected && <div className="upbo-detail">
