@@ -5,6 +5,7 @@ import { AdminSortableList } from './AdminSortableList'
 import { AppIcon } from './AppIcon'
 
 type FieldType = 'text' | 'textarea' | 'date' | 'time' | 'url' | 'number' | 'checkbox' | 'color' | 'select' | 'image'
+type AdminRow = { id: string } & Record<string, any>
 export type FieldConfig = {
   key: string
   label: string
@@ -32,11 +33,11 @@ function defaultFor(type?: FieldType) {
   return ''
 }
 
-function rowTitle(row: Record<string, any>) {
+function rowTitle(row: AdminRow) {
   return String(row.title ?? row.label ?? row.name ?? row.site_title ?? row.value ?? row.soop_name ?? '항목')
 }
 
-function rowMeta(row: Record<string, any>) {
+function rowMeta(row: AdminRow) {
   return String(row.date ?? row.schedule_date ?? row.artist ?? row.url ?? row.text_key ?? row.description ?? '')
 }
 
@@ -58,7 +59,7 @@ export function CrudEditor({
   const hasSortOrder = fields.some(field => field.key === 'sort_order')
   const editableFields = useMemo(() => fields.filter(field => field.key !== 'sort_order'), [fields])
   const makeEmpty = () => Object.fromEntries(fields.map(field => [field.key, defaults[field.key] ?? defaultFor(field.type)]))
-  const [rows, setRows] = useState<Record<string, any>[]>([])
+  const [rows, setRows] = useState<AdminRow[]>([])
   const [form, setForm] = useState<Record<string, any>>(makeEmpty)
   const [editingId, setEditingId] = useState<string | undefined>()
   const [editorOpen, setEditorOpen] = useState(false)
@@ -70,7 +71,7 @@ export function CrudEditor({
   async function load() {
     setBusy(true)
     try {
-      setRows(await fetchAdminTable<Record<string, any>>(table, orderBy))
+      setRows(await fetchAdminTable<AdminRow>(table, orderBy))
       setLoaded(true)
       setError(null)
     } catch (e) {
@@ -88,7 +89,7 @@ export function CrudEditor({
     setError(null)
   }
 
-  function openEdit(row: Record<string, any>) {
+  function openEdit(row: AdminRow) {
     setEditingId(row.id)
     setForm({ ...row })
     setEditorOpen(true)
@@ -125,7 +126,7 @@ export function CrudEditor({
     } finally { setBusy(false) }
   }
 
-  async function persistOrder(next: Record<string, any>[]) {
+  async function persistOrder(next: AdminRow[]) {
     if (!hasSortOrder) return
     setBusy(true); setMessage(null); setError(null)
     try {

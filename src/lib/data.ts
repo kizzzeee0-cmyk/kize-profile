@@ -77,7 +77,7 @@ export async function fetchPublicData(): Promise<PublicData> {
 
 export async function fetchSchedules(startDate: string, endDate: string, includeHidden = false): Promise<ScheduleItem[]> {
   const store = await loadStore(includeHidden)
-  const categories = new Map((store.schedule_categories ?? []).map((item: ScheduleCategory) => [item.id, item]))
+  const categories = new Map<string, ScheduleCategory>(((store.schedule_categories ?? []) as ScheduleCategory[]).map(item => [item.id, item]))
   let rows = (store.schedules ?? []) as ScheduleItem[]
   if (!includeHidden) rows = visible(rows)
   return rows
