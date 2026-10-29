@@ -1,9 +1,7 @@
-function json(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'content-type': 'application/json; charset=utf-8' },
-  })
-}
+import { requireAdmin } from '../_lib/auth.js'
+import { mediaProxyUrl, saveBinary } from '../_lib/github.js'
+import { json, errorJson } from '../_lib/http.js'
+import { readStore, writeStore } from '../_lib/store.js'
 
 function normalizeSoopId(value) {
   const id = String(value || '').trim()
@@ -19,55 +17,15 @@ function profileCandidates(id) {
   ]
 }
 
-async function adminRequest(env, path, init = {}) {
-  const base = String(env.SUPABASE_URL).replace(/\/$/, '')
-  const headers = new Headers(init.headers || {})
-  headers.set('apikey', env.SUPABASE_SECRET_KEY)
-  headers.set('authorization', `Bearer ${env.SUPABASE_SECRET_KEY}`)
-  if (!headers.has('content-type') && init.body) headers.set('content-type', 'application/json')
-  const response = await fetch(`${base}${path}`, { ...init, headers })
-  if (!response.ok) throw new Error(`Supabase ${response.status}: ${await response.text()}`)
-  const text = await response.text()
-  return text ? JSON.parse(text) : null
-}
-
-async function requireAdmin(request, env) {
-  const authorization = request.headers.get('authorization') || ''
-  const match = authorization.match(/^Bearer\s+(.+)$/i)
-  if (!match) return null
-
-  const base = String(env.SUPABASE_URL).replace(/\/$/, '')
-  const userResponse = await fetch(`${base}/auth/v1/user`, {
-    headers: {
-      apikey: env.SUPABASE_SECRET_KEY,
-      authorization: `Bearer ${match[1]}`,
-    },
-  })
-  if (!userResponse.ok) return null
-  const user = await userResponse.json()
-  if (!user?.id) return null
-
-  const admins = await adminRequest(
-    env,
-    `/rest/v1/admin_profiles?select=user_id&user_id=eq.${encodeURIComponent(user.id)}&limit=1`,
-  )
-  return admins?.[0] ? user : null
-}
-
 async function fetchProfileImage(soopId) {
   for (const url of profileCandidates(soopId)) {
     try {
-      const response = await fetch(url, {
-        headers: { 'user-agent': 'KIZE-Profile/1.0' },
-        redirect: 'follow',
-      })
+      const response = await fetch(url, { headers: { 'User-Agent': 'KIZE-Profile/1.0' }, redirect: 'follow' })
       if (!response.ok) continue
-      const type = (response.headers.get('content-type') || '').toLowerCase()
-      if (!type.startsWith('image/')) continue
-      return { bytes: await response.arrayBuffer(), contentType: type, sourceUrl: url }
-    } catch {
-      // Try the next public SOOP image pattern.
-    }
+      const contentType = String(response.headers.get('Content-Type') || '').toLowerCase()
+      if (!contentType.startsWith('image/')) continue
+      return { bytes: new Uint8Array(await response.arrayBuffer()), contentType, sourceUrl: url }
+    } catch {}
   }
   return null
 }
@@ -80,51 +38,36 @@ function extensionFor(contentType) {
 }
 
 export async function onRequestPost({ request, env }) {
-  if (!env.SUPABASE_URL || !env.SUPABASE_SECRET_KEY) {
-    return json({ ok: false, error: 'Server Supabase environment variables are not configured.' }, 503)
-  }
-
-  const admin = await requireAdmin(request, env)
-  if (!admin) return json({ ok: false, error: 'Admin authentication is required.' }, 401)
-
-  let body
-  try { body = await request.json() }
-  catch { return json({ ok: false, error: 'JSON body is required.' }, 400) }
-
-  const personId = String(body?.person_id || '').trim()
-  const soopId = normalizeSoopId(body?.soop_id)
-  if (!personId || !soopId) return json({ ok: false, error: 'person_id and a valid soop_id are required.' }, 400)
-
-  const image = await fetchProfileImage(soopId)
-  if (!image) {
-    return json({ ok: false, error: 'SOOP profile image could not be found from the available public image paths.' }, 404)
-  }
+  const session = await requireAdmin(request, env)
+  if (!session) return json({ error: '로그인이 필요합니다.' }, 401)
 
   try {
-    const base = String(env.SUPABASE_URL).replace(/\/$/, '')
+    const body = await request.json().catch(() => ({}))
+    const personId = String(body?.person_id || '').trim()
+    const soopId = normalizeSoopId(body?.soop_id)
+    if (!personId || !soopId) return json({ error: 'SOOP 시청자 정보가 올바르지 않습니다.' }, 400)
+
+    const image = await fetchProfileImage(soopId)
+    if (!image) return json({ error: 'SOOP 프로필 이미지를 찾지 못했습니다.' }, 404)
+
     const ext = extensionFor(image.contentType)
-    const objectPath = `upbo/${personId}.${ext}`
-    const uploadResponse = await fetch(`${base}/storage/v1/object/site-media/${objectPath}`, {
-      method: 'POST',
-      headers: {
-        apikey: env.SUPABASE_SECRET_KEY,
-        authorization: `Bearer ${env.SUPABASE_SECRET_KEY}`,
-        'content-type': image.contentType,
-        'x-upsert': 'true',
-        'cache-control': '3600',
-      },
-      body: image.bytes,
-    })
-    if (!uploadResponse.ok) throw new Error(`Storage ${uploadResponse.status}: ${await uploadResponse.text()}`)
+    const path = `public/site-media/upbo/${personId}-${Date.now()}.${ext}`
+    await saveBinary(env, path, image.bytes, '[CF-Pages-Skip] Sync SOOP profile image')
+    const profileUrl = mediaProxyUrl(path)
 
-    const publicUrl = `${base}/storage/v1/object/public/site-media/${objectPath}`
-    await adminRequest(env, `/rest/v1/upbo_people?id=eq.${encodeURIComponent(personId)}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ profile_image_url: publicUrl }),
-    })
+    const data = await readStore(env)
+    const index = data.upbo_people.findIndex(row => String(row.id) === personId)
+    if (index < 0) return json({ error: '시청자 데이터를 찾지 못했습니다.' }, 404)
+    data.upbo_people[index] = {
+      ...data.upbo_people[index],
+      soop_id: soopId,
+      profile_image_url: profileUrl,
+      updated_at: new Date().toISOString(),
+    }
+    await writeStore(env, data, '[CF-Pages-Skip] Update SOOP profile image')
 
-    return json({ ok: true, profile_image_url: publicUrl, source_url: image.sourceUrl })
+    return json({ ok: true, profile_image_url: profileUrl, source_url: image.sourceUrl })
   } catch (error) {
-    return json({ ok: false, error: error instanceof Error ? error.message : 'Profile sync failed.' }, 500)
+    return errorJson(error, Number(error?.status) || 500)
   }
 }

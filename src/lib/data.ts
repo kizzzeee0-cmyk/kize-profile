@@ -17,195 +17,141 @@ import type {
   UpboResult,
   SignatureItem,
 } from '../types'
-import { isSupabaseConfigured, supabase } from './supabase'
-import { demoData } from './demo'
 
-const requireSupabase = () => {
-  if (!supabase) throw new Error('Supabase 환경 변수가 설정되지 않았습니다.')
-  return supabase
+type CmsStore = Record<string, any[]> & { meta?: Record<string, unknown> }
+
+async function responseJson<T>(response: Response): Promise<T> {
+  const payload = await response.json().catch(() => ({})) as T & { error?: string }
+  if (!response.ok) throw new Error(payload.error || `요청 실패 (${response.status})`)
+  return payload
+}
+
+async function loadStore(admin = false): Promise<CmsStore> {
+  const endpoint = admin ? '/api/admin/data' : '/api/public/data'
+  try {
+    const response = await fetch(`${endpoint}?t=${Date.now()}`, {
+      credentials: 'include',
+      cache: 'no-store',
+    })
+    const payload = await responseJson<{ data: CmsStore }>(response)
+    return payload.data || {}
+  } catch (error) {
+    if (admin) throw error
+    const fallback = await fetch(`/site-data/data.json?t=${Date.now()}`, { cache: 'no-store' })
+    if (!fallback.ok) throw error
+    return fallback.json() as Promise<CmsStore>
+  }
+}
+
+function visible<T extends { is_visible?: boolean }>(rows: T[] = []) {
+  return rows.filter(row => row.is_visible !== false)
+}
+
+function sortRows<T extends Record<string, any>>(rows: T[], key = 'sort_order') {
+  if (!key) return [...rows]
+  return [...rows].sort((a, b) => {
+    if (key === 'date') return String(b.date || '').localeCompare(String(a.date || ''))
+    const av = a[key]
+    const bv = b[key]
+    if (typeof av === 'number' || typeof bv === 'number') return (Number(av) || 0) - (Number(bv) || 0)
+    return String(av ?? '').localeCompare(String(bv ?? ''), 'ko')
+  })
 }
 
 export async function fetchPublicData(): Promise<PublicData> {
-  if (!isSupabaseConfigured || !supabase) return demoData
-
-  const [
-    settingsRes,
-    profileRes,
-    statsRes,
-    featuresRes,
-    socialsRes,
-    navRes,
-    milestoneRes,
-    archiveRes,
-    categoryRes,
-    textsRes,
-    signaturesRes,
-  ] = await Promise.all([
-    supabase.from('site_settings').select('*').limit(1).maybeSingle(),
-    supabase.from('profile').select('*').limit(1).maybeSingle(),
-    supabase.from('profile_stats').select('*').eq('is_visible', true).order('sort_order'),
-    supabase.from('profile_features').select('*').eq('is_visible', true).order('sort_order'),
-    supabase.from('social_links').select('*').eq('is_visible', true).order('sort_order'),
-    supabase.from('navigation_links').select('*').eq('is_visible', true).order('sort_order'),
-    supabase.from('milestones').select('*').eq('is_visible', true).order('sort_order'),
-    supabase.from('archives').select('*').eq('is_visible', true).order('date', { ascending: false }).order('sort_order'),
-    supabase.from('schedule_categories').select('*').eq('is_visible', true).order('sort_order'),
-    supabase.from('site_texts').select('*').order('group_name').order('sort_order'),
-    supabase.from('signature_items').select('*').eq('is_visible', true).order('sort_order'),
-  ])
-
-  // A newly-added optional table or a temporarily misconfigured public policy
-  // should not make the entire public site fail. Keep all successful sections and
-  // log only the table that needs attention.
-  const warn = (label: string, error: unknown) => {
-    if (error) console.warn(`[KIZE data] ${label} could not be loaded`, error)
-  }
-  warn('site_settings', settingsRes.error)
-  warn('profile', profileRes.error)
-  warn('profile_stats', statsRes.error)
-  warn('profile_features', featuresRes.error)
-  warn('social_links', socialsRes.error)
-  warn('navigation_links', navRes.error)
-  warn('milestones', milestoneRes.error)
-  warn('archives', archiveRes.error)
-  warn('schedule_categories', categoryRes.error)
-  warn('site_texts', textsRes.error)
-  warn('signature_items', signaturesRes.error)
-
+  const store = await loadStore(false)
   return {
-    settings: settingsRes.error ? null : settingsRes.data as SiteSettings | null,
-    profile: profileRes.error ? null : profileRes.data as Profile | null,
-    stats: statsRes.error ? [] : (statsRes.data ?? []) as ProfileStat[],
-    features: featuresRes.error ? [] : (featuresRes.data ?? []) as ProfileFeature[],
-    socialLinks: socialsRes.error ? [] : (socialsRes.data ?? []) as SocialLink[],
-    navigationLinks: navRes.error ? [] : (navRes.data ?? []) as NavigationLink[],
-    milestones: milestoneRes.error ? [] : (milestoneRes.data ?? []) as Milestone[],
-    archives: archiveRes.error ? [] : (archiveRes.data ?? []) as ArchiveItem[],
-    categories: categoryRes.error ? [] : (categoryRes.data ?? []) as ScheduleCategory[],
-    siteTexts: textsRes.error ? [] : (textsRes.data ?? []) as SiteText[],
-    signatures: signaturesRes.error ? [] : (signaturesRes.data ?? []) as SignatureItem[],
+    settings: (store.site_settings?.[0] ?? null) as SiteSettings | null,
+    profile: (store.profile?.[0] ?? null) as Profile | null,
+    stats: sortRows(visible(store.profile_stats ?? [])) as ProfileStat[],
+    features: sortRows(visible(store.profile_features ?? [])) as ProfileFeature[],
+    socialLinks: sortRows(visible(store.social_links ?? [])) as SocialLink[],
+    navigationLinks: sortRows(visible(store.navigation_links ?? [])) as NavigationLink[],
+    milestones: sortRows(visible(store.milestones ?? [])) as Milestone[],
+    archives: [...visible(store.archives ?? [])].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0)) as ArchiveItem[],
+    categories: sortRows(visible(store.schedule_categories ?? [])) as ScheduleCategory[],
+    siteTexts: [...(store.site_texts ?? [])].sort((a, b) => String(a.group_name || '').localeCompare(String(b.group_name || ''), 'ko') || (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0)) as SiteText[],
+    signatures: sortRows(visible(store.signature_items ?? [])) as SignatureItem[],
   }
 }
 
 export async function fetchSchedules(startDate: string, endDate: string, includeHidden = false): Promise<ScheduleItem[]> {
-  const sb = requireSupabase()
-  let query = sb.from('schedules').select('*, category:schedule_categories(*)').gte('schedule_date', startDate).lte('schedule_date', endDate).order('schedule_date').order('start_time')
-  if (!includeHidden) query = query.eq('is_visible', true)
-  const { data, error } = await query
-  if (error) {
-    if (includeHidden) throw error
-    console.warn('[KIZE data] schedules could not be loaded', error)
-    return []
-  }
-  return (data ?? []) as ScheduleItem[]
+  const store = await loadStore(includeHidden)
+  const categories = new Map((store.schedule_categories ?? []).map((item: ScheduleCategory) => [item.id, item]))
+  let rows = (store.schedules ?? []) as ScheduleItem[]
+  if (!includeHidden) rows = visible(rows)
+  return rows
+    .filter(item => item.schedule_date >= startDate && item.schedule_date <= endDate)
+    .map(item => ({ ...item, category: categories.get(item.category_id || '') ?? null }))
+    .sort((a, b) => `${a.schedule_date}${a.start_time || ''}`.localeCompare(`${b.schedule_date}${b.start_time || ''}`))
 }
 
 export async function fetchAdminTable<T>(table: string, orderBy = 'sort_order'): Promise<T[]> {
-  const sb = requireSupabase()
-  let query = sb.from(table).select('*')
-  if (orderBy) query = query.order(orderBy)
-  const { data, error } = await query
-  if (error) throw error
-  return (data ?? []) as T[]
+  const store = await loadStore(true)
+  return sortRows((store[table] ?? []) as Record<string, any>[], orderBy) as T[]
 }
 
 export async function fetchAdminSingleton<T>(table: string): Promise<T | null> {
-  const sb = requireSupabase()
-  const { data, error } = await sb.from(table).select('*').limit(1).maybeSingle()
-  if (error) throw error
-  return data as T | null
+  const store = await loadStore(true)
+  return (store[table]?.[0] ?? null) as T | null
 }
 
 export async function saveRow(table: string, values: Record<string, unknown>, id?: string) {
-  const sb = requireSupabase()
-  const payload = { ...values }
-  delete payload.id
-  delete payload.created_at
-  delete payload.updated_at
-  delete payload.category
-  if (id) {
-    const { data, error } = await sb.from(table).update(payload).eq('id', id).select().single()
-    if (error) throw error
-    return data
-  }
-  const { data, error } = await sb.from(table).insert(payload).select().single()
-  if (error) throw error
-  return data
+  const response = await fetch('/api/admin/data', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'save', table, values, id }),
+  })
+  const payload = await responseJson<{ row: Record<string, any> }>(response)
+  return payload.row
 }
 
 export async function deleteRow(table: string, id: string) {
-  const sb = requireSupabase()
-  const { error } = await sb.from(table).delete().eq('id', id)
-  if (error) throw error
+  const response = await fetch('/api/admin/data', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'delete', table, id }),
+  })
+  await responseJson<{ ok: boolean }>(response)
 }
 
 export async function uploadImage(file: File, folder: string) {
-  const sb = requireSupabase()
-  const ext = file.name.split('.').pop()?.toLowerCase() || 'png'
-  const safeName = `${folder}/${crypto.randomUUID()}.${ext}`
-  const { error } = await sb.storage.from('site-media').upload(safeName, file, { upsert: false, contentType: file.type || undefined })
-  if (error) throw error
-  const { data } = sb.storage.from('site-media').getPublicUrl(safeName)
-  return data.publicUrl
+  const form = new FormData()
+  form.set('file', file)
+  form.set('folder', folder)
+  const response = await fetch('/api/admin/upload', {
+    method: 'POST',
+    credentials: 'include',
+    body: form,
+  })
+  const payload = await responseJson<{ url: string }>(response)
+  return payload.url
 }
 
 export async function fetchSongs(includeHidden = false): Promise<SongItem[]> {
-  if (!isSupabaseConfigured || !supabase) {
-    const { demoSongs } = await import('./demo')
-    return [...demoSongs]
-  }
-  let query = supabase.from('songs').select('*').order('genre').order('sort_order').order('title')
-  if (!includeHidden) query = query.eq('is_visible', true)
-  const { data, error } = await query
-  if (error) {
-    if (includeHidden) throw error
-    console.warn('[KIZE data] songs could not be loaded', error)
-    return []
-  }
-  return (data ?? []) as SongItem[]
+  const store = await loadStore(includeHidden)
+  let rows = (store.songs ?? []) as SongItem[]
+  if (!includeHidden) rows = visible(rows)
+  return [...rows].sort((a, b) => a.genre.localeCompare(b.genre, 'ko') || a.sort_order - b.sort_order || a.title.localeCompare(b.title, 'ko'))
 }
 
 export async function fetchWardrobe(includeHidden = false): Promise<WardrobeItem[]> {
-  if (!isSupabaseConfigured || !supabase) {
-    const { demoWardrobe } = await import('./demo')
-    return [...demoWardrobe]
-  }
-  let query = supabase.from('wardrobe_items').select('*').order('period_type').order('item_type').order('sort_order').order('name')
-  if (!includeHidden) query = query.eq('is_visible', true)
-  const { data, error } = await query
-  if (error) {
-    if (includeHidden) throw error
-    console.warn('[KIZE data] wardrobe_items could not be loaded', error)
-    return []
-  }
-  return (data ?? []) as WardrobeItem[]
+  const store = await loadStore(includeHidden)
+  let rows = (store.wardrobe_items ?? []) as WardrobeItem[]
+  if (!includeHidden) rows = visible(rows)
+  return [...rows].sort((a, b) => a.period_type.localeCompare(b.period_type) || a.item_type.localeCompare(b.item_type) || a.sort_order - b.sort_order || a.name.localeCompare(b.name, 'ko'))
 }
 
 export async function fetchUpboPeople(includeHidden = false): Promise<UpboPerson[]> {
-  if (!isSupabaseConfigured || !supabase) {
-    const { demoUpboPeople } = await import('./demo')
-    return [...demoUpboPeople]
-  }
-  let query = supabase.from('upbo_people').select('*').order('sort_order').order('soop_name')
-  if (!includeHidden) query = query.eq('is_visible', true)
-  const { data, error } = await query
-  if (error) {
-    if (includeHidden) throw error
-    console.warn('[KIZE data] upbo_people could not be loaded', error)
-    return []
-  }
-  return (data ?? []) as UpboPerson[]
+  const store = await loadStore(includeHidden)
+  let rows = (store.upbo_people ?? []) as UpboPerson[]
+  if (!includeHidden) rows = visible(rows)
+  return [...rows].sort((a, b) => a.sort_order - b.sort_order || a.soop_name.localeCompare(b.soop_name, 'ko'))
 }
 
 export async function fetchUpboResults(): Promise<UpboResult[]> {
-  if (!isSupabaseConfigured || !supabase) {
-    const { demoUpboResults } = await import('./demo')
-    return [...demoUpboResults]
-  }
-  const { data, error } = await supabase.from('upbo_results').select('*').order('sort_order').order('created_at')
-  if (error) {
-    console.warn('[KIZE data] upbo_results could not be loaded', error)
-    return []
-  }
-  return (data ?? []) as UpboResult[]
+  const store = await loadStore(false)
+  return [...((store.upbo_results ?? []) as UpboResult[])].sort((a, b) => a.sort_order - b.sort_order || String(a.created_at || '').localeCompare(String(b.created_at || '')))
 }

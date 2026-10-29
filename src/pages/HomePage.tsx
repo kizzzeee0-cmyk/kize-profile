@@ -1,7 +1,6 @@
 import { EmptyState, LoadingBlocks, SectionHeading, StatusMessage } from '../components/Ui'
 import { usePublicData } from '../lib/PublicDataContext'
 import { formatDate } from '../lib/dates'
-import { isSupabaseConfigured } from '../lib/supabase'
 import { makeTextGetter } from '../lib/text'
 
 function youtubeThumb(url: string) {
@@ -56,9 +55,7 @@ export default function HomePage() {
   return (
     <>
       <section className="hero section-pad">
-        <div className="container">
-          {!isSupabaseConfigured && <StatusMessage>{t('preview_notice', '현재는 미리보기 데이터입니다. Supabase를 연결하면 관리자 CMS의 데이터로 자동 전환됩니다.')}</StatusMessage>}
-          {error && <StatusMessage tone="error">{error}</StatusMessage>}
+        <div className="container">          {error && <StatusMessage tone="error">{error}</StatusMessage>}
           <div className="hero-grid">
             <div className="hero-copy">
               <div className="eyebrow-row">

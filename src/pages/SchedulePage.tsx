@@ -3,7 +3,6 @@ import { EmptyState, LoadingBlocks, Modal, SectionHeading, StatusMessage } from 
 import { fetchSchedules } from '../lib/data'
 import { formatDate, formatShortDate, formatTime, getMonthGrid, monthLabel, toDateKey } from '../lib/dates'
 import { usePublicData } from '../lib/PublicDataContext'
-import { isSupabaseConfigured } from '../lib/supabase'
 import { makeTextGetter } from '../lib/text'
 import type { ScheduleItem } from '../types'
 
@@ -19,7 +18,6 @@ export default function SchedulePage() {
   const today = useMemo(() => new Date(), [])
 
   const load = useCallback(async () => {
-    if (!isSupabaseConfigured) { setItems([]); return }
     setLoading(true)
     try {
       const firstGrid = days[0]
@@ -64,9 +62,7 @@ export default function SchedulePage() {
 
   return <section className="section-pad page-top schedule-page">
     <div className="container">
-      <SectionHeading eyebrow={t('schedule_label', 'SCHEDULE')} title={t('schedule_title', '방송 일정')} />
-      {!isSupabaseConfigured && <StatusMessage>Supabase 연결 전 미리보기 상태입니다. 관리자 CMS를 연결하면 등록한 일정이 이곳에 표시됩니다.</StatusMessage>}
-      {error && <StatusMessage tone="error">{error}</StatusMessage>}
+      <SectionHeading eyebrow={t('schedule_label', 'SCHEDULE')} title={t('schedule_title', '방송 일정')} />      {error && <StatusMessage tone="error">{error}</StatusMessage>}
 
       <div className="calendar-toolbar">
         <button className="month-arrow" type="button" onClick={() => changeMonth(-1)} aria-label="이전 달">←</button>

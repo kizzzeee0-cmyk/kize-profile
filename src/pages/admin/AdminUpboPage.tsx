@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { AdminPanel, FormField, Notice } from '../../components/AdminCommon'
 import { deleteRow, fetchAdminTable, saveRow } from '../../lib/data'
 import { advanceSoopProfileImage, primarySoopProfileUrl } from '../../lib/soop'
-import { supabase } from '../../lib/supabase'
 import type { UpboPerson, UpboResult } from '../../types'
 
 const emptyPerson = { soop_name: '', soop_id: '', profile_image_url: '', note: '', sort_order: 0, is_visible: true }
@@ -41,12 +40,11 @@ export default function AdminUpboPage() {
       const saved = await saveRow('upbo_people', payload, personId)
       let synced = false
       try {
-        const { data: sessionData } = await supabase!.auth.getSession()
-        const token = sessionData.session?.access_token
-        if (token && saved?.id) {
+        if (saved?.id) {
           const response = await fetch('/api/soop-profile-sync', {
             method: 'POST',
-            headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
+            credentials: 'include',
+            headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ person_id: saved.id, soop_id: soopId }),
           })
           if (response.ok) synced = true

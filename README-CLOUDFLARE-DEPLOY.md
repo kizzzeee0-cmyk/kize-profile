@@ -1,78 +1,76 @@
-# KIZE Profile — Cloudflare Pages 배포 가이드
+# KIZE Cloudflare Pages 설정
 
-이 프로젝트는 React + Vite + Supabase 구조입니다.
+KIZE는 이제 Supabase를 런타임 저장소로 사용하지 않습니다.
 
-## 0. 기존 Supabase 프로젝트를 계속 사용할 때
+- 공개/관리자 화면: Cloudflare Pages
+- 관리자 API: Cloudflare Pages Functions
+- 데이터: `public/site-data/data.json`
+- 이미지: `public/site-media/`
+- 영구 저장: GitHub Contents API
+- 관리자 로그인: Cloudflare Secret `ADMIN_PASSWORD`
 
-Supabase Dashboard → SQL Editor → New query에서 아래 파일을 한 번 실행하세요.
+## Cloudflare Pages 빌드 설정
 
-`supabase/update-2026-09-18-readability-ordering.sql`
-
-이 SQL은 기존 콘텐츠를 지우지 않고 다음만 추가/정리합니다.
-
-- 달력 일정 제목 글씨 크기 설정 컬럼 추가
-- 기존 정렬 순서를 1, 2, 3... 형태로 정리
-- SOOP 아이디 기반 프로필 이미지 URL 갱신
-
-## 1. 로컬 환경변수
-
-프로젝트 루트의 `.env.local`:
-
-```env
-VITE_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_xxxxxxxxx
-```
-
-`SUPABASE_SECRET_KEY`는 절대로 `.env.local`의 `VITE_` 변수로 넣지 마세요.
-
-## 2. GitHub 업로드
-
-1. GitHub에서 새 저장소를 만듭니다. 예: `kizeprofile`
-2. 이 프로젝트 폴더 안의 파일 전체를 저장소 루트에 올립니다.
-3. `.env.local`은 올리지 않습니다. `.gitignore`에 이미 제외되어 있습니다.
-
-## 3. Cloudflare Pages
-
-Cloudflare Dashboard → Workers & Pages → Create application → Pages → Import an existing Git repository
-
-설정값:
-
-- Project name: `kizeprofile` (사용 가능할 때 `kizeprofile.pages.dev`가 됩니다)
 - Production branch: `main`
 - Build command: `npm run build`
 - Build output directory: `dist`
 
-## 4. Cloudflare 환경변수
+## 반드시 추가할 Variables and Secrets
 
-Pages 프로젝트 → Settings → Environment variables 에 다음 2개를 Production에 추가합니다.
+Cloudflare Dashboard → Workers & Pages → kizeprofile → Settings → Variables and Secrets
 
-- `VITE_SUPABASE_URL` = Supabase Project URL
-- `VITE_SUPABASE_PUBLISHABLE_KEY` = Supabase Publishable key
+### ADMIN_PASSWORD (Secret)
+`https://kizeprofile.pages.dev/admin`에서 입력할 관리자 비밀번호입니다.
 
-저장 후 새 배포를 실행합니다.
+### GITHUB_TOKEN (Secret)
+Fine-grained GitHub Personal Access Token을 사용합니다.
 
-## 5. Supabase Auth Redirect URL
+권장 범위:
+- Resource owner: `kizzzeee0-cmyk`
+- Repository access: Only select repositories → `kize-profile`
+- Repository permissions → Contents: Read and write
 
-실제 배포 주소가 정해진 뒤 Supabase Dashboard → Authentication → URL Configuration에서:
+### SESSION_SECRET (Secret, 권장)
+32자 이상의 임의 문자열을 넣습니다. 생략하면 ADMIN_PASSWORD를 세션 암호화 키로 사용하지만 별도 값이 더 안전합니다.
 
-- Site URL: `https://kizeprofile.pages.dev`
-- Redirect URLs에 `https://kizeprofile.pages.dev/**` 추가
-- 로컬 테스트도 계속할 경우 `http://localhost:5173/**`, 실제 Vite가 5176으로 뜬다면 `http://localhost:5176/**`도 추가
+아래 값은 코드 기본값이 있으므로 생략할 수 있습니다.
+- GITHUB_OWNER = `kizzzeee0-cmyk`
+- GITHUB_REPO = `kize-profile`
+- GITHUB_BRANCH = `main`
 
-프로젝트 이름이 달라졌다면 실제 Pages 주소로 바꿔 입력하세요.
+## 기존 Supabase 데이터 1회 자동 이관
 
-## 6. WEFLAB webhook 준비 기능을 사용할 때만
+첫 배포의 `public/site-data/data.json`에는 `migration_pending: true`가 들어 있습니다.
 
-Cloudflare Pages 프로젝트의 서버 측 환경변수에 다음을 추가합니다.
+기존 Cloudflare 설정에 아래 Supabase 값이 남아 있는 동안 첫 공개 데이터 요청이 기존 데이터를 읽어 GitHub JSON으로 한 번 이관합니다.
 
-- `SUPABASE_URL` = Supabase Project URL
-- `SUPABASE_SECRET_KEY` = Supabase Secret key (서버 전용)
-- `WEFLAB_WEBHOOK_TOKEN` = 본인이 만든 충분히 긴 임의 문자열
+- `VITE_SUPABASE_URL` 또는 `SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY` 또는 `SUPABASE_PUBLISHABLE_KEY`
+- `SUPABASE_SECRET_KEY`가 있으면 비공개/숨김 데이터까지 이관하는 데 우선 사용합니다.
 
-`SUPABASE_URL` + `SUPABASE_SECRET_KEY`는 SOOP ID 저장 시 프로필 사진을 Supabase Storage로 자동 복사하는 `/api/soop-profile-sync`에도 사용됩니다. `SUPABASE_SECRET_KEY`에는 절대로 `VITE_`를 붙이지 마세요.
+`GITHUB_TOKEN`이 설정된 상태에서 사이트를 한 번 연 뒤:
 
-Webhook endpoint:
+`https://kizeprofile.pages.dev/api/health`
 
-`https://kizeprofile.pages.dev/api/weflab-webhook?token=YOUR_TOKEN`
+에서 `migration_pending: false`가 되면 이관 완료입니다. 그때 기존 Supabase 관련 Cloudflare 변수를 삭제해도 됩니다.
 
-주의: 이 endpoint는 준비되어 있지만, WEFLAB 공개 문서에서 외부 webhook 전송 규격을 확인하지 못했습니다. WEFLAB이 실제로 webhook URL과 payload를 제공할 때 그 형식에 맞춰 연결해야 완전 자동화됩니다.
+## 상태 확인
+
+`https://kizeprofile.pages.dev/api/health`
+
+정상 예시:
+
+```json
+{
+  "ok": true,
+  "storage": "github-json",
+  "configured": {
+    "admin_password": true,
+    "session_secret": true,
+    "github_token": true
+  },
+  "migration_pending": false
+}
+```
+
+관리자에서 데이터를 저장하면 GitHub JSON/이미지가 직접 수정됩니다. CMS 저장용 커밋에는 `[CF-Pages-Skip]`이 붙어 불필요한 전체 재배포를 피합니다.
