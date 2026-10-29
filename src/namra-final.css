@@ -1,3 +1,13 @@
+@import url("https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css");
+
+@font-face {
+  font-family: 'OmyuPretty';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
   --brand: #a79bd9;
   --brand-strong: #8573c7;
@@ -24,7 +34,7 @@ html {
 body {
   background: var(--bg) !important;
   color: var(--text) !important;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'OmyuPretty', 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 15px;
   line-height: 1.55;
 }
@@ -280,34 +290,43 @@ body {
   inset: 0;
   pointer-events: none;
   background: linear-gradient(90deg,
-    rgba(255,255,255,var(--hero-overlay)) 0%,
-    rgba(255,255,255,.72) 25%,
-    rgba(255,255,255,.34) 42%,
-    rgba(255,255,255,0) 65%) !important;
+    rgba(255,255,255,.20) 0%,
+    rgba(255,255,255,.07) 34%,
+    rgba(255,255,255,0) 60%) !important;
 }
 
 .home-photo-hero.text-right .home-photo-overlay {
   background: linear-gradient(270deg,
-    rgba(255,255,255,var(--hero-overlay)) 0%,
-    rgba(255,255,255,.72) 25%,
-    rgba(255,255,255,.34) 42%,
-    rgba(255,255,255,0) 65%) !important;
+    rgba(255,255,255,.20) 0%,
+    rgba(255,255,255,.07) 34%,
+    rgba(255,255,255,0) 60%) !important;
 }
 
 .home-photo-copy {
-  position: relative;
+  position: absolute;
   z-index: 2;
-  width: min(48%, 470px) !important;
-  height: 100%;
+  top: 50%;
+  left: 30px;
+  width: min(42%, 440px) !important;
+  height: auto;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 38px 40px !important;
+  padding: 25px 27px !important;
+  border: 1px solid rgba(228,221,244,.92);
+  border-radius: 18px;
+  background: rgba(255,255,255,.86);
   color: var(--text);
+  box-shadow: 0 12px 30px rgba(65,55,98,.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .home-photo-hero.text-right .home-photo-copy {
-  margin-left: auto;
+  left: auto;
+  right: 30px;
+  margin-left: 0;
   align-items: flex-end;
   text-align: right;
 }
@@ -1148,17 +1167,22 @@ body {
 /* Songbook */
 .songbook-browser {
   display: grid !important;
-  grid-template-columns: 230px minmax(0,1fr) !important;
-  gap: 16px !important;
+  grid-template-columns: 242px minmax(0,1fr) !important;
+  gap: 18px !important;
   align-items: start;
+  min-width: 0;
 }
 
 .songbook-filter-panel {
   position: sticky;
   top: 86px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   display: grid;
   gap: 18px;
   padding: 15px;
+  overflow: hidden;
   border: 1px solid var(--border) !important;
   border-radius: 14px !important;
   background: #fff !important;
@@ -1231,18 +1255,22 @@ body {
 
 .songbook-results-panel {
   min-width: 0;
+  width: 100%;
+  overflow: hidden;
   padding: 0 !important;
   border: 0 !important;
   background: transparent !important;
 }
 
 .songbook-results-toolbar {
-  min-height: 46px;
+  min-height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid var(--border);
 }
 
 .songbook-results-toolbar > strong {
@@ -1288,6 +1316,7 @@ body {
 }
 
 .songbook-song-card {
+  min-width: 0;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -1458,7 +1487,14 @@ body {
   height: 100%;
   display: grid;
   place-items: center;
-  color: var(--brand-strong);
+}
+
+.wardrobe-no-image {
+  padding: 18px;
+  color: #aaa4b7 !important;
+  font-size: 13px !important;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .wardrobe-diary-copy {
@@ -2366,14 +2402,18 @@ body {
   .home-photo-copy,
   .home-photo-hero.text-right .home-photo-copy {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100% !important;
+    top: auto;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    width: auto !important;
     height: auto;
     margin: 0;
+    transform: none;
     align-items: flex-start;
-    padding: 22px !important;
+    padding: 20px !important;
+    border-radius: 15px;
+    background: rgba(255,255,255,.90);
     text-align: left;
   }
 
@@ -2474,4 +2514,46 @@ body {
   .upbo-card-grid {
     grid-template-columns: 1fr !important;
   }
+}
+
+
+/* Font + overflow refinements */
+html,
+body,
+button,
+input,
+textarea,
+select,
+option,
+summary {
+  font-family: 'OmyuPretty', 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+.admin-logo strong {
+  font-family: 'OmyuPretty', 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+.songbook-filter-panel .diary-search {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden;
+}
+
+.songbook-filter-panel .diary-search input {
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.songbook-filter-panel select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.songbook-card-grid,
+.songbook-table {
+  min-width: 0;
+  width: 100%;
 }

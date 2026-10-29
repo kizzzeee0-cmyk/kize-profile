@@ -62,7 +62,7 @@ export default function WardrobePage() {
           ? <div className="wardrobe-diary-grid">
             {filtered.map(item => <article className="wardrobe-diary-item" key={item.id}>
               <div className="wardrobe-diary-image">
-                {item.image_url ? <img src={item.image_url} alt={item.name} loading="lazy" /> : <div><AppIcon name="wardrobe" /></div>}
+                {item.image_url ? <img src={item.image_url} alt={item.name} loading="lazy" /> : <div className="wardrobe-no-image">아직 첨부된 사진이 없습니다.</div>}
               </div>
 
               <div className="wardrobe-diary-copy">
