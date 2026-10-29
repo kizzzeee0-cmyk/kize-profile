@@ -15,6 +15,8 @@ KIZE는 이제 Supabase를 런타임 저장소로 사용하지 않습니다.
 - Build command: `npm run build`
 - Build output directory: `dist`
 
+`npm run build`는 Vite 정적 파일을 만든 뒤 Pages Functions를 `dist/_worker.js`로 직접 컴파일합니다. 이렇게 하면 `/api/*`, `/auth/*`가 SPA fallback에 먹히지 않고 확실하게 서버 Function으로 실행됩니다.
+
 ## 반드시 추가할 Variables and Secrets
 
 Cloudflare Dashboard → Workers & Pages → kizeprofile → Settings → Variables and Secrets

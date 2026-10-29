@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npx wrangler@4.155.0 pages functions build functions --outfile dist/_worker.js --fallback-service ASSETS",
     "preview": "vite preview"
   },
   "dependencies": {
