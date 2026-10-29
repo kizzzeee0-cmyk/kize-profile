@@ -2165,7 +2165,7 @@ body {
   color: var(--text) !important;
 }
 
-\n@media (max-width: 900px) {
+@media (max-width: 900px) {
   .site-container,
   .diary-page,
   .public-topbar-inner {
@@ -2674,7 +2674,7 @@ summary {
   line-height: 1.5;
 }
 
-\n@media (max-width: 700px) {
+@media (max-width: 700px) {
   .home-profile-hero {
     grid-template-columns: 1fr;
     gap: 26px;
