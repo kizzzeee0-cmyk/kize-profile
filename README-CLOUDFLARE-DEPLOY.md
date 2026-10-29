@@ -19,10 +19,10 @@ KIZE는 이제 Supabase를 런타임 저장소로 사용하지 않습니다.
 
 ## 반드시 추가할 Variables and Secrets
 
-Cloudflare Dashboard → Workers & Pages → kizeprofile → Settings → Variables and Secrets
+Cloudflare Dashboard → Workers & Pages → namra-profile → Settings → Variables and Secrets
 
 ### ADMIN_PASSWORD (Secret)
-`https://kizeprofile.pages.dev/admin`에서 입력할 관리자 비밀번호입니다.
+`https://namra-profile.pages.dev/admin`에서 입력할 관리자 비밀번호입니다.
 
 ### GITHUB_TOKEN (Secret)
 Fine-grained GitHub Personal Access Token을 사용합니다.
@@ -52,13 +52,13 @@ Fine-grained GitHub Personal Access Token을 사용합니다.
 
 `GITHUB_TOKEN`이 설정된 상태에서 사이트를 한 번 연 뒤:
 
-`https://kizeprofile.pages.dev/api/health`
+`https://namra-profile.pages.dev/api/health`
 
 에서 `migration_pending: false`가 되면 이관 완료입니다. 그때 기존 Supabase 관련 Cloudflare 변수를 삭제해도 됩니다.
 
 ## 상태 확인
 
-`https://kizeprofile.pages.dev/api/health`
+`https://namra-profile.pages.dev/api/health`
 
 정상 예시:
 
@@ -76,3 +76,9 @@ Fine-grained GitHub Personal Access Token을 사용합니다.
 ```
 
 관리자에서 데이터를 저장하면 GitHub JSON/이미지가 직접 수정됩니다. CMS 저장용 커밋에는 `[CF-Pages-Skip]`이 붙어 불필요한 전체 재배포를 피합니다.
+
+## 런타임 Secret 확인
+
+Pages 프로젝트 `namra-profile`의 `Settings → Variables and Secrets`에 `ADMIN_PASSWORD`, `GITHUB_TOKEN`, `SESSION_SECRET`을 Secret으로 등록하고, **등록 후 main 브랜치의 새 Production 배포가 성공했는지** 확인합니다. 환경 변수는 빌드 산출물에 직접 포함하지 않으며 Functions 런타임에서 `env`로 읽습니다. 비밀번호나 토큰 값을 GitHub에 커밋하지 마세요.
+
+`https://namra-profile.pages.dev/api/health`의 `configured` 값 3개가 모두 `true`여야 런타임에서 Secret이 정상 연결된 것입니다. `false`라면 Production 배포의 커밋과 완료 상태를 먼저 확인하세요.
