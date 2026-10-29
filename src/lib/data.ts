@@ -166,3 +166,45 @@ export async function fetchUpboResults(): Promise<UpboResult[]> {
   const store = await loadStore(false)
   return [...((store.upbo_results ?? []) as UpboResult[])].sort((a, b) => a.sort_order - b.sort_order || String(a.created_at || '').localeCompare(String(b.created_at || '')))
 }
+
+
+export type AlbumArtworkCandidate = {
+  id: string
+  recordingId: string | null
+  releaseId: string
+  title: string
+  artist: string
+  releaseTitle: string
+  date: string
+  country: string
+  status: string
+  score: number
+  exact: boolean
+  imageUrl: string
+  source: string
+  sourceId: string
+}
+
+export type AlbumArtworkSearchResult = {
+  ok: boolean
+  query: { title: string; artist: string }
+  candidates: AlbumArtworkCandidate[]
+  autoSelect: string | null
+  confidence: 'exact' | 'review' | 'none'
+}
+
+const albumSearchCache = new Map<string, AlbumArtworkSearchResult>()
+
+export async function searchAlbumArtwork(title: string, artist: string, force = false): Promise<AlbumArtworkSearchResult> {
+  const key = `${title.trim().toLocaleLowerCase()}::${artist.trim().toLocaleLowerCase()}`
+  if (!force && albumSearchCache.has(key)) return albumSearchCache.get(key)!
+
+  const query = new URLSearchParams({ title: title.trim(), artist: artist.trim() })
+  const response = await fetch(`/api/admin/album-search?${query.toString()}`, {
+    credentials: 'include',
+    cache: 'no-store',
+  })
+  const payload = await responseJson<AlbumArtworkSearchResult>(response)
+  albumSearchCache.set(key, payload)
+  return payload
+}

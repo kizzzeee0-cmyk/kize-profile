@@ -50,6 +50,10 @@ export type SongItem = {
   genre: string
   note: string | null
   image_url?: string | null
+  image_source?: string | null
+  image_source_id?: string | null
+  image_origin?: 'auto' | 'manual' | null
+  image_registered_at?: string | null
   status?: string | null
   sort_order: number
   is_visible: boolean

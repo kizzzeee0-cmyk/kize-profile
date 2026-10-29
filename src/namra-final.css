@@ -2826,3 +2826,381 @@ summary {
     align-self: flex-start;
   }
 }
+
+
+/* Songbook CMS: album artwork search */
+.admin-song-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.admin-song-row-summary {
+  min-width: 0;
+}
+
+.admin-song-no-cover {
+  width: 48px;
+  height: 40px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--brand-faint);
+  color: var(--brand-strong);
+}
+
+.album-batch-progress {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--brand-faint);
+}
+
+.album-batch-progress > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.album-batch-progress strong {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.album-batch-progress span,
+.album-batch-progress small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.album-batch-progress progress {
+  width: 100%;
+  height: 8px;
+  accent-color: var(--brand-strong);
+}
+
+.album-artwork-editor {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--brand-faint);
+}
+
+.album-artwork-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.album-artwork-head > div {
+  min-width: 0;
+}
+
+.album-artwork-head strong {
+  display: block;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.album-artwork-head small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.album-artwork-current {
+  display: grid;
+  grid-template-columns: 132px minmax(0,1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.album-artwork-current > img,
+.album-artwork-empty {
+  width: 132px;
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: #fff;
+}
+
+.album-artwork-current > img {
+  display: block;
+  object-fit: cover;
+}
+
+.album-artwork-empty {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 7px;
+  padding: 12px;
+  color: var(--brand-strong);
+  text-align: center;
+}
+
+.album-artwork-empty svg {
+  width: 24px;
+  height: 24px;
+}
+
+.album-artwork-empty span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.album-artwork-controls {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.album-artwork-source {
+  width: 100%;
+  display: grid;
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.album-artwork-source strong {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.album-artwork-source small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-upload-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.album-upload-button input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.album-search-status {
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--body);
+  font-size: 13px;
+}
+
+.album-search-status.searching {
+  color: var(--brand-strong);
+}
+
+.album-search-status.found {
+  border-color: #d8d0ee;
+  background: #f7f4ff;
+  color: var(--brand-strong);
+}
+
+.album-search-status.none,
+.album-search-status.error {
+  color: #9a6674;
+}
+
+.album-candidate-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 9px;
+}
+
+.album-candidate {
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  text-align: left;
+}
+
+.album-candidate:hover {
+  border-color: var(--brand);
+}
+
+.album-candidate > img {
+  width: 100%;
+  aspect-ratio: 1;
+  display: block;
+  object-fit: cover;
+  background: var(--brand-faint);
+}
+
+.album-candidate > span {
+  display: grid;
+  gap: 3px;
+  padding: 9px;
+}
+
+.album-candidate strong {
+  overflow: hidden;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-candidate small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-candidate em {
+  width: fit-content;
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand-strong);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Lossless 64px ANI-frame cursor renderer */
+.namra-animated-cursor-layer {
+  position: fixed;
+  z-index: 2147483647;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  opacity: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  transform: translate3d(-100px, -100px, 0);
+  will-change: transform, background-position;
+}
+
+html.namra-animated-cursor-ready,
+html.namra-animated-cursor-ready * {
+  cursor: none !important;
+}
+
+@media (pointer: coarse) {
+  .namra-animated-cursor-layer {
+    display: none !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .admin-song-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .admin-song-actions button {
+    flex: 1 1 auto;
+  }
+
+  .album-artwork-head {
+    flex-direction: column;
+  }
+
+  .album-artwork-current {
+    grid-template-columns: 96px minmax(0,1fr);
+  }
+
+  .album-artwork-current > img,
+  .album-artwork-empty {
+    width: 96px;
+  }
+
+  .album-candidate-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+}
+
+
+/* System fallback until the high-resolution animated cursor atlas is fully ready.
+   This intentionally overrides the older low-resolution static cursor rules. */
+@media (pointer: fine) {
+  html:not(.namra-animated-cursor-ready),
+  html:not(.namra-animated-cursor-ready) body,
+  html:not(.namra-animated-cursor-ready) .public-shell,
+  html:not(.namra-animated-cursor-ready) .admin-shell,
+  html:not(.namra-animated-cursor-ready) .modal {
+    cursor: auto !important;
+  }
+
+  html:not(.namra-animated-cursor-ready) a,
+  html:not(.namra-animated-cursor-ready) button,
+  html:not(.namra-animated-cursor-ready) select,
+  html:not(.namra-animated-cursor-ready) summary,
+  html:not(.namra-animated-cursor-ready) label[for],
+  html:not(.namra-animated-cursor-ready) [role='button'],
+  html:not(.namra-animated-cursor-ready) input[type='button'],
+  html:not(.namra-animated-cursor-ready) input[type='submit'],
+  html:not(.namra-animated-cursor-ready) input[type='checkbox'],
+  html:not(.namra-animated-cursor-ready) input[type='radio'],
+  html:not(.namra-animated-cursor-ready) input[type='range'],
+  html:not(.namra-animated-cursor-ready) input[type='file'] {
+    cursor: pointer !important;
+  }
+
+  html:not(.namra-animated-cursor-ready) input:not([type]),
+  html:not(.namra-animated-cursor-ready) input[type='text'],
+  html:not(.namra-animated-cursor-ready) input[type='search'],
+  html:not(.namra-animated-cursor-ready) input[type='url'],
+  html:not(.namra-animated-cursor-ready) input[type='date'],
+  html:not(.namra-animated-cursor-ready) input[type='time'],
+  html:not(.namra-animated-cursor-ready) input[type='number'],
+  html:not(.namra-animated-cursor-ready) input[type='password'],
+  html:not(.namra-animated-cursor-ready) input[type='email'],
+  html:not(.namra-animated-cursor-ready) textarea,
+  html:not(.namra-animated-cursor-ready) [contenteditable='true'] {
+    cursor: text !important;
+  }
+
+  html:not(.namra-animated-cursor-ready) button:disabled,
+  html:not(.namra-animated-cursor-ready) input:disabled,
+  html:not(.namra-animated-cursor-ready) select:disabled,
+  html:not(.namra-animated-cursor-ready) [aria-disabled='true'] {
+    cursor: not-allowed !important;
+  }
+
+  html:not(.namra-animated-cursor-ready) .drag-handle {
+    cursor: grab !important;
+  }
+
+  html:not(.namra-animated-cursor-ready) body.admin-is-dragging,
+  html:not(.namra-animated-cursor-ready) body.admin-is-dragging *,
+  html:not(.namra-animated-cursor-ready) .drag-handle:active {
+    cursor: grabbing !important;
+  }
+}

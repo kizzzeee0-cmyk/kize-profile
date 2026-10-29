@@ -4,6 +4,7 @@ import { SiteLayout } from './components/SiteLayout'
 import { AdminGuard, AdminLayout } from './components/AdminLayout'
 import { AuthProvider } from './lib/AuthContext'
 import { PublicDataProvider, usePublicData } from './lib/PublicDataContext'
+import { AnimatedCursor } from './components/AnimatedCursor'
 import HomePage from './pages/HomePage'
 import SchedulePage from './pages/SchedulePage'
 import SongbookPage from './pages/SongbookPage'
@@ -61,6 +62,7 @@ export default function App() {
     <AuthProvider>
       <PublicDataProvider>
         <MetaSync />
+        <AnimatedCursor />
         <Routes>
           <Route path="/" element={<PublicRoute><HomePage /></PublicRoute>} />
           <Route path="/schedule" element={<PublicRoute><SchedulePage /></PublicRoute>} />
