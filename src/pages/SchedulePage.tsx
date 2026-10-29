@@ -56,7 +56,7 @@ export default function SchedulePage() {
   const changeMonth = (amount: number) => setMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + amount, 1))
   const weekday = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
-  return <div className="diary-page schedule-diary-page">
+  return <div className="diary-page schedule-diary-page" style={{ '--calendar-title-size': String(data.settings?.calendar_event_title_size ?? 14) + 'px' } as CSSProperties}>
     <div className="diary-page-heading"><div><h1>{t('schedule_title', '일정')}</h1><small>{t('schedule_label', 'SCHEDULE')}</small></div></div>
     {error && <StatusMessage tone="error">{error}</StatusMessage>}
 

@@ -4,7 +4,6 @@ import { SiteLayout } from './components/SiteLayout'
 import { AdminGuard, AdminLayout } from './components/AdminLayout'
 import { AuthProvider } from './lib/AuthContext'
 import { PublicDataProvider, usePublicData } from './lib/PublicDataContext'
-import { ThemeProvider } from './lib/ThemeContext'
 import HomePage from './pages/HomePage'
 import SchedulePage from './pages/SchedulePage'
 import SongbookPage from './pages/SongbookPage'
@@ -25,16 +24,27 @@ import AdminTextsPage from './pages/admin/AdminTextsPage'
 
 function MetaSync() {
   const { data } = usePublicData()
+
   useEffect(() => {
+    document.documentElement.removeAttribute('data-theme')
+    document.documentElement.style.colorScheme = 'light'
+    localStorage.removeItem('theme')
+
     if (data.settings?.site_title) document.title = data.settings.site_title
     const meta = document.querySelector('meta[name="description"]')
     if (meta && data.settings?.site_description) meta.setAttribute('content', data.settings.site_description)
+
     if (data.settings?.favicon_url) {
       let link = document.querySelector('link[rel="icon"]') as HTMLLinkElement | null
-      if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link) }
+      if (!link) {
+        link = document.createElement('link')
+        link.rel = 'icon'
+        document.head.appendChild(link)
+      }
       link.href = data.settings.favicon_url
     }
   }, [data.settings])
+
   return null
 }
 
@@ -48,37 +58,36 @@ function ProtectedAdmin({ children }: { children: ReactNode }) {
 
 export default function App() {
   return <BrowserRouter>
-    <ThemeProvider>
-      <AuthProvider>
-        <PublicDataProvider>
-          <MetaSync />
-          <Routes>
-            <Route path="/" element={<PublicRoute><HomePage /></PublicRoute>} />
-            <Route path="/schedule" element={<PublicRoute><SchedulePage /></PublicRoute>} />
-            <Route path="/schedule/" element={<PublicRoute><SchedulePage /></PublicRoute>} />
-            <Route path="/songs" element={<PublicRoute><SongbookPage /></PublicRoute>} />
-            <Route path="/songs/" element={<PublicRoute><SongbookPage /></PublicRoute>} />
-            <Route path="/roulette" element={<PublicRoute><WardrobePage /></PublicRoute>} />
-            <Route path="/roulette/" element={<PublicRoute><WardrobePage /></PublicRoute>} />
-            <Route path="/work" element={<PublicRoute><WorkPage /></PublicRoute>} />
-            <Route path="/work/" element={<PublicRoute><WorkPage /></PublicRoute>} />
-            <Route path="/admin" element={<AdminLoginPage />} />
-            <Route path="/admin/" element={<AdminLoginPage />} />
-            <Route path="/admin/dashboard" element={<ProtectedAdmin><AdminDashboardPage /></ProtectedAdmin>} />
-            <Route path="/admin/profile" element={<ProtectedAdmin><AdminProfilePage /></ProtectedAdmin>} />
-            <Route path="/admin/schedule" element={<ProtectedAdmin><AdminSchedulePage /></ProtectedAdmin>} />
-            <Route path="/admin/milestones" element={<ProtectedAdmin><AdminMilestonesPage /></ProtectedAdmin>} />
-            <Route path="/admin/archive" element={<ProtectedAdmin><AdminArchivePage /></ProtectedAdmin>} />
-            <Route path="/admin/navigation" element={<ProtectedAdmin><AdminNavigationPage /></ProtectedAdmin>} />
-            <Route path="/admin/songs" element={<ProtectedAdmin><AdminSongsPage /></ProtectedAdmin>} />
-            <Route path="/admin/wardrobe" element={<ProtectedAdmin><AdminWardrobePage /></ProtectedAdmin>} />
-            <Route path="/admin/upbo" element={<ProtectedAdmin><AdminUpboPage /></ProtectedAdmin>} />
-            <Route path="/admin/texts" element={<ProtectedAdmin><AdminTextsPage /></ProtectedAdmin>} />
-            <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettingsPage /></ProtectedAdmin>} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </PublicDataProvider>
-      </AuthProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <PublicDataProvider>
+        <MetaSync />
+        <Routes>
+          <Route path="/" element={<PublicRoute><HomePage /></PublicRoute>} />
+          <Route path="/schedule" element={<PublicRoute><SchedulePage /></PublicRoute>} />
+          <Route path="/schedule/" element={<PublicRoute><SchedulePage /></PublicRoute>} />
+          <Route path="/songs" element={<PublicRoute><SongbookPage /></PublicRoute>} />
+          <Route path="/songs/" element={<PublicRoute><SongbookPage /></PublicRoute>} />
+          <Route path="/roulette" element={<PublicRoute><WardrobePage /></PublicRoute>} />
+          <Route path="/roulette/" element={<PublicRoute><WardrobePage /></PublicRoute>} />
+          <Route path="/work" element={<PublicRoute><WorkPage /></PublicRoute>} />
+          <Route path="/work/" element={<PublicRoute><WorkPage /></PublicRoute>} />
+
+          <Route path="/admin" element={<AdminLoginPage />} />
+          <Route path="/admin/" element={<AdminLoginPage />} />
+          <Route path="/admin/dashboard" element={<ProtectedAdmin><AdminDashboardPage /></ProtectedAdmin>} />
+          <Route path="/admin/profile" element={<ProtectedAdmin><AdminProfilePage /></ProtectedAdmin>} />
+          <Route path="/admin/schedule" element={<ProtectedAdmin><AdminSchedulePage /></ProtectedAdmin>} />
+          <Route path="/admin/milestones" element={<ProtectedAdmin><AdminMilestonesPage /></ProtectedAdmin>} />
+          <Route path="/admin/archive" element={<ProtectedAdmin><AdminArchivePage /></ProtectedAdmin>} />
+          <Route path="/admin/navigation" element={<ProtectedAdmin><AdminNavigationPage /></ProtectedAdmin>} />
+          <Route path="/admin/songs" element={<ProtectedAdmin><AdminSongsPage /></ProtectedAdmin>} />
+          <Route path="/admin/wardrobe" element={<ProtectedAdmin><AdminWardrobePage /></ProtectedAdmin>} />
+          <Route path="/admin/upbo" element={<ProtectedAdmin><AdminUpboPage /></ProtectedAdmin>} />
+          <Route path="/admin/texts" element={<ProtectedAdmin><AdminTextsPage /></ProtectedAdmin>} />
+          <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettingsPage /></ProtectedAdmin>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </PublicDataProvider>
+    </AuthProvider>
   </BrowserRouter>
 }
