@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
-import { EmptyState, LoadingBlocks, SectionHeading, StatusMessage } from '../components/Ui'
+import { AppIcon } from '../components/AppIcon'
+import { EmptyState, LoadingBlocks, StatusMessage } from '../components/Ui'
 import { fetchWardrobe } from '../lib/data'
 import { usePublicData } from '../lib/PublicDataContext'
 import { makeTextGetter } from '../lib/text'
@@ -19,33 +20,33 @@ export default function WardrobePage() {
   }, [])
 
   const filtered = useMemo(() => items.filter(item => item.period_type === period && item.item_type === type), [items, period, type])
-  const probabilityUrl = data.settings?.roulette_probability_url || '#'
+  const probabilityUrl = data.settings?.roulette_probability_url || ''
 
-  return <section className="section-pad page-top wardrobe-page">
-    <div className="container wardrobe-container">
-      <div className="page-heading-row">
-        <SectionHeading eyebrow={t('wardrobe_label', 'CLOSET')} title={t('wardrobe_title', '유남라의 옷장')} />
-        <a className="probability-button" href={probabilityUrl} target="_blank" rel="noopener noreferrer">{t('wardrobe_probability_button', '룰렛확률 확인하기')} <span>↗</span></a>
-      </div>
-      {error && <StatusMessage tone="error">{error}</StatusMessage>}
+  return <div className="diary-page wardrobe-diary-page">
+    <div className="diary-page-heading">
+      <div><h1>{t('wardrobe_title', '옷장')}</h1><small>{t('wardrobe_label', 'CLOSET')}</small></div>
+      {probabilityUrl && probabilityUrl !== '#' && <a className="soft-link-button" href={probabilityUrl} target="_blank" rel="noopener noreferrer">룰렛 확률 확인 <AppIcon name="external" /></a>}
+    </div>
+    {error && <StatusMessage tone="error">{error}</StatusMessage>}
 
-      <div className="wardrobe-toolbar">
-        <div className="segmented-tabs" aria-label="옷장 구분">
+    <section className="diary-card wardrobe-diary-card">
+      <div className="wardrobe-diary-toolbar">
+        <div className="diary-filter-tabs">
           <button type="button" className={period === 'monthly' ? 'active' : ''} onClick={() => setPeriod('monthly')}>{t('wardrobe_monthly_tab', '이달의 의상')}</button>
           <button type="button" className={period === 'existing' ? 'active' : ''} onClick={() => setPeriod('existing')}>{t('wardrobe_existing_tab', '기존 의상')}</button>
         </div>
-        <div className="mini-tabs" aria-label="의상 종류">
+        <div className="diary-filter-tabs compact">
           <button type="button" className={type === 'outfit' ? 'active' : ''} onClick={() => setType('outfit')}>{t('wardrobe_outfit_tab', '의상')}</button>
           <button type="button" className={type === 'hair' ? 'active' : ''} onClick={() => setType('hair')}>{t('wardrobe_hair_tab', '헤어')}</button>
         </div>
       </div>
 
-      {loading ? <LoadingBlocks /> : filtered.length ? <div className="wardrobe-grid">
-        {filtered.map(item => <article className="wardrobe-card" key={item.id}>
-          <div className="wardrobe-image">{item.image_url ? <img src={item.image_url} alt={item.name} /> : <div className="wardrobe-image-empty">{type === 'outfit' ? 'OUTFIT' : 'HAIR'}</div>}</div>
-          <div className="wardrobe-copy"><h3>{item.name}</h3>{item.description && <p>{item.description}</p>}</div>
+      {loading ? <LoadingBlocks /> : filtered.length ? <div className="wardrobe-diary-grid">
+        {filtered.map(item => <article className="wardrobe-diary-item" key={item.id}>
+          <div className="wardrobe-diary-image">{item.image_url ? <img src={item.image_url} alt={item.name} loading="lazy" /> : <div><AppIcon name="wardrobe" /></div>}<span><AppIcon name="heart" /></span></div>
+          <div className="wardrobe-diary-copy"><strong>{item.name}</strong>{item.description && <p>{item.description}</p>}</div>
         </article>)}
       </div> : <EmptyState>{t('wardrobe_empty', '아직 등록된 항목이 없습니다.')}</EmptyState>}
-    </div>
-  </section>
+    </section>
+  </div>
 }

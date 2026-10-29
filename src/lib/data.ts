@@ -18,7 +18,7 @@ import type {
   SignatureItem,
 } from '../types'
 
-type CmsStore = Record<string, any[]> & { meta?: Record<string, unknown> }
+type CmsStore = Record<string, any>
 
 async function responseJson<T>(response: Response): Promise<T> {
   const payload = await response.json().catch(() => ({})) as T & { error?: string }
@@ -68,7 +68,7 @@ export async function fetchPublicData(): Promise<PublicData> {
     socialLinks: sortRows(visible(store.social_links ?? [])) as SocialLink[],
     navigationLinks: sortRows(visible(store.navigation_links ?? [])) as NavigationLink[],
     milestones: sortRows(visible(store.milestones ?? [])) as Milestone[],
-    archives: [...visible(store.archives ?? [])].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0)) as ArchiveItem[],
+    archives: sortRows(visible(store.archives ?? [])) as ArchiveItem[],
     categories: sortRows(visible(store.schedule_categories ?? [])) as ScheduleCategory[],
     siteTexts: [...(store.site_texts ?? [])].sort((a, b) => String(a.group_name || '').localeCompare(String(b.group_name || ''), 'ko') || (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0)) as SiteText[],
     signatures: sortRows(visible(store.signature_items ?? [])) as SignatureItem[],
@@ -115,6 +115,17 @@ export async function deleteRow(table: string, id: string) {
     body: JSON.stringify({ action: 'delete', table, id }),
   })
   await responseJson<{ ok: boolean }>(response)
+}
+
+export async function reorderRows(table: string, ids: string[]) {
+  const response = await fetch('/api/admin/data', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'reorder', table, ids }),
+  })
+  const payload = await responseJson<{ rows: Record<string, any>[] }>(response)
+  return payload.rows
 }
 
 export async function uploadImage(file: File, folder: string) {

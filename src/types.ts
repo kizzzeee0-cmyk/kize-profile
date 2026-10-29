@@ -20,6 +20,12 @@ export type Profile = {
   badge_text: string
   intro: string
   profile_image_url: string | null
+  hero_position_x?: number | null
+  hero_position_y?: number | null
+  hero_mobile_position_x?: number | null
+  hero_mobile_position_y?: number | null
+  hero_overlay_strength?: number | null
+  hero_text_position?: 'left' | 'right' | null
   fandom_name: string | null
   fandom_character_name: string | null
   fandom_description: string | null

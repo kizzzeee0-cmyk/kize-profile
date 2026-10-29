@@ -2,7 +2,7 @@ import { CrudEditor } from '../../components/AdminCommon'
 
 export default function AdminWardrobePage() {
   return <>
-    <div className="admin-page-title"><span>WARDROBE CMS</span><h1>룰렛 / 옷장 관리</h1><p>이달의 의상과 기존 헤어·의상 이미지를 관리합니다. 룰렛 확률 링크는 사이트 설정에서 수정합니다.</p></div>
+    <div className="admin-page-title"><span>WARDROBE CMS</span><h1>옷장 관리</h1><p>이달의 의상과 기존 헤어·의상 이미지를 관리합니다. 룰렛 확률 링크는 사이트 설정의 고급 설정에서 수정할 수 있습니다.</p></div>
     <CrudEditor table="wardrobe_items" title="옷장 항목" fields={[
       { key: 'name', label: '이름', required: true },
       { key: 'period_type', label: '구분', type: 'select', options: [{ label: '이달의 의상', value: 'monthly' }, { label: '기존 의상', value: 'existing' }] },

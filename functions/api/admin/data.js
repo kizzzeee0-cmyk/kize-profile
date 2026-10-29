@@ -1,6 +1,6 @@
 import { requireAdmin } from '../../_lib/auth.js'
 import { json, errorJson } from '../../_lib/http.js'
-import { deleteRowInStore, readStore, saveRowInStore, writeStore } from '../../_lib/store.js'
+import { deleteRowInStore, isAllowedTable, readStore, saveRowInStore, writeStore } from '../../_lib/store.js'
 
 export async function onRequestGet({ request, env }) {
   const session = await requireAdmin(request, env)
@@ -33,6 +33,26 @@ export async function onRequestPost({ request, env }) {
       deleteRowInStore(data, table, String(body.id))
       await writeStore(env, data, `[CF-Pages-Skip] Delete ${table}`)
       return json({ ok: true })
+    }
+
+    if (action === 'reorder') {
+      if (!isAllowedTable(table)) return json({ error: '허용되지 않은 데이터 영역입니다.' }, 400)
+      const ids = Array.isArray(body.ids) ? body.ids.map(String) : []
+      if (!ids.length) return json({ error: '정렬할 항목이 없습니다.' }, 400)
+      if (new Set(ids).size !== ids.length) return json({ error: '중복된 정렬 항목이 있습니다.' }, 400)
+
+      const rows = data[table] || []
+      const byId = new Map(rows.map(row => [String(row.id), row]))
+      if (ids.some(id => !byId.has(id))) return json({ error: '정렬할 항목 중 찾을 수 없는 데이터가 있습니다.' }, 400)
+
+      ids.forEach((id, index) => {
+        const row = byId.get(id)
+        row.sort_order = index + 1
+        row.updated_at = new Date().toISOString()
+      })
+
+      await writeStore(env, data, `[CF-Pages-Skip] Reorder ${table}`)
+      return json({ ok: true, rows: ids.map(id => byId.get(id)) })
     }
 
     return json({ error: '지원하지 않는 작업입니다.' }, 400)

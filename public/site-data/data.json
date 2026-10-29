@@ -34,7 +34,7 @@
       "singleton": true,
       "site_title": "NAMRA",
       "site_description": "깔끔하고 단정한 버추얼 스트리머 유남라 프로필",
-      "brand_color": "#9389DE",
+      "brand_color": "#A8A1F1",
       "footer_text": "© 2026 NAMRA. ALL RIGHTS RESERVED.",
       "logo_text": "NAMRA",
       "favicon_url": null,
@@ -61,7 +61,13 @@
       "fandom_description": "팬캐릭터 소개, 디자인 설정, 방송국에서 사용하는 팬덤 브랜딩 설명을 이곳에 입력해 주세요.",
       "fandom_image_url": null,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T17:39:23.977792+00:00"
+      "updated_at": "2026-09-17T17:39:23.977792+00:00",
+      "hero_position_x": 70,
+      "hero_position_y": 50,
+      "hero_mobile_position_x": 72,
+      "hero_mobile_position_y": 50,
+      "hero_overlay_strength": 0.72,
+      "hero_text_position": "left"
     }
   ],
   "profile_stats": [
@@ -206,7 +212,7 @@
     },
     {
       "id": "6d480e3e-bcc2-4dfd-b455-39a44eb8363e",
-      "label": "룰렛",
+      "label": "옷장",
       "url": "/roulette/",
       "is_external": false,
       "open_new_tab": false,
@@ -414,7 +420,7 @@
       "id": "e885938e-7057-462c-ab05-e1658194ee90",
       "text_key": "wardrobe_title",
       "label": "옷장 제목",
-      "value": "유남라의 옷장",
+      "value": "옷장",
       "group_name": "룰렛/옷장",
       "sort_order": 10,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
@@ -554,7 +560,7 @@
       "id": "cc26a250-4dab-4a2b-b19f-2b49aa667e25",
       "text_key": "home_milestone_title",
       "label": "여정 제목",
-      "value": "유남라의 여정",
+      "value": "남라의 여정",
       "group_name": "홈",
       "sort_order": 24,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
