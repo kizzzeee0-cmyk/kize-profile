@@ -2173,8 +2173,15 @@ body {
   }
 
   [aria-busy='true'],
+  .cursor-busy,
+  [data-cursor='busy'] {
+    cursor: url('/cursors/busy.png') 0 0, wait !important;
+  }
+
   .skeleton,
-  .admin-center {
+  .admin-center,
+  .cursor-working,
+  [data-cursor='working'] {
     cursor: url('/cursors/working.png') 0 0, progress !important;
   }
 
