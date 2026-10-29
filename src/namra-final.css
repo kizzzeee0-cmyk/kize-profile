@@ -3648,3 +3648,16 @@ body div {
 .signature-diary-meta em {
   font-family: 'OmyuPretty', 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
+
+
+.home-social-icon-link.fan svg {
+  color: #49a79b !important;
+}
+
+.home-social-icon-link.soop svg {
+  color: #4ba5dc !important;
+}
+
+.home-social-icon-link.youtube svg {
+  color: #e45c70 !important;
+}
