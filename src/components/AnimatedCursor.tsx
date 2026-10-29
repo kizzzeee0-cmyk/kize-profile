@@ -17,8 +17,9 @@ type CursorConfig = {
   hotspotY: number
 }
 
-const DISPLAY_SIZE = 36
+const DISPLAY_SIZE = 48
 const NATIVE_SIZE = 64
+const EDGE_GAP = 2
 
 const CURSORS: Record<CursorName, CursorConfig> = {
   normal: { row: 0, frames: 8, frameMs: 83.333, hotspotX: 0, hotspotY: 0 },
@@ -78,9 +79,9 @@ export function AnimatedCursor() {
     let pendingMove = false
 
     const scale = DISPLAY_SIZE / NATIVE_SIZE
-    const atlasWidth = CURSOR_ATLAS_NATIVE_WIDTH * scale
-    const atlasHeight = CURSOR_ATLAS_NATIVE_HEIGHT * scale
-    el.style.backgroundSize = `${atlasWidth}px ${atlasHeight}px`
+    el.style.width = `${DISPLAY_SIZE}px`
+    el.style.height = `${DISPLAY_SIZE}px`
+    el.style.backgroundSize = `${CURSOR_ATLAS_NATIVE_WIDTH * scale}px ${CURSOR_ATLAS_NATIVE_HEIGHT * scale}px`
 
     function paintFrame() {
       const config = CURSORS[state]
@@ -98,27 +99,43 @@ export function AnimatedCursor() {
     function updatePosition() {
       pendingMove = false
       const config = CURSORS[state]
-      el.style.transform = `translate3d(${x - config.hotspotX * scale}px, ${y - config.hotspotY * scale}px, 0)`
+      const wantedX = x - config.hotspotX * scale
+      const wantedY = y - config.hotspotY * scale
+      const maxX = Math.max(EDGE_GAP, window.innerWidth - DISPLAY_SIZE - EDGE_GAP)
+      const maxY = Math.max(EDGE_GAP, window.innerHeight - DISPLAY_SIZE - EDGE_GAP)
+      const drawX = Math.min(maxX, Math.max(EDGE_GAP, wantedX))
+      const drawY = Math.min(maxY, Math.max(EDGE_GAP, wantedY))
+      el.style.transform = `translate3d(${drawX}px, ${drawY}px, 0)`
     }
 
-    function move(event: PointerEvent) {
+    function queuePosition() {
+      if (pendingMove) return
+      pendingMove = true
+      requestAnimationFrame(updatePosition)
+    }
+
+    function show() {
+      if (!ready) return
+      visible = true
+      el.style.opacity = '1'
+    }
+
+    function track(event: PointerEvent) {
       if (event.pointerType && event.pointerType !== 'mouse') return
       x = event.clientX
       y = event.clientY
       setState(cursorForTarget(event.target))
-      if (!pendingMove) {
-        pendingMove = true
-        requestAnimationFrame(updatePosition)
-      }
-      if (ready && !visible) {
-        visible = true
-        el.style.opacity = '1'
-      }
+      queuePosition()
+      show()
     }
 
-    function over(event: PointerEvent) {
+    function interact(event: PointerEvent) {
       if (event.pointerType && event.pointerType !== 'mouse') return
+      x = event.clientX
+      y = event.clientY
       setState(cursorForTarget(event.target))
+      updatePosition()
+      show()
     }
 
     function hide() {
@@ -126,10 +143,14 @@ export function AnimatedCursor() {
       el.style.opacity = '0'
     }
 
+    function leaveWindow(event: MouseEvent) {
+      if (event.relatedTarget === null) hide()
+    }
+
     function animate(now: number) {
       if (disposed) return
       const config = CURSORS[state]
-      if (ready && !document.hidden && !reducedMotion.matches && now - lastFrame >= config.frameMs) {
+      if (ready && visible && !document.hidden && !reducedMotion.matches && now - lastFrame >= config.frameMs) {
         const steps = Math.max(1, Math.floor((now - lastFrame) / config.frameMs))
         frame = (frame + steps) % config.frames
         lastFrame += steps * config.frameMs
@@ -145,27 +166,39 @@ export function AnimatedCursor() {
       el.style.backgroundImage = `url("${CURSOR_ATLAS_DATA_URL}")`
       paintFrame()
       document.documentElement.classList.add('namra-animated-cursor-ready')
+      if (x >= 0 && y >= 0) {
+        updatePosition()
+        show()
+      }
     }
     image.onerror = () => {
       ready = false
       document.documentElement.classList.remove('namra-animated-cursor-ready')
-      el.style.opacity = '0'
+      hide()
     }
     image.src = CURSOR_ATLAS_DATA_URL
 
-    window.addEventListener('pointermove', move, { passive: true })
-    window.addEventListener('pointerover', over, { passive: true })
+    window.addEventListener('pointermove', track, { passive: true })
+    window.addEventListener('pointerover', track, { passive: true })
+    document.addEventListener('pointerdown', interact, true)
+    document.addEventListener('pointerup', interact, true)
+    document.addEventListener('pointercancel', interact, true)
+    window.addEventListener('mouseout', leaveWindow)
     window.addEventListener('blur', hide)
-    document.addEventListener('mouseleave', hide)
+    window.addEventListener('resize', queuePosition)
     raf = requestAnimationFrame(animate)
 
     return () => {
       disposed = true
       cancelAnimationFrame(raf)
-      window.removeEventListener('pointermove', move)
-      window.removeEventListener('pointerover', over)
+      window.removeEventListener('pointermove', track)
+      window.removeEventListener('pointerover', track)
+      document.removeEventListener('pointerdown', interact, true)
+      document.removeEventListener('pointerup', interact, true)
+      document.removeEventListener('pointercancel', interact, true)
+      window.removeEventListener('mouseout', leaveWindow)
       window.removeEventListener('blur', hide)
-      document.removeEventListener('mouseleave', hide)
+      window.removeEventListener('resize', queuePosition)
       document.documentElement.classList.remove('namra-animated-cursor-ready')
     }
   }, [])

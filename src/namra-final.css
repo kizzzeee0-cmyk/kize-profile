@@ -3257,3 +3257,394 @@ html.namra-animated-cursor-ready * {
     background: rgba(44, 38, 65, .24);
   }
 }
+
+
+/* 2026-10-30 profile/admin/cursor polish */
+
+/* The only Paperlogy text on the public site is the top-left NAMRA brand. */
+body,
+body h1,
+body h2,
+body h3,
+body h4,
+body p,
+body span,
+body small,
+body strong,
+body em,
+body time,
+body a,
+body button,
+body input,
+body textarea,
+body select,
+body option,
+body label,
+body summary,
+body div {
+  font-family: 'OmyuPretty', 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+.public-brand {
+  font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 21px !important;
+  font-weight: 800 !important;
+  letter-spacing: .045em !important;
+}
+
+/* Profile copy */
+.home-profile-eyebrow {
+  margin-bottom: 18px !important;
+  font-family: 'OmyuPretty', 'Paperlogy', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: .12em !important;
+}
+
+.home-profile-copy h1 {
+  font-family: 'OmyuPretty', 'Paperlogy', sans-serif !important;
+  font-size: clamp(46px, 5vw, 58px) !important;
+  font-weight: 700 !important;
+  letter-spacing: -.035em !important;
+}
+
+.home-profile-copy > p {
+  margin-top: 18px !important;
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+}
+
+.home-profile-badge,
+.home-profile-media-caption {
+  display: none !important;
+}
+
+/* Reference-style platform shortcuts: icon only */
+.home-profile-copy .home-social-buttons {
+  gap: 10px !important;
+  margin-top: 24px !important;
+}
+
+.home-profile-copy .home-social-buttons a.home-social-icon-link {
+  width: 38px !important;
+  min-width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  box-shadow: 0 4px 14px rgba(75, 62, 110, .06) !important;
+}
+
+.home-profile-copy .home-social-buttons a.home-social-icon-link svg {
+  width: 19px !important;
+  height: 19px !important;
+}
+
+.home-social-icon-link.fan {
+  border-color: #cde7e2 !important;
+  color: #49a79b !important;
+}
+
+.home-social-icon-link.soop {
+  border-color: #cfe4f6 !important;
+  color: #4ba5dc !important;
+}
+
+.home-social-icon-link.youtube {
+  border-color: #f2d6dc !important;
+  color: #e45c70 !important;
+}
+
+/* Profile facts: centered English label/value, no icons */
+.home-stat-grid {
+  margin-top: 22px !important;
+  gap: 16px !important;
+}
+
+.home-stat-card {
+  min-height: 126px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important;
+  padding: 20px 16px !important;
+  text-align: center !important;
+  border-radius: 18px !important;
+}
+
+.home-stat-card:first-child {
+  border-color: #b5a8ee !important;
+}
+
+.home-stat-icon {
+  display: none !important;
+}
+
+.home-stat-card .home-stat-label,
+.home-stat-card > small {
+  margin: 0 0 9px !important;
+  color: var(--brand-strong) !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: .11em !important;
+}
+
+.home-stat-card > strong {
+  margin: 0 !important;
+  color: #242131 !important;
+  font-size: 23px !important;
+  line-height: 1.15 !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-stat-card > em {
+  margin: 10px 0 0 !important;
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 9px !important;
+  border-radius: 999px !important;
+  background: var(--brand-soft) !important;
+  color: var(--brand-strong) !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+}
+
+.home-stat-card > p {
+  margin: 9px 0 0 !important;
+  color: var(--muted) !important;
+  font-size: 13.5px !important;
+  line-height: 1.4 !important;
+  font-weight: 400 !important;
+  text-align: center !important;
+}
+
+/* Weekly schedule matches the main calendar's English weekday treatment. */
+.home-week-date {
+  min-height: 48px !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  text-align: center;
+}
+
+.home-week-date strong {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
+
+.home-week-date span {
+  color: var(--brand-strong) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: .07em !important;
+}
+
+.home-week-event small {
+  font-size: 13px !important;
+}
+
+.home-week-event span {
+  font-size: 13px !important;
+}
+
+.home-week-event strong {
+  font-size: 14px !important;
+}
+
+.home-week-empty {
+  font-size: 13px !important;
+}
+
+/* Identical sizing/weight for action buttons such as 전체 일정 보기 / 룰렛 확률 보기. */
+.soft-link-button,
+.signature-probability-button {
+  min-height: 40px !important;
+  padding: 0 13px !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 500 !important;
+  white-space: nowrap;
+}
+
+.soft-link-button svg,
+.signature-probability-button svg {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+/* Journey: reference-style slim vertical timeline, no nested card look. */
+.home-journey-section {
+  background: #f8f6ff !important;
+}
+
+.home-journey-section .site-container {
+  width: min(900px, calc(100% - 40px));
+}
+
+.journey-timeline {
+  width: min(760px, 100%);
+  margin: 4px auto 0 !important;
+}
+
+.journey-timeline article {
+  grid-template-columns: 28px minmax(0,1fr) !important;
+  gap: 10px !important;
+}
+
+.journey-line::before {
+  width: 2px !important;
+  background: #c3b6f2 !important;
+}
+
+.journey-line i {
+  width: 9px !important;
+  height: 9px !important;
+  margin-top: 8px !important;
+  background: #8f80df !important;
+  box-shadow: 0 0 0 4px #f8f6ff !important;
+}
+
+.journey-timeline article.highlight .journey-line i {
+  background: #8f80df !important;
+  box-shadow: 0 0 0 4px #f8f6ff !important;
+}
+
+.journey-content {
+  padding: 0 0 34px !important;
+  border-bottom: 0 !important;
+  background: transparent !important;
+}
+
+.journey-content time {
+  color: #8877dc !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+}
+
+.journey-content h3 {
+  margin: 6px 0 7px !important;
+  color: #242131 !important;
+  font-size: 19px !important;
+  line-height: 1.35 !important;
+  font-weight: 700 !important;
+}
+
+.journey-content p {
+  color: #625d73 !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+}
+
+.journey-content a {
+  font-size: 14px !important;
+}
+
+/* Keep general small copy readable. */
+.diary-section-title small,
+.archive-diary-copy small,
+.schedule-side-title small,
+.album-artwork-head small,
+.album-artwork-source small,
+.admin-panel-head p,
+.admin-page-title p {
+  font-size: 13px !important;
+}
+
+/* Songbook admin: prevent the grip SVG and toolbar controls from exploding/wrapping. */
+.admin-sort-help {
+  min-height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 0 12px !important;
+  padding: 9px 11px !important;
+  overflow: hidden;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+.admin-sort-help > svg {
+  width: 16px !important;
+  min-width: 16px !important;
+  max-width: 16px !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  max-height: 16px !important;
+  flex: 0 0 16px !important;
+}
+
+.admin-song-actions {
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+}
+
+.admin-song-actions button,
+.admin-primary.compact,
+.admin-secondary.compact {
+  width: auto !important;
+  min-width: max-content !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  writing-mode: horizontal-tb !important;
+}
+
+.admin-panel-head {
+  align-items: center !important;
+}
+
+/* Animated cursor: full frame remains visible at viewport edges. */
+.namra-animated-cursor-layer {
+  width: 48px !important;
+  height: 48px !important;
+  overflow: hidden;
+  contain: layout style;
+}
+
+@media (max-width: 700px) {
+  .home-profile-copy h1 {
+    font-size: 42px !important;
+  }
+
+  .home-stat-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  }
+
+  .home-stat-card {
+    min-height: 116px !important;
+  }
+
+  .home-stat-card > strong {
+    font-size: 21px !important;
+  }
+
+  .home-journey-section .site-container {
+    width: min(100% - 28px, 900px);
+  }
+
+  .journey-timeline {
+    width: 100%;
+  }
+
+  .admin-song-actions {
+    flex-wrap: wrap !important;
+  }
+
+  .admin-song-actions button {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+}
+
+
+.signature-diary-meta em {
+  font-family: 'OmyuPretty', 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}

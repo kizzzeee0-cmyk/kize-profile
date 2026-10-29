@@ -72,22 +72,13 @@ function weekStartOf(date: Date) {
   return d
 }
 
-function statIcon(label: string, index: number): AppIconName {
-  const key = label.toLowerCase()
-  if (/birth|생일/.test(key)) return 'cake'
-  if (/debut|데뷔/.test(key)) return 'sprout'
-  if (/live|방송/.test(key)) return 'clock'
-  if (/off|휴방/.test(key)) return 'calendar'
-  return (['cake', 'sprout', 'clock', 'calendar'] as AppIconName[])[index % 4]
-}
-
 function statLabel(label: string) {
   const key = label.toLowerCase()
-  if (/birth/.test(key)) return '생일'
-  if (/debut/.test(key)) return '데뷔일'
-  if (/live/.test(key)) return '생방송 시간'
-  if (/off/.test(key)) return '휴방 일정'
-  return label
+  if (/birth|생일/.test(key)) return 'BIRTHDAY'
+  if (/debut|데뷔/.test(key)) return 'DEBUT'
+  if (/live|방송/.test(key)) return 'LIVE TIME'
+  if (/off|휴방/.test(key)) return 'OFF-DAY'
+  return label.toUpperCase()
 }
 
 export default function HomePage() {
@@ -147,15 +138,12 @@ export default function HomePage() {
         <section className="home-profile-hero" style={heroStyle}>
           <div className="home-profile-copy">
             <small className="home-profile-eyebrow">{profile?.english_name || 'NAMRA'} PROFILE</small>
-            {profile?.badge_text && <span className="home-profile-badge">{profile.badge_text}</span>}
             <h1>{profile?.korean_name || '유남라'}</h1>
-            <strong>{profile?.english_name || 'NAMRA'}</strong>
             <p>{profile?.intro || '좋아하는 것을 기록하는 작은 공간, 함께 즐겁게 이야기해요.'}</p>
 
-            {heroLinks.length > 0 && <div className="home-social-buttons">
-              {heroLinks.map(link => <a key={link.key} href={link.item!.url} target="_blank" rel="noopener noreferrer">
+            {heroLinks.length > 0 && <div className="home-social-buttons" aria-label="바로가기">
+              {heroLinks.map(link => <a className={`home-social-icon-link ${link.key}`} key={link.key} href={link.item!.url} target="_blank" rel="noopener noreferrer" aria-label={link.label} title={link.label}>
                 <AppIcon name={link.icon} />
-                <span>{link.label}</span>
               </a>)}
             </div>}
           </div>
@@ -166,16 +154,13 @@ export default function HomePage() {
                 ? <img className="home-profile-image" src={profile.profile_image_url} alt={`${profile.korean_name} 프로필`} />
                 : <div className="home-photo-placeholder"><AppIcon name="image" /><span>관리자에서 16:9 메인 이미지를 등록해 주세요.</span></div>}
             </div>
-            <div className="home-profile-media-caption">
-              <span>{profile?.english_name || 'NAMRA'}</span>
-              <small>{profile?.badge_text || 'SOOP STREAMER'}</small>
-            </div>
+
           </div>
         </section>
 
         <section className="home-stat-grid" aria-label="방송 기본 정보">
           {statRows.length
-            ? statRows.map((stat, index) => {
+            ? statRows.map(stat => {
               const key = stat.label.toLowerCase()
               const badge = /birth|생일/.test(key)
                 ? birthdayCountdown(stat.value)
@@ -184,13 +169,10 @@ export default function HomePage() {
                   : null
 
               return <article className="home-stat-card" key={stat.id}>
-                <span className="home-stat-icon"><AppIcon name={statIcon(stat.label, index)} /></span>
-                <div>
-                  <small>{statLabel(stat.label)}</small>
-                  <strong>{stat.value}</strong>
-                  {badge && <em>{badge}</em>}
-                  {!badge && stat.description && <p>{stat.description}</p>}
-                </div>
+                <small className="home-stat-label">{statLabel(stat.label)}</small>
+                <strong>{stat.value}</strong>
+                {badge && <em>{badge}</em>}
+                {!badge && stat.description && <p>{stat.description}</p>}
               </article>
             })
             : <EmptyState>프로필 기본 정보를 등록해 주세요.</EmptyState>}
@@ -215,7 +197,7 @@ export default function HomePage() {
             return <div className={`home-week-day ${isToday ? 'today' : ''}`} key={key}>
               <div className="home-week-date">
                 <strong>{day.getDate()}</strong>
-                <span>{['일', '월', '화', '수', '목', '금', '토'][day.getDay()]}</span>
+                <span>{['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][day.getDay()]}</span>
               </div>
 
               <div className="home-week-events">
@@ -258,6 +240,26 @@ export default function HomePage() {
       </div>
     </section>
 
+    <section className="home-section home-journey-section" id="milestone">
+      <div className="site-container">
+        <SectionTitle eyebrow="MILESTONE" title={t('home_milestone_title', '남라의 여정')} />
+
+        {data.milestones.length
+          ? <div className="journey-timeline">
+            {data.milestones.map(item => <article className={item.is_highlight ? 'highlight' : ''} key={item.id}>
+              <div className="journey-line"><i /></div>
+              <div className="journey-content">
+                <time>{formatDate(item.date)}</time>
+                <h3>{item.title}</h3>
+                {item.description && <p>{item.description}</p>}
+                {item.external_url && <a href={item.external_url} target="_blank" rel="noopener noreferrer">관련 링크 <AppIcon name="external" /></a>}
+              </div>
+            </article>)}
+          </div>
+          : <EmptyState>{t('home_milestone_empty', '아직 등록된 여정이 없습니다.')}</EmptyState>}
+      </div>
+    </section>
+
     <section className="home-section home-archive-section" id="archive">
       <div className="site-container">
         <SectionTitle eyebrow="CLIP & REPLAY" title={t('home_archive_title', '클립 및 다시보기')} />
@@ -282,26 +284,6 @@ export default function HomePage() {
             })}
           </div>
           : <EmptyState>{t('home_archive_empty', '등록된 클립 및 다시보기가 없습니다.')}</EmptyState>}
-      </div>
-    </section>
-
-    <section className="home-section home-journey-section" id="milestone">
-      <div className="site-container">
-        <SectionTitle eyebrow="MILESTONE" title={t('home_milestone_title', '남라의 여정')} />
-
-        {data.milestones.length
-          ? <div className="journey-timeline">
-            {data.milestones.map(item => <article className={item.is_highlight ? 'highlight' : ''} key={item.id}>
-              <div className="journey-line"><i /></div>
-              <div className="journey-content">
-                <time>{formatDate(item.date)}</time>
-                <h3>{item.title}</h3>
-                {item.description && <p>{item.description}</p>}
-                {item.external_url && <a href={item.external_url} target="_blank" rel="noopener noreferrer">관련 링크 <AppIcon name="external" /></a>}
-              </div>
-            </article>)}
-          </div>
-          : <EmptyState>{t('home_milestone_empty', '아직 등록된 여정이 없습니다.')}</EmptyState>}
       </div>
     </section>
 
