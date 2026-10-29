@@ -87,7 +87,7 @@ export async function passwordLogin(request, env) {
   const password = String(body?.password || '')
   if (!password || password !== expected) return json({ error: '비밀번호가 올바르지 않습니다.' }, 401)
 
-  const token = await seal({ login: 'KIZE ADMIN', iat: Date.now() }, secret)
+  const token = await seal({ login: 'NAMRA ADMIN', iat: Date.now() }, secret)
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,
     headers: {

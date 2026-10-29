@@ -4,7 +4,7 @@ import { fetchAdminSingleton, saveRow, uploadImage } from '../../lib/data'
 import type { SiteSettings } from '../../types'
 
 const base = {
-  site_title: 'KIZE', site_description: '', brand_color: '#9389DE', footer_text: '© 2026 KIZE. ALL RIGHTS RESERVED.', logo_text: 'KIZE', favicon_url: null, seo_image_url: null, dark_mode_enabled: true, roulette_probability_url: '#', calendar_event_title_size: 12,
+  site_title: 'NAMRA', site_description: '', brand_color: '#9389DE', footer_text: '© 2026 NAMRA. ALL RIGHTS RESERVED.', logo_text: 'NAMRA', favicon_url: null, seo_image_url: null, dark_mode_enabled: true, roulette_probability_url: '#', calendar_event_title_size: 12,
 }
 
 export default function AdminSettingsPage() {

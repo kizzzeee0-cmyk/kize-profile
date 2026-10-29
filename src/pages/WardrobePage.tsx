@@ -24,7 +24,7 @@ export default function WardrobePage() {
   return <section className="section-pad page-top wardrobe-page">
     <div className="container wardrobe-container">
       <div className="page-heading-row">
-        <SectionHeading eyebrow={t('wardrobe_label', 'CLOSET')} title={t('wardrobe_title', '키제의 옷장')} />
+        <SectionHeading eyebrow={t('wardrobe_label', 'CLOSET')} title={t('wardrobe_title', '유남라의 옷장')} />
         <a className="probability-button" href={probabilityUrl} target="_blank" rel="noopener noreferrer">{t('wardrobe_probability_button', '룰렛확률 확인하기')} <span>↗</span></a>
       </div>
       {error && <StatusMessage tone="error">{error}</StatusMessage>}

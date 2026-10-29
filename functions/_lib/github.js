@@ -21,7 +21,7 @@ function headers(token) {
     Accept: 'application/vnd.github+json',
     Authorization: `Bearer ${token}`,
     'X-GitHub-Api-Version': API_VERSION,
-    'User-Agent': 'kize-profile-cms',
+    'User-Agent': 'namra-profile-cms',
   }
 }
 
@@ -68,11 +68,11 @@ export async function readJson(env, path = DATA_PATH) {
       return JSON.parse(decodeContent(file.content))
     } catch (error) {
       if (Number(error?.status) !== 404) {
-        console.warn('[KIZE GitHub] authenticated read failed, falling back to raw', error)
+        console.warn('[NAMRA GitHub] authenticated read failed, falling back to raw', error)
       }
     }
   }
-  const response = await fetch(`${rawUrl(env, path)}?t=${Date.now()}`, { headers: { 'User-Agent': 'kize-profile-public' } })
+  const response = await fetch(`${rawUrl(env, path)}?t=${Date.now()}`, { headers: { 'User-Agent': 'namra-profile-public' } })
   if (!response.ok) throw new Error(`GitHub data file ${response.status}: ${path}`)
   return response.json()
 }
@@ -95,7 +95,7 @@ async function putContent(env, path, bytes, message, sha) {
   return payload
 }
 
-export async function saveJson(env, object, path = DATA_PATH, message = '[CF-Pages-Skip] Update KIZE content') {
+export async function saveJson(env, object, path = DATA_PATH, message = '[CF-Pages-Skip] Update NAMRA content') {
   const bytes = enc.encode(JSON.stringify(object, null, 2) + '\n')
   let lastError
   for (let attempt = 0; attempt < 3; attempt++) {
@@ -112,7 +112,7 @@ export async function saveJson(env, object, path = DATA_PATH, message = '[CF-Pag
   throw lastError
 }
 
-export async function saveBinary(env, path, fileOrBytes, message = '[CF-Pages-Skip] Upload KIZE media', overwrite = false) {
+export async function saveBinary(env, path, fileOrBytes, message = '[CF-Pages-Skip] Upload NAMRA media', overwrite = false) {
   let sha
   if (overwrite) {
     try { sha = (await getFile(env, path)).sha }
@@ -125,7 +125,7 @@ export async function saveBinary(env, path, fileOrBytes, message = '[CF-Pages-Sk
 }
 
 export async function fetchRawFile(env, path) {
-  const response = await fetch(rawUrl(env, path), { headers: { 'User-Agent': 'kize-profile-media' } })
+  const response = await fetch(rawUrl(env, path), { headers: { 'User-Agent': 'namra-profile-media' } })
   return response
 }
 

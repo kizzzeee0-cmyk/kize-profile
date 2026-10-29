@@ -17,7 +17,7 @@ export async function readStore(env) {
   return data
 }
 
-export async function writeStore(env, data, message = '[CF-Pages-Skip] Update KIZE CMS data') {
+export async function writeStore(env, data, message = '[CF-Pages-Skip] Update NAMRA CMS data') {
   data.meta = {
     ...(data.meta || {}),
     version: 1,

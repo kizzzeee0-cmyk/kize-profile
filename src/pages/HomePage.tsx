@@ -63,7 +63,7 @@ export default function HomePage() {
                 <i />
                 <span>{profile?.badge_text || 'SOOP STREAMER'}</span>
               </div>
-              <h1><span className="hero-name-ko">{profile?.korean_name || '키제'}</span><small>{profile?.english_name || 'KIZE'}</small></h1>
+              <h1><span className="hero-name-ko">{profile?.korean_name || '유남라'}</span><small>{profile?.english_name || 'NAMRA'}</small></h1>
               <p className="hero-intro">{profile?.intro || t('home_intro_fallback', '프로필 소개 문구를 관리자 페이지에서 입력해 주세요.')}</p>
 
               {shortcutLinks.length > 0 && <div className="shortcut-grid">
@@ -83,7 +83,7 @@ export default function HomePage() {
             <div className="hero-art" aria-label="프로필 이미지 영역">
               <div className="orb orb-one"/><div className="orb orb-two"/>
               {profile?.profile_image_url ? <img src={profile.profile_image_url} alt={`${profile.korean_name} 프로필`} /> : (
-                <div className="profile-placeholder"><span>{t('profile_image_label', 'PROFILE IMAGE')}</span><strong>{profile?.english_name || 'KIZE'}</strong><small>{t('profile_image_help', '프로필 이미지를 업로드해 주세요')}</small></div>
+                <div className="profile-placeholder"><span>{t('profile_image_label', 'PROFILE IMAGE')}</span><strong>{profile?.english_name || 'NAMRA'}</strong><small>{t('profile_image_help', '프로필 이미지를 업로드해 주세요')}</small></div>
               )}
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function HomePage() {
 
       <section className="section-pad" id="milestone">
         <div className="container narrow">
-          <SectionHeading eyebrow={t('home_milestone_label', 'MILESTONE')} title={t('home_milestone_title', '키제의 여정')} />
+          <SectionHeading eyebrow={t('home_milestone_label', 'MILESTONE')} title={t('home_milestone_title', '유남라의 여정')} />
           {data.milestones.length ? <div className="timeline">{data.milestones.map(item => <article className={`timeline-item ${item.is_highlight ? 'highlight' : ''}`} key={item.id}>
             <div className="timeline-date">{formatDate(item.date)}</div><div className="timeline-dot"/><div className="timeline-content"><h3>{item.title}</h3>{item.description && <p>{item.description}</p>}{item.external_url && <a href={item.external_url} target="_blank" rel="noopener noreferrer">{t('home_milestone_link', '관련 링크 ↗')}</a>}</div>
           </article>)}</div> : <EmptyState>{t('home_milestone_empty', '아직 등록된 여정이 없습니다.')}</EmptyState>}

@@ -7,7 +7,7 @@ function Header() {
   const { data } = usePublicData()
   const { theme, toggleTheme } = useTheme()
   const [open, setOpen] = useState(false)
-  const logo = data.settings?.logo_text || 'KIZE'
+  const logo = data.settings?.logo_text || 'NAMRA'
   const links = data.navigationLinks.length ? data.navigationLinks : [
     { id: 'profile', label: '프로필', url: '/', is_external: false, open_new_tab: false, sort_order: 1, is_visible: true },
     { id: 'schedule', label: '일정', url: '/schedule/', is_external: false, open_new_tab: false, sort_order: 2, is_visible: true },
@@ -44,7 +44,7 @@ function Header() {
 
 function Footer() {
   const { data } = usePublicData()
-  return <footer className="site-footer"><div className="container">{data.settings?.footer_text || '© 2026 KIZE. ALL RIGHTS RESERVED.'}</div></footer>
+  return <footer className="site-footer"><div className="container">{data.settings?.footer_text || '© 2026 NAMRA. ALL RIGHTS RESERVED.'}</div></footer>
 }
 
 export function SiteLayout({ children }: { children: ReactNode }) {

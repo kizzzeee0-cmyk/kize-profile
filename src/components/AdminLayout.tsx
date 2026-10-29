@@ -17,9 +17,9 @@ export function AdminLayout({ children }: { children: ReactNode }) {
   ]
   return <div className="admin-shell">
     <aside className={`admin-sidebar ${open ? 'open' : ''}`}>
-      <div className="admin-logo">KIZE<small>CONTENT MANAGER</small></div>
+      <div className="admin-logo">NAMRA<small>CONTENT MANAGER</small></div>
       <nav>{links.map(([to, label]) => <NavLink key={to} to={to} onClick={() => setOpen(false)}>{label}</NavLink>)}</nav>
-      <div className="admin-account"><small>{user?.login || 'KIZE ADMIN'}</small><button type="button" onClick={() => void signOut()}>로그아웃</button></div>
+      <div className="admin-account"><small>{user?.login || 'NAMRA ADMIN'}</small><button type="button" onClick={() => void signOut()}>로그아웃</button></div>
     </aside>
     <div className="admin-main">
       <header className="admin-topbar"><button type="button" onClick={() => setOpen(v => !v)}>☰</button><a href="/" target="_blank" rel="noopener noreferrer">공개 사이트 보기 ↗</a></header>

@@ -29,7 +29,7 @@ export default function AdminLoginPage() {
   return (
     <div className="login-page">
       <div className="login-card">
-        <a className="login-brand" href="/">KIZE</a>
+        <a className="login-brand" href="/">NAMRA</a>
         <span className="login-eyebrow">CONTENT MANAGER</span>
         <h1>관리자 로그인</h1>
         <p>지정한 관리자 비밀번호를 입력해 주세요.</p>

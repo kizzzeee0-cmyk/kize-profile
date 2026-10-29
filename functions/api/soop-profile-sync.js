@@ -20,7 +20,7 @@ function profileCandidates(id) {
 async function fetchProfileImage(soopId) {
   for (const url of profileCandidates(soopId)) {
     try {
-      const response = await fetch(url, { headers: { 'User-Agent': 'KIZE-Profile/1.0' }, redirect: 'follow' })
+      const response = await fetch(url, { headers: { 'User-Agent': 'NAMRA-Profile/1.0' }, redirect: 'follow' })
       if (!response.ok) continue
       const contentType = String(response.headers.get('Content-Type') || '').toLowerCase()
       if (!contentType.startsWith('image/')) continue
