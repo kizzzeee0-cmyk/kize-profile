@@ -4155,3 +4155,66 @@ html.namra-native-cursor-control * {
 .home-profile-copy .home-social-text-link:hover {
   color: var(--brand-strong) !important;
 }
+
+
+/* 2026-10-30 rounded social pill buttons */
+.home-profile-copy .home-social-pill-links {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  margin-top: 20px !important;
+}
+
+.home-profile-copy .home-social-pill-link {
+  min-width: 118px !important;
+  height: 42px !important;
+  padding: 0 18px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(47, 42, 70, .09) !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  transition: transform .15s ease, filter .15s ease !important;
+}
+
+.home-profile-copy .home-social-pill-link:hover {
+  transform: translateY(-1px) !important;
+  filter: brightness(1.025) !important;
+}
+
+.home-profile-copy .home-social-pill-link.soop {
+  background: #8FD8FF !important;
+}
+
+.home-profile-copy .home-social-pill-link.fan {
+  background: #78D96B !important;
+}
+
+.home-profile-copy .home-social-pill-link.youtube {
+  background: #F2A5AA !important;
+}
+
+@media (max-width: 700px) {
+  .home-profile-copy .home-social-pill-links {
+    gap: 10px !important;
+  }
+
+  .home-profile-copy .home-social-pill-link {
+    min-width: 104px !important;
+    height: 40px !important;
+    padding: 0 16px !important;
+    font-size: 13px !important;
+  }
+}
