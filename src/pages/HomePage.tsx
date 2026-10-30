@@ -108,9 +108,9 @@ export default function HomePage() {
 
   const social = data.socialLinks
   const heroLinks = [
-    { key: 'fan', label: '팬카페', image: '/social/fancafe-reference.svg?v=20261030-0156', item: social.find(link => /팬카페|cafe/i.test(link.name)) },
-    { key: 'soop', label: '방송국', image: '/social/soop-reference.svg?v=20261030-0112', item: social.find(link => /soop|방송국/i.test(link.name)) },
-    { key: 'youtube', label: '유튜브', image: '/social/youtube-reference.svg?v=20261030-0112', item: social.find(link => /youtube|유튜브/i.test(link.name)) },
+    { key: 'soop', label: '방송국', item: social.find(link => /soop|방송국/i.test(link.name)) },
+    { key: 'youtube', label: '유튜브', item: social.find(link => /youtube|유튜브/i.test(link.name)) },
+    { key: 'fan', label: '팬카페', item: social.find(link => /팬카페|cafe/i.test(link.name)) },
   ].filter(entry => entry.item)
 
   const heroStyle = {
@@ -141,11 +141,11 @@ export default function HomePage() {
             <h1>{profile?.korean_name || '유남라'}</h1>
             <p>{profile?.intro || '좋아하는 것을 기록하는 작은 공간, 함께 즐겁게 이야기해요.'}</p>
 
-            {heroLinks.length > 0 && <div className="home-social-buttons" aria-label="바로가기">
-              {heroLinks.map(link => <a className={`home-social-icon-link ${link.key}`} key={link.key} href={link.item!.url} target="_blank" rel="noopener noreferrer" aria-label={link.label} title={link.label}>
-                <img className="home-social-reference-icon" src={link.image} alt="" aria-hidden="true" />
+            {heroLinks.length > 0 && <nav className="home-social-text-links" aria-label="바로가기">
+              {heroLinks.map(link => <a className="home-social-text-link" key={link.key} href={link.item!.url} target="_blank" rel="noopener noreferrer">
+                {link.label}
               </a>)}
-            </div>}
+            </nav>}
           </div>
 
           <div className="home-profile-media">
