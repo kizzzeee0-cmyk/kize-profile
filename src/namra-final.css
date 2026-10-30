@@ -3665,22 +3665,23 @@ body div {
 
 /* 2026-10-30 exact alignment, reference icons, journey flow, cursor fidelity */
 
-/* Profile info cards: fixed shared rows prevent labels shifting with different footer content. */
+/* Profile info cards: English label / value / meta use fixed vertical anchors.
+   The value itself is always exactly centered in the card. */
 .home-stat-card {
-  min-height: 128px !important;
-  display: grid !important;
-  grid-template-rows: 18px 32px minmax(28px, auto) !important;
-  grid-auto-flow: row !important;
-  align-content: start !important;
+  min-height: 132px !important;
+  position: relative !important;
+  display: flex !important;
   align-items: center !important;
-  justify-items: center !important;
-  row-gap: 6px !important;
-  padding: 18px 16px 16px !important;
+  justify-content: center !important;
+  padding: 18px 16px !important;
   text-align: center !important;
 }
 
 .home-stat-card .home-stat-label {
-  width: 100%;
+  position: absolute !important;
+  top: 18px !important;
+  left: 12px !important;
+  right: 12px !important;
   height: 18px !important;
   display: flex !important;
   align-items: center !important;
@@ -3695,12 +3696,17 @@ body div {
 }
 
 .home-stat-card .home-stat-value {
+  position: absolute !important;
+  top: 50% !important;
+  left: 12px !important;
+  right: 12px !important;
   height: 32px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   margin: 0 !important;
   padding: 0 !important;
+  transform: translateY(-50%) !important;
   color: #242131 !important;
   font-size: 23px !important;
   line-height: 32px !important;
@@ -3709,7 +3715,11 @@ body div {
 }
 
 .home-stat-meta {
-  min-height: 28px !important;
+  position: absolute !important;
+  left: 12px !important;
+  right: 12px !important;
+  bottom: 16px !important;
+  min-height: 24px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -3757,9 +3767,9 @@ body div {
   display: grid !important;
   place-items: center !important;
   padding: 0 !important;
-  overflow: visible !important;
+  overflow: hidden !important;
   border: 0 !important;
-  border-radius: 0 !important;
+  border-radius: 50% !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -3768,7 +3778,9 @@ body div {
   width: 36px !important;
   height: 36px !important;
   display: block !important;
-  object-fit: contain !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  clip-path: circle(50% at 50% 50%) !important;
 }
 
 .home-social-icon-link.fan .home-social-reference-icon {
@@ -3852,15 +3864,22 @@ body div {
   line-height: 1.6 !important;
 }
 
-/* Cursor renderer uses the native 64px ANI frame size with no CSS down-sampling. */
+/* Reference-style cursor size: keep the original animated atlas, render it at 36px. */
 .namra-animated-cursor-layer {
-  width: 64px !important;
-  height: 64px !important;
+  width: 36px !important;
+  height: 36px !important;
   overflow: visible !important;
   background-repeat: no-repeat !important;
   image-rendering: auto !important;
   pointer-events: none !important;
   z-index: 2147483647 !important;
+}
+
+
+html.namra-native-cursor-control,
+html.namra-native-cursor-control body,
+html.namra-native-cursor-control * {
+  cursor: auto !important;
 }
 
 /* Native browser popups cannot be overlaid by a DOM cursor layer.
@@ -3876,15 +3895,22 @@ html.namra-animated-cursor-ready input[type='color'] {
 
 @media (max-width: 700px) {
   .home-stat-card {
-    min-height: 120px !important;
-    grid-template-rows: 18px 30px minmax(26px, auto) !important;
-    padding: 16px 12px 14px !important;
+    min-height: 124px !important;
+    padding: 16px 12px !important;
+  }
+
+  .home-stat-card .home-stat-label {
+    top: 16px !important;
   }
 
   .home-stat-card .home-stat-value {
     height: 30px !important;
     font-size: 21px !important;
     line-height: 30px !important;
+  }
+
+  .home-stat-meta {
+    bottom: 14px !important;
   }
 
   .home-journey-section {
