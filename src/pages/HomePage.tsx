@@ -108,7 +108,7 @@ export default function HomePage() {
 
   const social = data.socialLinks
   const heroLinks = [
-    { key: 'fan', label: '팬카페', image: '/social/fancafe-reference.svg?v=20261030-0112', item: social.find(link => /팬카페|cafe/i.test(link.name)) },
+    { key: 'fan', label: '팬카페', image: '/social/fancafe-reference.svg?v=20261030-0121', item: social.find(link => /팬카페|cafe/i.test(link.name)) },
     { key: 'soop', label: '방송국', image: '/social/soop-reference.svg?v=20261030-0112', item: social.find(link => /soop|방송국/i.test(link.name)) },
     { key: 'youtube', label: '유튜브', image: '/social/youtube-reference.svg?v=20261030-0112', item: social.find(link => /youtube|유튜브/i.test(link.name)) },
   ].filter(entry => entry.item)
