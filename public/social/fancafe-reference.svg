@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="팬카페">
-  <circle cx="50" cy="50" r="46" fill="#EAF8E8" stroke="#BFE9B8" stroke-width="2.5"/>
-  <circle cx="50" cy="50" r="40.5" fill="none" stroke="#FFFFFF" stroke-width="2"/>
-  <path fill="#6FE14A" d="M39 35C44 24 54 18 69 19c0 15-9 24-30 26Z"/>
-  <path fill="#58D93E" d="M39 35c9-6 18-10 30-16-5 9-14 17-30 26Z"/>
-  <path fill="#09C85B" d="M28 45h31v9c0 13.5-8.3 22-20.5 22S28 67.5 28 54v-9Z"/>
-  <path fill="#09C85B" fill-rule="evenodd" d="M57 47h6.5c8 0 13 5.2 13 12.2S71.5 71.5 63.5 71.5H57v-6h6.2c4.2 0 6.8-2.3 6.8-6.3s-2.6-6.2-6.8-6.2H57v-6Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="팬카페">
+  <circle cx="32" cy="32" r="29" fill="#DFF6DA" stroke="#B8E9AF" stroke-width="3"/>
+  <circle cx="32" cy="32" r="25.5" fill="#F4FBF2" stroke="#FFFFFF" stroke-width="1.5"/>
+  <path fill="#67DC45" d="M28 24.5c3.8-7 9.2-10.2 16.8-9.8-.2 7.6-4.8 12.1-16.8 13.6Z"/>
+  <path fill="#48CF36" d="M28 24.5c5.5-3.6 10.2-6.3 16.8-9.8-3.5 5.5-8.4 10.1-16.8 13.6Z"/>
+  <path fill="#08C65A" d="M18.5 29h27v8.2c0 9.6-6.4 16.3-13.5 16.3s-13.5-6.7-13.5-16.3V29Z"/>
+  <path fill="#08C65A" fill-rule="evenodd" d="M43 31h4.4c6.1 0 10.1 3.9 10.1 9.2s-4 9.3-10.1 9.3H43V44h4.2c3 0 4.9-1.4 4.9-3.8 0-2.3-1.9-3.7-4.9-3.7H43V31Z"/>
 </svg>
