@@ -4007,3 +4007,59 @@ html.namra-native-cursor-control body,
 html.namra-native-cursor-control body * {
   cursor: auto !important;
 }
+
+
+/* 2026-10-30 crisp vector social icons + stable static cursor */
+.home-profile-copy .home-social-buttons {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 14px !important;
+  margin-top: 24px !important;
+}
+
+.home-profile-copy .home-social-buttons a.home-social-icon-link {
+  flex: 0 0 42px !important;
+  width: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  line-height: 0 !important;
+}
+
+.home-profile-copy .home-social-buttons .home-social-reference-icon,
+.home-profile-copy .home-social-icon-link.fan .home-social-reference-icon,
+.home-profile-copy .home-social-icon-link.soop .home-social-reference-icon,
+.home-profile-copy .home-social-icon-link.youtube .home-social-reference-icon {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  min-height: 42px !important;
+  display: block !important;
+  margin: 0 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: none !important;
+  background: transparent !important;
+}
+
+/* No square DOM cursor overlay remains. */
+.namra-animated-cursor-layer {
+  display: none !important;
+}
