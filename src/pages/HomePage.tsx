@@ -52,7 +52,7 @@ function debutElapsed(value: string) {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   const days = Math.floor((today.getTime() - new Date(debut.getFullYear(), debut.getMonth(), debut.getDate()).getTime()) / 86400000)
 
-  return days < 0 ? null : `D+${days}`
+  return days < 0 ? null : days === 0 ? 'D-DAY' : `D+${days}`
 }
 
 function SectionTitle({ eyebrow, title, action }: { eyebrow: string; title: string; action?: ReactNode }) {
