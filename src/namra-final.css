@@ -3661,3 +3661,241 @@ body div {
 .home-social-icon-link.youtube svg {
   color: #e45c70 !important;
 }
+
+
+/* 2026-10-30 exact alignment, reference icons, journey flow, cursor fidelity */
+
+/* Profile info cards: fixed shared rows prevent labels shifting with different footer content. */
+.home-stat-card {
+  min-height: 128px !important;
+  display: grid !important;
+  grid-template-rows: 18px 32px minmax(28px, auto) !important;
+  grid-auto-flow: row !important;
+  align-content: start !important;
+  align-items: center !important;
+  justify-items: center !important;
+  row-gap: 6px !important;
+  padding: 18px 16px 16px !important;
+  text-align: center !important;
+}
+
+.home-stat-card .home-stat-label {
+  width: 100%;
+  height: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: var(--brand-strong) !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  font-weight: 700 !important;
+  letter-spacing: .1em !important;
+}
+
+.home-stat-card .home-stat-value {
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #242131 !important;
+  font-size: 23px !important;
+  line-height: 32px !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-stat-meta {
+  min-height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.home-stat-meta em {
+  margin: 0 !important;
+  min-height: 24px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 3px 9px !important;
+  border-radius: 999px !important;
+  background: var(--brand-soft) !important;
+  color: var(--brand-strong) !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+}
+
+.home-stat-meta p,
+.home-stat-meta span {
+  margin: 0 !important;
+  color: var(--muted) !important;
+  font-size: 13.5px !important;
+  line-height: 1.35 !important;
+  font-weight: 400 !important;
+  text-align: center !important;
+}
+
+/* Use the user's uploaded reference pixels directly; no redrawn SVG icons. */
+.home-profile-copy .home-social-buttons {
+  align-items: center !important;
+  gap: 9px !important;
+}
+
+.home-profile-copy .home-social-buttons a.home-social-icon-link {
+  width: 38px !important;
+  min-width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.home-social-reference-icon {
+  width: 36px !important;
+  height: 36px !important;
+  display: block !important;
+  object-fit: contain !important;
+}
+
+.home-social-icon-link.fan .home-social-reference-icon {
+  width: 34px !important;
+  height: 34px !important;
+}
+
+/* Journey is a natural full-width page section with a left-reading timeline. */
+.home-journey-section {
+  padding-block: 54px !important;
+  background: var(--brand-faint) !important;
+  border-top: 1px solid #efebf8 !important;
+  border-bottom: 1px solid #efebf8 !important;
+}
+
+.home-journey-section .site-container {
+  width: min(var(--content), calc(100% - 40px)) !important;
+  margin-inline: auto !important;
+}
+
+.home-journey-section .diary-section-title {
+  margin-bottom: 24px !important;
+  text-align: left !important;
+}
+
+.journey-timeline {
+  width: min(820px, 100%) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.journey-timeline article {
+  grid-template-columns: 28px minmax(0, 1fr) !important;
+  gap: 14px !important;
+}
+
+.journey-line::before {
+  width: 2px !important;
+  background: #c8bdf0 !important;
+}
+
+.journey-line i {
+  width: 9px !important;
+  height: 9px !important;
+  margin-top: 6px !important;
+  background: #8f80df !important;
+  box-shadow: 0 0 0 4px var(--brand-faint) !important;
+}
+
+.journey-timeline article.highlight .journey-line i {
+  background: #8f80df !important;
+  box-shadow: 0 0 0 4px var(--brand-faint) !important;
+}
+
+.journey-content {
+  padding: 0 0 32px !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.journey-content time {
+  display: block !important;
+  color: #8877dc !important;
+  font-size: 14px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+}
+
+.journey-content h3 {
+  margin: 6px 0 7px !important;
+  color: var(--text) !important;
+  font-size: 19px !important;
+  line-height: 1.35 !important;
+  font-weight: 700 !important;
+}
+
+.journey-content p {
+  margin: 0 !important;
+  color: var(--body) !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+}
+
+/* Cursor renderer uses the native 64px ANI frame size with no CSS down-sampling. */
+.namra-animated-cursor-layer {
+  width: 64px !important;
+  height: 64px !important;
+  overflow: visible !important;
+  background-repeat: no-repeat !important;
+  image-rendering: auto !important;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
+}
+
+/* Native browser popups cannot be overlaid by a DOM cursor layer.
+   Keep a visible system cursor on those controls instead of hiding both cursors. */
+html.namra-animated-cursor-ready select,
+html.namra-animated-cursor-ready option,
+html.namra-animated-cursor-ready input[type='date'],
+html.namra-animated-cursor-ready input[type='time'],
+html.namra-animated-cursor-ready input[type='file'],
+html.namra-animated-cursor-ready input[type='color'] {
+  cursor: pointer !important;
+}
+
+@media (max-width: 700px) {
+  .home-stat-card {
+    min-height: 120px !important;
+    grid-template-rows: 18px 30px minmax(26px, auto) !important;
+    padding: 16px 12px 14px !important;
+  }
+
+  .home-stat-card .home-stat-value {
+    height: 30px !important;
+    font-size: 21px !important;
+    line-height: 30px !important;
+  }
+
+  .home-journey-section {
+    padding-block: 44px !important;
+  }
+
+  .home-journey-section .site-container {
+    width: min(var(--content), calc(100% - 28px)) !important;
+  }
+
+  .journey-timeline {
+    width: 100% !important;
+  }
+}

@@ -17,30 +17,36 @@ type CursorConfig = {
   hotspotY: number
 }
 
-const DISPLAY_SIZE = 48
+const DISPLAY_SIZE = 64
 const NATIVE_SIZE = 64
-const EDGE_GAP = 2
+
+const POINTER_HOTSPOT = { hotspotX: 0, hotspotY: 0 }
+const CENTER_HOTSPOT = { hotspotX: 31, hotspotY: 32 }
 
 const CURSORS: Record<CursorName, CursorConfig> = {
-  normal: { row: 0, frames: 8, frameMs: 83.333, hotspotX: 0, hotspotY: 0 },
-  link: { row: 1, frames: 8, frameMs: 83.333, hotspotX: 0, hotspotY: 0 },
-  text: { row: 2, frames: 8, frameMs: 83.333, hotspotX: 0, hotspotY: 0 },
-  alternate: { row: 3, frames: 8, frameMs: 83.333, hotspotX: 0, hotspotY: 0 },
-  busy: { row: 4, frames: 8, frameMs: 83.333, hotspotX: 0, hotspotY: 0 },
-  working: { row: 5, frames: 8, frameMs: 83.333, hotspotX: 0, hotspotY: 0 },
-  unavailable: { row: 6, frames: 8, frameMs: 83.333, hotspotX: 0, hotspotY: 0 },
-  move: { row: 7, frames: 8, frameMs: 100, hotspotX: 0, hotspotY: 0 },
-  'resize-ew': { row: 8, frames: 8, frameMs: 100, hotspotX: 0, hotspotY: 0 },
-  'resize-ns': { row: 9, frames: 8, frameMs: 100, hotspotX: 0, hotspotY: 0 },
-  'resize-nwse': { row: 10, frames: 8, frameMs: 100, hotspotX: 0, hotspotY: 0 },
-  'resize-nesw': { row: 11, frames: 8, frameMs: 100, hotspotX: 0, hotspotY: 0 },
-  location: { row: 12, frames: 8, frameMs: 83.333, hotspotX: 0, hotspotY: 0 },
-  person: { row: 13, frames: 8, frameMs: 83.333, hotspotX: 0, hotspotY: 0 },
+  normal: { row: 0, frames: 8, frameMs: 83.333, ...POINTER_HOTSPOT },
+  link: { row: 1, frames: 8, frameMs: 83.333, ...POINTER_HOTSPOT },
+  text: { row: 2, frames: 8, frameMs: 83.333, ...POINTER_HOTSPOT },
+  alternate: { row: 3, frames: 8, frameMs: 83.333, ...POINTER_HOTSPOT },
+  busy: { row: 4, frames: 8, frameMs: 83.333, ...POINTER_HOTSPOT },
+  working: { row: 5, frames: 8, frameMs: 83.333, ...POINTER_HOTSPOT },
+  unavailable: { row: 6, frames: 8, frameMs: 83.333, ...POINTER_HOTSPOT },
+  move: { row: 7, frames: 8, frameMs: 100, ...CENTER_HOTSPOT },
+  'resize-ew': { row: 8, frames: 8, frameMs: 100, ...CENTER_HOTSPOT },
+  'resize-ns': { row: 9, frames: 8, frameMs: 100, ...CENTER_HOTSPOT },
+  'resize-nwse': { row: 10, frames: 8, frameMs: 100, ...CENTER_HOTSPOT },
+  'resize-nesw': { row: 11, frames: 8, frameMs: 100, ...CENTER_HOTSPOT },
+  location: { row: 12, frames: 8, frameMs: 83.333, ...POINTER_HOTSPOT },
+  person: { row: 13, frames: 8, frameMs: 83.333, ...POINTER_HOTSPOT },
+}
+
+function elementFromTarget(target: EventTarget | null) {
+  return target instanceof Element ? target : null
 }
 
 function cursorForTarget(target: EventTarget | null): CursorName {
   if (document.body.classList.contains('admin-is-dragging')) return 'move'
-  const el = target instanceof Element ? target : null
+  const el = elementFromTarget(target)
   if (!el) return 'normal'
 
   const explicit = el.closest<HTMLElement>('[data-cursor]')?.dataset.cursor as CursorName | undefined
@@ -50,9 +56,14 @@ function cursorForTarget(target: EventTarget | null): CursorName {
   if (el.closest('[aria-busy="true"], .cursor-busy')) return 'busy'
   if (el.closest('.cursor-working')) return 'working'
   if (el.closest('.drag-handle')) return 'move'
-  if (el.closest('textarea, [contenteditable="true"], input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="date"], input[type="time"], input[type="number"], input[type="password"], input[type="email"]')) return 'text'
-  if (el.closest('a, button, select, summary, label[for], [role="button"], input[type="button"], input[type="submit"], input[type="checkbox"], input[type="radio"], input[type="range"], input[type="file"]')) return 'link'
+  if (el.closest('textarea, [contenteditable="true"], input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="number"], input[type="password"], input[type="email"]')) return 'text'
+  if (el.closest('a, button, summary, label[for], [role="button"], input[type="button"], input[type="submit"], input[type="checkbox"], input[type="radio"], input[type="range"]')) return 'link'
   return 'normal'
+}
+
+function usesNativePopup(target: EventTarget | null) {
+  const el = elementFromTarget(target)
+  return Boolean(el?.closest('select, option, input[type="date"], input[type="time"], input[type="file"], input[type="color"]'))
 }
 
 export function AnimatedCursor() {
@@ -70,6 +81,7 @@ export function AnimatedCursor() {
     let disposed = false
     let ready = false
     let visible = false
+    let nativePopup = false
     let state: CursorName = 'normal'
     let frame = 0
     let lastFrame = performance.now()
@@ -101,10 +113,10 @@ export function AnimatedCursor() {
       const config = CURSORS[state]
       const wantedX = x - config.hotspotX * scale
       const wantedY = y - config.hotspotY * scale
-      const maxX = Math.max(EDGE_GAP, window.innerWidth - DISPLAY_SIZE - EDGE_GAP)
-      const maxY = Math.max(EDGE_GAP, window.innerHeight - DISPLAY_SIZE - EDGE_GAP)
-      const drawX = Math.min(maxX, Math.max(EDGE_GAP, wantedX))
-      const drawY = Math.min(maxY, Math.max(EDGE_GAP, wantedY))
+      const maxX = Math.max(0, window.innerWidth - DISPLAY_SIZE)
+      const maxY = Math.max(0, window.innerHeight - DISPLAY_SIZE)
+      const drawX = Math.min(maxX, Math.max(0, wantedX))
+      const drawY = Math.min(maxY, Math.max(0, wantedY))
       el.style.transform = `translate3d(${drawX}px, ${drawY}px, 0)`
     }
 
@@ -115,27 +127,9 @@ export function AnimatedCursor() {
     }
 
     function show() {
-      if (!ready) return
+      if (!ready || nativePopup) return
       visible = true
       el.style.opacity = '1'
-    }
-
-    function track(event: PointerEvent) {
-      if (event.pointerType && event.pointerType !== 'mouse') return
-      x = event.clientX
-      y = event.clientY
-      setState(cursorForTarget(event.target))
-      queuePosition()
-      show()
-    }
-
-    function interact(event: PointerEvent) {
-      if (event.pointerType && event.pointerType !== 'mouse') return
-      x = event.clientX
-      y = event.clientY
-      setState(cursorForTarget(event.target))
-      updatePosition()
-      show()
     }
 
     function hide() {
@@ -143,19 +137,64 @@ export function AnimatedCursor() {
       el.style.opacity = '0'
     }
 
-    function leaveWindow(event: MouseEvent) {
-      if (event.relatedTarget === null) hide()
+    function syncTarget(target: EventTarget | null) {
+      nativePopup = usesNativePopup(target)
+      document.documentElement.classList.toggle('namra-native-cursor-control', nativePopup)
+      if (nativePopup) {
+        hide()
+        return
+      }
+      setState(cursorForTarget(target))
+      show()
+    }
+
+    function track(event: PointerEvent) {
+      if (event.pointerType && event.pointerType !== 'mouse') return
+      x = event.clientX
+      y = event.clientY
+      syncTarget(event.target)
+      queuePosition()
+    }
+
+    function interact(event: PointerEvent) {
+      if (event.pointerType && event.pointerType !== 'mouse') return
+      x = event.clientX
+      y = event.clientY
+      syncTarget(event.target)
+      updatePosition()
+    }
+
+    function focusWindow() {
+      if (x < 0 || y < 0) return
+      const target = document.elementFromPoint(x, y)
+      syncTarget(target)
+      updatePosition()
+    }
+
+    function blurWindow() {
+      hide()
+    }
+
+    function visibilityChange() {
+      if (document.hidden) hide()
+      else focusWindow()
     }
 
     function animate(now: number) {
       if (disposed) return
       const config = CURSORS[state]
-      if (ready && visible && !document.hidden && !reducedMotion.matches && now - lastFrame >= config.frameMs) {
+
+      if (document.body.classList.contains('admin-is-dragging') && state !== 'move') {
+        setState('move')
+      }
+
+      if (ready && visible && !nativePopup && !document.hidden && !reducedMotion.matches && now - lastFrame >= config.frameMs) {
         const steps = Math.max(1, Math.floor((now - lastFrame) / config.frameMs))
         frame = (frame + steps) % config.frames
         lastFrame += steps * config.frameMs
         paintFrame()
       }
+
       raf = requestAnimationFrame(animate)
     }
 
@@ -166,14 +205,12 @@ export function AnimatedCursor() {
       el.style.backgroundImage = `url("${CURSOR_ATLAS_DATA_URL}")`
       paintFrame()
       document.documentElement.classList.add('namra-animated-cursor-ready')
-      if (x >= 0 && y >= 0) {
-        updatePosition()
-        show()
-      }
+      focusWindow()
     }
     image.onerror = () => {
       ready = false
       document.documentElement.classList.remove('namra-animated-cursor-ready')
+      document.documentElement.classList.remove('namra-native-cursor-control')
       hide()
     }
     image.src = CURSOR_ATLAS_DATA_URL
@@ -183,9 +220,10 @@ export function AnimatedCursor() {
     document.addEventListener('pointerdown', interact, true)
     document.addEventListener('pointerup', interact, true)
     document.addEventListener('pointercancel', interact, true)
-    window.addEventListener('mouseout', leaveWindow)
-    window.addEventListener('blur', hide)
+    window.addEventListener('focus', focusWindow)
+    window.addEventListener('blur', blurWindow)
     window.addEventListener('resize', queuePosition)
+    document.addEventListener('visibilitychange', visibilityChange)
     raf = requestAnimationFrame(animate)
 
     return () => {
@@ -196,10 +234,12 @@ export function AnimatedCursor() {
       document.removeEventListener('pointerdown', interact, true)
       document.removeEventListener('pointerup', interact, true)
       document.removeEventListener('pointercancel', interact, true)
-      window.removeEventListener('mouseout', leaveWindow)
-      window.removeEventListener('blur', hide)
+      window.removeEventListener('focus', focusWindow)
+      window.removeEventListener('blur', blurWindow)
       window.removeEventListener('resize', queuePosition)
+      document.removeEventListener('visibilitychange', visibilityChange)
       document.documentElement.classList.remove('namra-animated-cursor-ready')
+      document.documentElement.classList.remove('namra-native-cursor-control')
     }
   }, [])
 

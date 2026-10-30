@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
-import { AppIcon, type AppIconName } from '../components/AppIcon'
+import { AppIcon } from '../components/AppIcon'
 import { EmptyState, LoadingBlocks, Modal, StatusMessage } from '../components/Ui'
 import { fetchSchedules } from '../lib/data'
 import { formatDate, formatShortDate, formatTime, toDateKey } from '../lib/dates'
@@ -108,9 +108,9 @@ export default function HomePage() {
 
   const social = data.socialLinks
   const heroLinks = [
-    { key: 'fan', label: '팬카페', icon: 'cafe' as AppIconName, item: social.find(link => /팬카페|cafe/i.test(link.name)) },
-    { key: 'soop', label: '방송국', icon: 'broadcast' as AppIconName, item: social.find(link => /soop|방송국/i.test(link.name)) },
-    { key: 'youtube', label: '유튜브', icon: 'youtube' as AppIconName, item: social.find(link => /youtube|유튜브/i.test(link.name)) },
+    { key: 'fan', label: '팬카페', image: '/social/fancafe-reference.png', item: social.find(link => /팬카페|cafe/i.test(link.name)) },
+    { key: 'soop', label: '방송국', image: '/social/soop-reference.png', item: social.find(link => /soop|방송국/i.test(link.name)) },
+    { key: 'youtube', label: '유튜브', image: '/social/youtube-reference.png', item: social.find(link => /youtube|유튜브/i.test(link.name)) },
   ].filter(entry => entry.item)
 
   const heroStyle = {
@@ -143,7 +143,7 @@ export default function HomePage() {
 
             {heroLinks.length > 0 && <div className="home-social-buttons" aria-label="바로가기">
               {heroLinks.map(link => <a className={`home-social-icon-link ${link.key}`} key={link.key} href={link.item!.url} target="_blank" rel="noopener noreferrer" aria-label={link.label} title={link.label}>
-                <AppIcon name={link.icon} />
+                <img className="home-social-reference-icon" src={link.image} alt="" aria-hidden="true" />
               </a>)}
             </div>}
           </div>
@@ -170,9 +170,10 @@ export default function HomePage() {
 
               return <article className="home-stat-card" key={stat.id}>
                 <small className="home-stat-label">{statLabel(stat.label)}</small>
-                <strong>{stat.value}</strong>
-                {badge && <em>{badge}</em>}
-                {!badge && stat.description && <p>{stat.description}</p>}
+                <strong className="home-stat-value">{stat.value}</strong>
+                <div className="home-stat-meta">
+                  {badge ? <em>{badge}</em> : stat.description ? <p>{stat.description}</p> : <span aria-hidden="true">&nbsp;</span>}
+                </div>
               </article>
             })
             : <EmptyState>프로필 기본 정보를 등록해 주세요.</EmptyState>}
