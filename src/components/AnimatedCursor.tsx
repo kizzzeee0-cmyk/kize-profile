@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { CURSOR_ATLAS_DATA_URL } from '../cursorAtlas'
 
 type CursorName =
@@ -13,10 +13,8 @@ type CursorConfig = {
   hotspotY: number
 }
 
-const DRAW_SIZE = 36
-const NATIVE_SIZE = 64
-const CANVAS_SIZE = 44
-const FRAME_PADDING = (CANVAS_SIZE - DRAW_SIZE) / 2
+const FRAME_SIZE = 64
+const OUTPUT_SIZE = 48
 
 const POINTER_HOTSPOT = { hotspotX: 0, hotspotY: 0 }
 const CENTER_HOTSPOT = { hotspotX: 31, hotspotY: 32 }
@@ -42,12 +40,23 @@ function elementFromTarget(target: EventTarget | null) {
   return target instanceof Element ? target : null
 }
 
+function usesNativePopup(target: EventTarget | null) {
+  const el = elementFromTarget(target)
+  return Boolean(
+    el?.closest(
+      'select, option, input[type="date"], input[type="time"], input[type="file"], input[type="color"]',
+    ),
+  )
+}
+
 function cursorForTarget(target: EventTarget | null): CursorName {
   if (document.body.classList.contains('admin-is-dragging')) return 'move'
+
   const el = elementFromTarget(target)
   if (!el) return 'normal'
 
-  // Public pages intentionally keep one continuous animated cursor state.
+  // Keep one uninterrupted cursor on the public site so it never disappears
+  // when crossing links, buttons, text or other interactive elements.
   const inAdmin = Boolean(el.closest('.admin-shell, .login-page, .admin-login-page'))
   if (!inAdmin) return 'normal'
 
@@ -58,215 +67,226 @@ function cursorForTarget(target: EventTarget | null): CursorName {
   if (el.closest('[aria-busy="true"], .cursor-busy')) return 'busy'
   if (el.closest('.cursor-working')) return 'working'
   if (el.closest('.drag-handle')) return 'move'
-  if (el.closest('textarea, [contenteditable="true"], input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="number"], input[type="password"], input[type="email"]')) return 'text'
-  if (el.closest('a, button, summary, label[for], [role="button"], input[type="button"], input[type="submit"], input[type="checkbox"], input[type="radio"], input[type="range"]')) return 'link'
+
+  if (
+    el.closest(
+      'textarea, [contenteditable="true"], input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="number"], input[type="password"], input[type="email"]',
+    )
+  ) {
+    return 'text'
+  }
+
+  if (
+    el.closest(
+      'a, button, summary, label[for], [role="button"], input[type="button"], input[type="submit"], input[type="checkbox"], input[type="radio"], input[type="range"]',
+    )
+  ) {
+    return 'link'
+  }
+
   return 'normal'
 }
 
-function usesNativePopup(target: EventTarget | null) {
-  const el = elementFromTarget(target)
-  return Boolean(el?.closest('select, option, input[type="date"], input[type="time"], input[type="file"], input[type="color"]'))
-}
-
 export function AnimatedCursor() {
-  const cursorRef = useRef<HTMLCanvasElement | null>(null)
-
   useEffect(() => {
     const finePointer = window.matchMedia('(pointer: fine)')
     if (!finePointer.matches) return
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const canvas = cursorRef.current
-    if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    const atlas = new Image()
+    const frameCanvas = document.createElement('canvas')
+    frameCanvas.width = OUTPUT_SIZE
+    frameCanvas.height = OUTPUT_SIZE
 
-    // Preserve the non-null types inside nested event/animation callbacks.
-    const surface: HTMLCanvasElement = canvas
-    const context: CanvasRenderingContext2D = ctx
+    const contextCandidate = frameCanvas.getContext('2d')
+    if (!contextCandidate) return
+    const context: CanvasRenderingContext2D = contextCandidate
 
-    const dpr = Math.max(1, window.devicePixelRatio || 1)
-    surface.width = Math.round(CANVAS_SIZE * dpr)
-    surface.height = Math.round(CANVAS_SIZE * dpr)
-    surface.style.width = `${CANVAS_SIZE}px`
-    surface.style.height = `${CANVAS_SIZE}px`
-    context.setTransform(dpr, 0, 0, dpr, 0, 0)
     context.imageSmoothingEnabled = true
     context.imageSmoothingQuality = 'high'
 
+    const styleElement = document.createElement('style')
+    styleElement.setAttribute('data-namra-animated-cursor', '')
+    document.head.appendChild(styleElement)
+
     let disposed = false
     let ready = false
-    let visible = false
     let nativePopup = false
     let state: CursorName = 'normal'
     let frame = 0
     let lastFrame = performance.now()
     let raf = 0
-    let x = -100
-    let y = -100
-    let pendingMove = false
+    let lastX = -1
+    let lastY = -1
 
-    const scale = DRAW_SIZE / NATIVE_SIZE
-    const atlasImage = new Image()
+    const frameCache = new Map<string, string>()
 
-    function paintFrame() {
-      if (!ready) return
-      const config = CURSORS[state]
-      context.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE)
+    function scaledHotspotX(name: CursorName) {
+      return Math.round(CURSORS[name].hotspotX * (OUTPUT_SIZE / FRAME_SIZE))
+    }
+
+    function scaledHotspotY(name: CursorName) {
+      return Math.round(CURSORS[name].hotspotY * (OUTPUT_SIZE / FRAME_SIZE))
+    }
+
+    function frameUrl(name: CursorName, frameIndex: number) {
+      const key = `${name}:${frameIndex}`
+      const cached = frameCache.get(key)
+      if (cached) return cached
+
+      const config = CURSORS[name]
+      context.clearRect(0, 0, OUTPUT_SIZE, OUTPUT_SIZE)
+
+      // Uniform X/Y scaling only: the original frame is never cropped or
+      // stretched into a different aspect ratio.
       context.drawImage(
-        atlasImage,
-        frame * NATIVE_SIZE,
-        config.row * NATIVE_SIZE,
-        NATIVE_SIZE,
-        NATIVE_SIZE,
-        FRAME_PADDING,
-        FRAME_PADDING,
-        DRAW_SIZE,
-        DRAW_SIZE,
+        atlas,
+        frameIndex * FRAME_SIZE,
+        config.row * FRAME_SIZE,
+        FRAME_SIZE,
+        FRAME_SIZE,
+        0,
+        0,
+        OUTPUT_SIZE,
+        OUTPUT_SIZE,
       )
+
+      const url = frameCanvas.toDataURL('image/png')
+      frameCache.set(key, url)
+      return url
     }
 
-    function setState(next: CursorName) {
-      if (state === next) return
-      state = next
-      frame = 0
-      lastFrame = performance.now()
-      paintFrame()
+    function cursorValue() {
+      const url = frameUrl(state, frame)
+      return `url("${url}") ${scaledHotspotX(state)} ${scaledHotspotY(state)}, auto`
     }
 
-    function updatePosition() {
-      pendingMove = false
-      const config = CURSORS[state]
-      const wantedX = x - FRAME_PADDING - config.hotspotX * scale
-      const wantedY = y - FRAME_PADDING - config.hotspotY * scale
-      const maxX = Math.max(0, window.innerWidth - CANVAS_SIZE)
-      const maxY = Math.max(0, window.innerHeight - CANVAS_SIZE)
-      const drawX = Math.min(maxX, Math.max(0, wantedX))
-      const drawY = Math.min(maxY, Math.max(0, wantedY))
-      surface.style.transform = `translate3d(${drawX}px, ${drawY}px, 0)`
-    }
+    function applyCursor() {
+      if (!ready) return
 
-    function queuePosition() {
-      if (pendingMove) return
-      pendingMove = true
-      requestAnimationFrame(updatePosition)
-    }
+      document.documentElement.classList.add('namra-animated-cursor-ready')
+      document.documentElement.classList.toggle('namra-native-cursor-control', nativePopup)
 
-    function show() {
-      if (!ready || nativePopup) return
-      visible = true
-      surface.style.opacity = '1'
-    }
+      if (nativePopup) {
+        styleElement.textContent = `
+html.namra-animated-cursor-ready,
+html.namra-animated-cursor-ready body,
+html.namra-animated-cursor-ready body * {
+  cursor: auto !important;
+}
+`
+        return
+      }
 
-    function hide() {
-      visible = false
-      surface.style.opacity = '0'
+      const value = cursorValue()
+      styleElement.textContent = `
+html.namra-animated-cursor-ready,
+html.namra-animated-cursor-ready body,
+html.namra-animated-cursor-ready body * {
+  cursor: ${value} !important;
+}
+
+html.namra-animated-cursor-ready select,
+html.namra-animated-cursor-ready option,
+html.namra-animated-cursor-ready input[type='date'],
+html.namra-animated-cursor-ready input[type='time'],
+html.namra-animated-cursor-ready input[type='file'],
+html.namra-animated-cursor-ready input[type='color'] {
+  cursor: auto !important;
+}
+`
     }
 
     function syncTarget(target: EventTarget | null) {
       nativePopup = usesNativePopup(target)
-      document.documentElement.classList.toggle('namra-native-cursor-control', nativePopup)
-      if (nativePopup) {
-        hide()
-        return
-      }
-      setState(cursorForTarget(target))
-      show()
+      state = nativePopup ? 'normal' : cursorForTarget(target)
+      frame = 0
+      lastFrame = performance.now()
+      applyCursor()
     }
 
-    function track(event: PointerEvent) {
+    function handlePointer(event: PointerEvent) {
       if (event.pointerType && event.pointerType !== 'mouse') return
-      x = event.clientX
-      y = event.clientY
+      lastX = event.clientX
+      lastY = event.clientY
       syncTarget(event.target)
-      queuePosition()
     }
 
-    function interact(event: PointerEvent) {
-      if (event.pointerType && event.pointerType !== 'mouse') return
-      x = event.clientX
-      y = event.clientY
-      syncTarget(event.target)
-      updatePosition()
+    function handlePointerEvent(event: Event) {
+      handlePointer(event as PointerEvent)
     }
 
-    function focusWindow() {
-      if (x < 0 || y < 0) return
-      const target = document.elementFromPoint(x, y)
-      syncTarget(target)
-      updatePosition()
-    }
-
-    function blurWindow() {
-      hide()
-    }
-
-    function visibilityChange() {
-      if (document.hidden) hide()
-      else focusWindow()
+    function handleVisibility() {
+      if (document.hidden || lastX < 0 || lastY < 0) return
+      syncTarget(document.elementFromPoint(lastX, lastY))
     }
 
     function animate(now: number) {
       if (disposed) return
-      const config = CURSORS[state]
 
-      if (document.body.classList.contains('admin-is-dragging') && state !== 'move') {
-        setState('move')
-      }
-
-      if (ready && visible && !nativePopup && !document.hidden && !reducedMotion.matches && now - lastFrame >= config.frameMs) {
-        const steps = Math.max(1, Math.floor((now - lastFrame) / config.frameMs))
-        frame = (frame + steps) % config.frames
-        lastFrame += steps * config.frameMs
-        paintFrame()
+      if (ready && !nativePopup && !document.hidden && !reducedMotion.matches) {
+        const config = CURSORS[state]
+        if (now - lastFrame >= config.frameMs) {
+          const steps = Math.max(1, Math.floor((now - lastFrame) / config.frameMs))
+          frame = (frame + steps) % config.frames
+          lastFrame += steps * config.frameMs
+          applyCursor()
+        }
       }
 
       raf = requestAnimationFrame(animate)
     }
 
-    atlasImage.onload = () => {
+    atlas.onload = () => {
       if (disposed) return
       ready = true
-      paintFrame()
-      document.documentElement.classList.add('namra-animated-cursor-ready')
-      focusWindow()
+
+      // Build all frames once. Subsequent animation only switches cached
+      // transparent PNG cursor URLs instead of moving a square DOM layer.
+      ;(Object.keys(CURSORS) as CursorName[]).forEach(name => {
+        const config = CURSORS[name]
+        for (let index = 0; index < config.frames; index += 1) {
+          frameUrl(name, index)
+        }
+      })
+
+      applyCursor()
+      raf = requestAnimationFrame(animate)
     }
-    atlasImage.onerror = () => {
+
+    atlas.onerror = () => {
       ready = false
       document.documentElement.classList.remove('namra-animated-cursor-ready')
       document.documentElement.classList.remove('namra-native-cursor-control')
-      hide()
+      styleElement.textContent = ''
     }
-    atlasImage.src = CURSOR_ATLAS_DATA_URL
 
-    window.addEventListener('pointermove', track, { passive: true })
-    window.addEventListener('pointerover', track, { passive: true })
-    document.addEventListener('pointerdown', interact, true)
-    document.addEventListener('pointerup', interact, true)
-    document.addEventListener('pointercancel', interact, true)
-    window.addEventListener('focus', focusWindow)
-    window.addEventListener('blur', blurWindow)
-    window.addEventListener('resize', queuePosition)
-    document.addEventListener('visibilitychange', visibilityChange)
-    raf = requestAnimationFrame(animate)
+    atlas.src = CURSOR_ATLAS_DATA_URL
+
+    window.addEventListener('pointermove', handlePointer, { passive: true })
+    window.addEventListener('pointerover', handlePointer, { passive: true })
+    document.addEventListener('pointerdown', handlePointerEvent, true)
+    document.addEventListener('pointerup', handlePointerEvent, true)
+    document.addEventListener('pointercancel', handlePointerEvent, true)
+    window.addEventListener('focus', handleVisibility)
+    document.addEventListener('visibilitychange', handleVisibility)
 
     return () => {
       disposed = true
       cancelAnimationFrame(raf)
-      window.removeEventListener('pointermove', track)
-      window.removeEventListener('pointerover', track)
-      document.removeEventListener('pointerdown', interact, true)
-      document.removeEventListener('pointerup', interact, true)
-      document.removeEventListener('pointercancel', interact, true)
-      window.removeEventListener('focus', focusWindow)
-      window.removeEventListener('blur', blurWindow)
-      window.removeEventListener('resize', queuePosition)
-      document.removeEventListener('visibilitychange', visibilityChange)
+      window.removeEventListener('pointermove', handlePointer)
+      window.removeEventListener('pointerover', handlePointer)
+      document.removeEventListener('pointerdown', handlePointerEvent, true)
+      document.removeEventListener('pointerup', handlePointerEvent, true)
+      document.removeEventListener('pointercancel', handlePointerEvent, true)
+      window.removeEventListener('focus', handleVisibility)
+      document.removeEventListener('visibilitychange', handleVisibility)
       document.documentElement.classList.remove('namra-animated-cursor-ready')
       document.documentElement.classList.remove('namra-native-cursor-control')
+      styleElement.remove()
     }
   }, [])
 
-  return <canvas ref={cursorRef} className="namra-animated-cursor-layer" aria-hidden="true" />
+  return null
 }
