@@ -4063,3 +4063,45 @@ html.namra-native-cursor-control body * {
 .namra-animated-cursor-layer {
   display: none !important;
 }
+
+
+/* 2026-10-30 final stable cursor + clean fancafe */
+@media (pointer: fine) {
+  html,
+  html body,
+  html body *,
+  html body *::before,
+  html body *::after {
+    cursor: url('/cursor/normal-original.svg?v=20261030-0112') 0 0, auto !important;
+  }
+}
+
+/* Explicitly neutralize every older custom-cursor hiding rule. */
+html.namra-animated-cursor-ready,
+html.namra-animated-cursor-ready body,
+html.namra-animated-cursor-ready *,
+html.namra-native-cursor-control,
+html.namra-native-cursor-control body,
+html.namra-native-cursor-control * {
+  cursor: auto !important;
+}
+
+@media (pointer: fine) {
+  html.namra-animated-cursor-ready,
+  html.namra-animated-cursor-ready body,
+  html.namra-animated-cursor-ready *,
+  html.namra-native-cursor-control,
+  html.namra-native-cursor-control body,
+  html.namra-native-cursor-control * {
+    cursor: url('/cursor/normal-original.svg?v=20261030-0112') 0 0, auto !important;
+  }
+}
+
+/* Cleaner fancafe mark: a little smaller than the circular platform marks. */
+.home-profile-copy .home-social-icon-link.fan .home-social-reference-icon {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  object-fit: contain !important;
+}
