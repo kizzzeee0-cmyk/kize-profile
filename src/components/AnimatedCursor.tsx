@@ -82,14 +82,18 @@ export function AnimatedCursor() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    // Preserve the non-null types inside nested event/animation callbacks.
+    const surface: HTMLCanvasElement = canvas
+    const context: CanvasRenderingContext2D = ctx
+
     const dpr = Math.max(1, window.devicePixelRatio || 1)
-    canvas.width = Math.round(CANVAS_SIZE * dpr)
-    canvas.height = Math.round(CANVAS_SIZE * dpr)
-    canvas.style.width = `${CANVAS_SIZE}px`
-    canvas.style.height = `${CANVAS_SIZE}px`
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-    ctx.imageSmoothingEnabled = true
-    ctx.imageSmoothingQuality = 'high'
+    surface.width = Math.round(CANVAS_SIZE * dpr)
+    surface.height = Math.round(CANVAS_SIZE * dpr)
+    surface.style.width = `${CANVAS_SIZE}px`
+    surface.style.height = `${CANVAS_SIZE}px`
+    context.setTransform(dpr, 0, 0, dpr, 0, 0)
+    context.imageSmoothingEnabled = true
+    context.imageSmoothingQuality = 'high'
 
     let disposed = false
     let ready = false
@@ -109,8 +113,8 @@ export function AnimatedCursor() {
     function paintFrame() {
       if (!ready) return
       const config = CURSORS[state]
-      ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE)
-      ctx.drawImage(
+      context.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE)
+      context.drawImage(
         atlasImage,
         frame * NATIVE_SIZE,
         config.row * NATIVE_SIZE,
@@ -140,7 +144,7 @@ export function AnimatedCursor() {
       const maxY = Math.max(0, window.innerHeight - CANVAS_SIZE)
       const drawX = Math.min(maxX, Math.max(0, wantedX))
       const drawY = Math.min(maxY, Math.max(0, wantedY))
-      canvas.style.transform = `translate3d(${drawX}px, ${drawY}px, 0)`
+      surface.style.transform = `translate3d(${drawX}px, ${drawY}px, 0)`
     }
 
     function queuePosition() {
@@ -152,12 +156,12 @@ export function AnimatedCursor() {
     function show() {
       if (!ready || nativePopup) return
       visible = true
-      canvas.style.opacity = '1'
+      surface.style.opacity = '1'
     }
 
     function hide() {
       visible = false
-      canvas.style.opacity = '0'
+      surface.style.opacity = '0'
     }
 
     function syncTarget(target: EventTarget | null) {
