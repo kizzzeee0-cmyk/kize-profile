@@ -1,7 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="팬카페">
-  <g fill="#19C75B">
-    <path d="M37.5 12.7c3.7-4.2 9-5.1 13.4-3.7-1.7 4.8-6.3 7.9-11.9 7.2l-1.5-3.5Z"/>
-    <path d="M14 24h29v14.5C43 46 37 52 29.5 52h-2C20 52 14 46 14 38.5V24Z"/>
-    <path d="M42 28h3.8C51.4 28 56 32.6 56 38.2S51.4 48.5 45.8 48.5H41v-5h4.8a5.3 5.3 0 1 0 0-10.5H42v-5Z"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="팬카페">
+  <!-- leaf -->
+  <path fill="#64DE3D" d="M37 35C45 18 58 10 78 12c1 20-10 32-41 34Z"/>
+  <path fill="#42D52F" d="M37 35c13-8 25-14 41-23-7 13-20 24-41 34Z"/>
+  <!-- cup body -->
+  <path fill="#08C65A" d="M16 47h59v16c0 20-12 32-29.5 32S16 83 16 63V47Z"/>
+  <!-- handle -->
+  <path fill="#08C65A" fill-rule="evenodd" d="M70 50h10c12 0 20 7 20 18s-8 18-20 18H70V50Zm10 10h-1v16h1c6 0 10-3 10-8s-4-8-10-8Z"/>
 </svg>
