@@ -17,7 +17,7 @@ type CursorConfig = {
   hotspotY: number
 }
 
-const DISPLAY_SIZE = 64
+const DISPLAY_SIZE = 36
 const NATIVE_SIZE = 64
 
 const POINTER_HOTSPOT = { hotspotX: 0, hotspotY: 0 }
@@ -48,6 +48,12 @@ function cursorForTarget(target: EventTarget | null): CursorName {
   if (document.body.classList.contains('admin-is-dragging')) return 'move'
   const el = elementFromTarget(target)
   if (!el) return 'normal'
+
+  // Public pages keep the same animated cursor on links, buttons and text.
+  // This mirrors the reference site's "always-visible" feel and avoids
+  // disappearing frames when switching to a secondary cursor row.
+  const inAdmin = Boolean(el.closest('.admin-shell, .login-page, .admin-login-page'))
+  if (!inAdmin) return 'normal'
 
   const explicit = el.closest<HTMLElement>('[data-cursor]')?.dataset.cursor as CursorName | undefined
   if (explicit && CURSORS[explicit]) return explicit
