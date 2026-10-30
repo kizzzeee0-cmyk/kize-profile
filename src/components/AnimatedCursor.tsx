@@ -1,9 +1,5 @@
 import { useEffect, useRef } from 'react'
-import {
-  CURSOR_ATLAS_DATA_URL,
-  CURSOR_ATLAS_NATIVE_HEIGHT,
-  CURSOR_ATLAS_NATIVE_WIDTH,
-} from '../cursorAtlas'
+import { CURSOR_ATLAS_DATA_URL } from '../cursorAtlas'
 
 type CursorName =
   | 'normal' | 'link' | 'text' | 'alternate' | 'busy' | 'working' | 'unavailable'
@@ -17,8 +13,10 @@ type CursorConfig = {
   hotspotY: number
 }
 
-const DISPLAY_SIZE = 36
+const DRAW_SIZE = 36
 const NATIVE_SIZE = 64
+const CANVAS_SIZE = 44
+const FRAME_PADDING = (CANVAS_SIZE - DRAW_SIZE) / 2
 
 const POINTER_HOTSPOT = { hotspotX: 0, hotspotY: 0 }
 const CENTER_HOTSPOT = { hotspotX: 31, hotspotY: 32 }
@@ -49,9 +47,7 @@ function cursorForTarget(target: EventTarget | null): CursorName {
   const el = elementFromTarget(target)
   if (!el) return 'normal'
 
-  // Public pages keep the same animated cursor on links, buttons and text.
-  // This mirrors the reference site's "always-visible" feel and avoids
-  // disappearing frames when switching to a secondary cursor row.
+  // Public pages intentionally keep one continuous animated cursor state.
   const inAdmin = Boolean(el.closest('.admin-shell, .login-page, .admin-login-page'))
   if (!inAdmin) return 'normal'
 
@@ -73,16 +69,27 @@ function usesNativePopup(target: EventTarget | null) {
 }
 
 export function AnimatedCursor() {
-  const cursorRef = useRef<HTMLDivElement | null>(null)
+  const cursorRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
     const finePointer = window.matchMedia('(pointer: fine)')
     if (!finePointer.matches) return
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const element = cursorRef.current
-    if (!element) return
-    const el: HTMLDivElement = element
+    const canvas = cursorRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const dpr = Math.max(1, window.devicePixelRatio || 1)
+    canvas.width = Math.round(CANVAS_SIZE * dpr)
+    canvas.height = Math.round(CANVAS_SIZE * dpr)
+    canvas.style.width = `${CANVAS_SIZE}px`
+    canvas.style.height = `${CANVAS_SIZE}px`
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.imageSmoothingEnabled = true
+    ctx.imageSmoothingQuality = 'high'
 
     let disposed = false
     let ready = false
@@ -96,14 +103,24 @@ export function AnimatedCursor() {
     let y = -100
     let pendingMove = false
 
-    const scale = DISPLAY_SIZE / NATIVE_SIZE
-    el.style.width = `${DISPLAY_SIZE}px`
-    el.style.height = `${DISPLAY_SIZE}px`
-    el.style.backgroundSize = `${CURSOR_ATLAS_NATIVE_WIDTH * scale}px ${CURSOR_ATLAS_NATIVE_HEIGHT * scale}px`
+    const scale = DRAW_SIZE / NATIVE_SIZE
+    const atlasImage = new Image()
 
     function paintFrame() {
+      if (!ready) return
       const config = CURSORS[state]
-      el.style.backgroundPosition = `${-frame * DISPLAY_SIZE}px ${-config.row * DISPLAY_SIZE}px`
+      ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE)
+      ctx.drawImage(
+        atlasImage,
+        frame * NATIVE_SIZE,
+        config.row * NATIVE_SIZE,
+        NATIVE_SIZE,
+        NATIVE_SIZE,
+        FRAME_PADDING,
+        FRAME_PADDING,
+        DRAW_SIZE,
+        DRAW_SIZE,
+      )
     }
 
     function setState(next: CursorName) {
@@ -117,13 +134,13 @@ export function AnimatedCursor() {
     function updatePosition() {
       pendingMove = false
       const config = CURSORS[state]
-      const wantedX = x - config.hotspotX * scale
-      const wantedY = y - config.hotspotY * scale
-      const maxX = Math.max(0, window.innerWidth - DISPLAY_SIZE)
-      const maxY = Math.max(0, window.innerHeight - DISPLAY_SIZE)
+      const wantedX = x - FRAME_PADDING - config.hotspotX * scale
+      const wantedY = y - FRAME_PADDING - config.hotspotY * scale
+      const maxX = Math.max(0, window.innerWidth - CANVAS_SIZE)
+      const maxY = Math.max(0, window.innerHeight - CANVAS_SIZE)
       const drawX = Math.min(maxX, Math.max(0, wantedX))
       const drawY = Math.min(maxY, Math.max(0, wantedY))
-      el.style.transform = `translate3d(${drawX}px, ${drawY}px, 0)`
+      canvas.style.transform = `translate3d(${drawX}px, ${drawY}px, 0)`
     }
 
     function queuePosition() {
@@ -135,12 +152,12 @@ export function AnimatedCursor() {
     function show() {
       if (!ready || nativePopup) return
       visible = true
-      el.style.opacity = '1'
+      canvas.style.opacity = '1'
     }
 
     function hide() {
       visible = false
-      el.style.opacity = '0'
+      canvas.style.opacity = '0'
     }
 
     function syncTarget(target: EventTarget | null) {
@@ -204,22 +221,20 @@ export function AnimatedCursor() {
       raf = requestAnimationFrame(animate)
     }
 
-    const image = new Image()
-    image.onload = () => {
+    atlasImage.onload = () => {
       if (disposed) return
       ready = true
-      el.style.backgroundImage = `url("${CURSOR_ATLAS_DATA_URL}")`
       paintFrame()
       document.documentElement.classList.add('namra-animated-cursor-ready')
       focusWindow()
     }
-    image.onerror = () => {
+    atlasImage.onerror = () => {
       ready = false
       document.documentElement.classList.remove('namra-animated-cursor-ready')
       document.documentElement.classList.remove('namra-native-cursor-control')
       hide()
     }
-    image.src = CURSOR_ATLAS_DATA_URL
+    atlasImage.src = CURSOR_ATLAS_DATA_URL
 
     window.addEventListener('pointermove', track, { passive: true })
     window.addEventListener('pointerover', track, { passive: true })
@@ -249,5 +264,5 @@ export function AnimatedCursor() {
     }
   }, [])
 
-  return <div ref={cursorRef} className="namra-animated-cursor-layer" aria-hidden="true" />
+  return <canvas ref={cursorRef} className="namra-animated-cursor-layer" aria-hidden="true" />
 }
