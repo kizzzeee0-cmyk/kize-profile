@@ -4097,11 +4097,11 @@ html.namra-native-cursor-control * {
   }
 }
 
-/* Cleaner fancafe mark: a little smaller than the circular platform marks. */
+/* Fancafe badge uses the same rendered size as SOOP and YouTube. */
 .home-profile-copy .home-social-icon-link.fan .home-social-reference-icon {
-  width: 36px !important;
-  height: 36px !important;
-  min-width: 36px !important;
-  min-height: 36px !important;
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  min-height: 42px !important;
   object-fit: contain !important;
 }
