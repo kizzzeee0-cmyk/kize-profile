@@ -1,9 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="팬카페">
-  <!-- leaf -->
-  <path fill="#64DE3D" d="M37 35C45 18 58 10 78 12c1 20-10 32-41 34Z"/>
-  <path fill="#42D52F" d="M37 35c13-8 25-14 41-23-7 13-20 24-41 34Z"/>
-  <!-- cup body -->
-  <path fill="#08C65A" d="M16 47h59v16c0 20-12 32-29.5 32S16 83 16 63V47Z"/>
-  <!-- handle -->
-  <path fill="#08C65A" fill-rule="evenodd" d="M70 50h10c12 0 20 7 20 18s-8 18-20 18H70V50Zm10 10h-1v16h1c6 0 10-3 10-8s-4-8-10-8Z"/>
+  <circle cx="50" cy="50" r="46" fill="#EAF8E8" stroke="#BFE9B8" stroke-width="2.5"/>
+  <circle cx="50" cy="50" r="40.5" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+  <path fill="#6FE14A" d="M39 35C44 24 54 18 69 19c0 15-9 24-30 26Z"/>
+  <path fill="#58D93E" d="M39 35c9-6 18-10 30-16-5 9-14 17-30 26Z"/>
+  <path fill="#09C85B" d="M28 45h31v9c0 13.5-8.3 22-20.5 22S28 67.5 28 54v-9Z"/>
+  <path fill="#09C85B" fill-rule="evenodd" d="M57 47h6.5c8 0 13 5.2 13 12.2S71.5 71.5 63.5 71.5H57v-6h6.2c4.2 0 6.8-2.3 6.8-6.3s-2.6-6.2-6.8-6.2H57v-6Z"/>
 </svg>
