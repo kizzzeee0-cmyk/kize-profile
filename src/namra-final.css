@@ -950,6 +950,7 @@ body {
   display: grid !important;
   place-items: center !important;
   flex: 0 0 auto;
+  transform: translate(-4px, -4px) !important;
   border-radius: 8px !important;
   color: inherit;
   font-size: 15px !important;
@@ -3864,12 +3865,14 @@ body div {
   line-height: 1.6 !important;
 }
 
-/* Reference-style cursor size: keep the original animated atlas, render it at 36px. */
+/* Draw the 36px animated cursor inside a larger transparent canvas.
+   This keeps the original animation size while removing the square-crop look. */
 .namra-animated-cursor-layer {
-  width: 36px !important;
-  height: 36px !important;
+  width: 44px !important;
+  height: 44px !important;
+  display: block !important;
   overflow: visible !important;
-  background-repeat: no-repeat !important;
+  background: transparent !important;
   image-rendering: auto !important;
   pointer-events: none !important;
   z-index: 2147483647 !important;
