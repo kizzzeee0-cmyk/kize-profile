@@ -4873,3 +4873,105 @@ html.namra-native-cursor-control * {
     grid-template-columns: 1fr !important;
   }
 }
+
+
+/* 2026-10-31 compact public upbo cards */
+.upbo-diary-page .upbo-card-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.upbo-diary-page .upbo-person-card {
+  min-height: 188px !important;
+  height: 188px !important;
+  padding: 18px 12px 16px !important;
+  justify-content: flex-start !important;
+  border-radius: 15px !important;
+}
+
+.upbo-diary-page .upbo-person-card .upbo-avatar {
+  width: 58px !important;
+  height: 58px !important;
+  margin: 0 0 9px !important;
+  border: 3px solid color-mix(in srgb, var(--brand) 20%, #ffffff) !important;
+}
+
+.upbo-diary-page .upbo-person-card > strong {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+}
+
+.upbo-diary-page .upbo-person-card > span {
+  max-width: 100% !important;
+  margin-top: 4px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: 11.5px !important;
+  line-height: 1.2 !important;
+}
+
+.upbo-diary-page .upbo-person-card > em {
+  margin-top: 10px !important;
+  padding: 5px 11px !important;
+  border-radius: 999px !important;
+  background: var(--brand-soft) !important;
+  color: var(--brand-strong) !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+}
+
+.upbo-diary-page .upbo-card-tags {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .upbo-diary-page .upbo-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .upbo-diary-page .upbo-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+  }
+
+  .upbo-diary-page .upbo-person-card {
+    min-height: 166px !important;
+    height: 166px !important;
+    padding: 14px 8px !important;
+  }
+
+  .upbo-diary-page .upbo-person-card .upbo-avatar {
+    width: 50px !important;
+    height: 50px !important;
+    margin-bottom: 7px !important;
+  }
+
+  .upbo-diary-page .upbo-person-card > strong {
+    font-size: 13px !important;
+  }
+
+  .upbo-diary-page .upbo-person-card > span {
+    font-size: 10px !important;
+  }
+
+  .upbo-diary-page .upbo-person-card > em {
+    margin-top: 8px !important;
+    padding: 4px 9px !important;
+    font-size: 11px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .upbo-diary-page .upbo-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
