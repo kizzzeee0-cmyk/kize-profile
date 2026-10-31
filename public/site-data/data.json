@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T13:59:50.745Z",
+    "updated_at": "2026-10-31T14:00:22.789Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -929,6 +929,18 @@
       "is_visible": true,
       "created_at": "2026-10-31T13:59:50.745Z",
       "updated_at": "2026-10-31T13:59:50.745Z"
+    },
+    {
+      "id": "cb9bb286-ce68-4667-a3b4-6136103c3cbb",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fsignature_items%2F1793455207850-3efcab8e9a-434_______.png",
+      "title": "남라 사랑해",
+      "number_text": "434",
+      "description": "얼빡 방셀 1장",
+      "important_info": "",
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-10-31T14:00:22.789Z",
+      "updated_at": "2026-10-31T14:00:22.789Z"
     }
   ],
   "songs": [
