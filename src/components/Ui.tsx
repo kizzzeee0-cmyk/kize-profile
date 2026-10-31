@@ -14,17 +14,36 @@ export function LoadingBlocks() {
 
 export function Modal({ open, onClose, title, children }: { open: boolean; onClose: () => void; title: string; children: ReactNode }) {
   const closeRef = useRef<HTMLButtonElement>(null)
+  const onCloseRef = useRef(onClose)
+
+  useEffect(() => {
+    onCloseRef.current = onClose
+  }, [onClose])
+
   useEffect(() => {
     if (!open) return
-    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose() }
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onCloseRef.current()
+    }
+
     document.addEventListener('keydown', onKey)
-    const timer = window.setTimeout(() => closeRef.current?.focus(), 0)
-    return () => { document.removeEventListener('keydown', onKey); window.clearTimeout(timer) }
-  }, [open, onClose])
+
+    // Focus only once when the modal opens. Do not steal focus again while
+    // controlled form fields re-render during typing or IME composition.
+    const timer = window.setTimeout(() => closeRef.current?.focus({ preventScroll: true }), 0)
+
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      window.clearTimeout(timer)
+    }
+  }, [open])
+
   if (!open) return null
-  return <div className="modal-backdrop" role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose() }}>
+
+  return <div className="modal-backdrop" role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget) onCloseRef.current() }}>
     <div className="modal" role="dialog" aria-modal="true" aria-label={title}>
-      <div className="modal-head"><h3>{title}</h3><button ref={closeRef} type="button" onClick={onClose} aria-label="닫기">×</button></div>
+      <div className="modal-head"><h3>{title}</h3><button ref={closeRef} type="button" onClick={() => onCloseRef.current()} aria-label="닫기">×</button></div>
       <div className="modal-body">{children}</div>
     </div>
   </div>
