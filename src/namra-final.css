@@ -5273,3 +5273,31 @@ html.namra-native-cursor-control * {
     flex: 1 1 0 !important;
   }
 }
+
+
+/* 2026-11-01 wardrobe monthly archive action */
+.wardrobe-archive-guide {
+  padding: 12px 14px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 11px !important;
+  background: var(--brand-faint) !important;
+  color: var(--body) !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
+.wardrobe-archive-guide strong {
+  color: var(--brand-strong) !important;
+  font-weight: 700 !important;
+}
+
+@media (max-width: 700px) {
+  .admin-panel-head:has(+ .wardrobe-archive-guide) {
+    align-items: stretch !important;
+  }
+
+  .admin-panel-head:has(+ .wardrobe-archive-guide) .admin-primary {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
