@@ -67,8 +67,7 @@ export default function WardrobePage() {
 
               <div className="wardrobe-diary-copy">
                 <strong>{item.name}</strong>
-                <span>{period === 'monthly' ? '이달의 의상' : '기존 의상'} · {type === 'outfit' ? '의상' : '헤어'}</span>
-                {item.description && <p>{item.description}</p>}
+                {item.description && !/관리자.*업로드/i.test(item.description) && <p>{item.description}</p>}
               </div>
             </article>)}
           </div>
