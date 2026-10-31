@@ -3,6 +3,7 @@ import { deleteRow, fetchAdminTable, reorderRows, saveRow, uploadImage } from '.
 import { Modal } from './Ui'
 import { AdminSortableList } from './AdminSortableList'
 import { AppIcon } from './AppIcon'
+import { ImageCropEditor } from './ImageCropEditor'
 
 type FieldType = 'text' | 'textarea' | 'date' | 'time' | 'url' | 'number' | 'checkbox' | 'color' | 'select' | 'image'
 type AdminRow = { id: string } & Record<string, any>
@@ -13,6 +14,9 @@ export type FieldConfig = {
   required?: boolean
   placeholder?: string
   options?: Array<{ label: string; value: string }>
+  cropAspect?: number
+  cropWidth?: number
+  cropHeight?: number
 }
 
 export function AdminPanel({ title, description, children, actions }: { title: string; description?: string; children: ReactNode; actions?: ReactNode }) {
@@ -67,6 +71,13 @@ export function CrudEditor({
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [cropRequest, setCropRequest] = useState<{
+    key: string
+    file: File
+    aspect: number
+    width: number
+    height: number
+  } | null>(null)
 
   async function load() {
     setBusy(true)
@@ -146,16 +157,42 @@ export function CrudEditor({
     } finally { setBusy(false) }
   }
 
-  async function handleFile(key: string, file?: File) {
-    if (!file) return
+  async function uploadPreparedImage(key: string, file: File) {
     setBusy(true)
+    setError(null)
     try {
       const url = await uploadImage(file, table)
       setForm(value => ({ ...value, [key]: url }))
-      setMessage('이미지를 업로드했습니다. 아래 저장 버튼을 눌러 적용해 주세요.')
+      setMessage(table === 'wardrobe_items'
+        ? '크롭한 이미지를 업로드했습니다. 아래 저장 버튼을 눌러 옷장 항목에 적용해 주세요.'
+        : '이미지를 업로드했습니다. 아래 저장 버튼을 눌러 적용해 주세요.')
     } catch (e) {
       setError(e instanceof Error ? e.message : '이미지 업로드 실패')
-    } finally { setBusy(false) }
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  function handleFile(field: FieldConfig, file?: File) {
+    if (!file) return
+    if (field.cropAspect && field.cropWidth && field.cropHeight) {
+      setCropRequest({
+        key: field.key,
+        file,
+        aspect: field.cropAspect,
+        width: field.cropWidth,
+        height: field.cropHeight,
+      })
+      return
+    }
+    void uploadPreparedImage(field.key, file)
+  }
+
+  async function applyCroppedImage(file: File) {
+    if (!cropRequest) return
+    const key = cropRequest.key
+    setCropRequest(null)
+    await uploadPreparedImage(key, file)
   }
 
   return <AdminPanel title={title} description={description} actions={<button className="admin-primary compact" type="button" onClick={openNew}><AppIcon name="plus" /> 새 항목</button>}>
@@ -185,11 +222,20 @@ export function CrudEditor({
           {field.type === 'textarea' ? <textarea required={field.required} value={form[field.key] ?? ''} placeholder={field.placeholder} onChange={e => setForm(value => ({ ...value, [field.key]: e.target.value }))} />
           : field.type === 'checkbox' ? <input type="checkbox" checked={Boolean(form[field.key])} onChange={e => setForm(value => ({ ...value, [field.key]: e.target.checked }))} />
           : field.type === 'select' ? <select value={form[field.key] ?? ''} onChange={e => setForm(value => ({ ...value, [field.key]: e.target.value }))}>{field.options?.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
-          : field.type === 'image' ? <div className={`admin-image-field ${table === 'signature_items' ? 'signature-image-field' : ''}`}><input type="file" accept="image/*" onChange={e => void handleFile(field.key, e.target.files?.[0])}/>{form[field.key] && <><img className={`admin-preview ${table === 'signature_items' ? 'signature-preview' : ''}`} src={form[field.key]} alt="업로드 미리보기"/><button className="admin-secondary compact" type="button" onClick={() => setForm(value => ({ ...value, [field.key]: '' }))}>이미지 제거</button></>}</div>
+          : field.type === 'image' ? <div className={`admin-image-field ${table === 'signature_items' ? 'signature-image-field' : ''} ${table === 'wardrobe_items' ? 'wardrobe-image-field' : ''}`}><input type="file" accept="image/*" onChange={e => { handleFile(field, e.target.files?.[0]); e.currentTarget.value = '' }}/>{field.cropAspect && <small className="admin-image-crop-hint">사진 선택 후 확대·위치 조정과 크롭을 할 수 있습니다.</small>}{form[field.key] && <><img className={`admin-preview ${table === 'signature_items' ? 'signature-preview' : ''} ${table === 'wardrobe_items' ? 'wardrobe-preview' : ''}`} src={form[field.key]} alt="업로드 미리보기"/><button className="admin-secondary compact" type="button" onClick={() => setForm(value => ({ ...value, [field.key]: '' }))}>이미지 제거</button></>}</div>
           : <input type={field.type || 'text'} required={field.required} value={form[field.key] ?? ''} placeholder={field.placeholder} onChange={e => setForm(value => ({ ...value, [field.key]: field.type === 'number' ? Number(e.target.value) : e.target.value }))} />}
         </FormField>)}
         <div className="form-actions admin-modal-actions"><button className="admin-primary" disabled={busy} type="submit">{busy ? '저장 중...' : editingId ? '수정 저장' : table === 'signature_items' ? '시그풍 저장' : '추가'}</button><button className="admin-secondary" type="button" disabled={busy} onClick={() => setEditorOpen(false)}>취소</button></div>
       </form>
     </Modal>
+
+    {cropRequest && <ImageCropEditor
+      file={cropRequest.file}
+      aspect={cropRequest.aspect}
+      outputWidth={cropRequest.width}
+      outputHeight={cropRequest.height}
+      onCancel={() => setCropRequest(null)}
+      onApply={file => { void applyCroppedImage(file) }}
+    />}
   </AdminPanel>
 }
