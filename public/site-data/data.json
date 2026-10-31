@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T17:55:55.657Z",
+    "updated_at": "2026-10-31T17:57:20.750Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1074,6 +1074,18 @@
       "is_visible": true,
       "created_at": "2026-10-31T17:55:55.657Z",
       "updated_at": "2026-10-31T17:55:55.657Z"
+    },
+    {
+      "id": "d17be2bf-5cfe-46fe-bda1-25e6af98fd0e",
+      "name": "헤어 3번",
+      "period_type": "monthly",
+      "item_type": "hair",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469433643-4bf1033f48-Screenshot_072-crop.png",
+      "description": "",
+      "sort_order": 4,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:57:20.750Z",
+      "updated_at": "2026-10-31T17:57:20.750Z"
     }
   ],
   "upbo_people": [
