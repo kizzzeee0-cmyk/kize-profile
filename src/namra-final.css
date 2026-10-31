@@ -4604,3 +4604,35 @@ html.namra-native-cursor-control * {
     line-height: 1.2 !important;
   }
 }
+
+
+/* 2026-10-31 calendar color-only category display */
+.schedule-cell-event,
+.schedule-cell-event.is-off {
+  gap: 3px !important;
+}
+
+.schedule-cell-event > .schedule-event-category {
+  display: none !important;
+}
+
+.schedule-cell-event > .schedule-event-time {
+  display: block !important;
+  width: 100% !important;
+  color: color-mix(in srgb, var(--event, #A79BD9) 70%, #5f5969) !important;
+  font-size: 10px !important;
+  line-height: 1.15 !important;
+  font-weight: 600 !important;
+}
+
+.schedule-cell-event > .schedule-event-title {
+  display: block !important;
+  width: 100% !important;
+  color: var(--text) !important;
+}
+
+@media (max-width: 700px) {
+  .schedule-cell-event > .schedule-event-time {
+    font-size: 8.5px !important;
+  }
+}
