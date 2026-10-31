@@ -80,7 +80,6 @@ export default function SchedulePage() {
               <span className="schedule-day-number">{date.getDate()}</span>
               <div className="schedule-day-events">
                 {dateItems.slice(0, 3).map(item => <div className="schedule-cell-event" key={item.id} style={{ '--event': item.category?.color || '#A79BD9' } as CSSProperties}>
-                  <span className="schedule-event-category">{item.category?.name || '기타'}</span>
                   <span className="schedule-event-time">{formatTime(item.start_time) || '시간 미정'}</span>
                   <strong className="schedule-event-title">{item.title}</strong>
                 </div>)}
