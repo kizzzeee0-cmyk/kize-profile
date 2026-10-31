@@ -82,8 +82,7 @@ export default function WorkPage() {
           <Avatar person={person} />
           <strong>{person.soop_name}</strong>
           <span>@{person.soop_id}</span>
-          <em>남은 업보 {quantity}</em>
-          <div className="upbo-card-tags">{personResults.slice(0, 4).map(item => <small key={item.id}>{item.result_label} ×{item.quantity}</small>)}</div>
+          <em>업보 {quantity}</em>
         </button>
       })}
     </section> : <EmptyState>{t('upbo_empty', '검색 조건에 맞는 시청자가 없습니다.')}</EmptyState>}
