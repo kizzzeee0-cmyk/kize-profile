@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T17:09:07.309Z",
+    "updated_at": "2026-10-31T17:09:14.928Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1150,6 +1150,15 @@
       "is_visible": true,
       "created_at": "2026-10-31T17:09:07.309Z",
       "updated_at": "2026-10-31T17:09:07.309Z"
+    },
+    {
+      "id": "84e8e7bb-1202-4d5c-b981-4a15f9802889",
+      "name": "애교송",
+      "note": "",
+      "sort_order": 9,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:09:14.928Z",
+      "updated_at": "2026-10-31T17:09:14.928Z"
     }
   ]
 }
