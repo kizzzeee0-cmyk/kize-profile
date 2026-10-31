@@ -125,8 +125,32 @@ export async function saveBinary(env, path, fileOrBytes, message = '[CF-Pages-Sk
 }
 
 export async function fetchRawFile(env, path) {
-  const response = await fetch(rawUrl(env, path), { headers: { 'User-Agent': 'namra-profile-media' } })
-  return response
+  const { token } = githubConfig(env)
+
+  if (token) {
+    try {
+      const file = await getFile(env, path)
+      if (file?.download_url) {
+        const separator = file.download_url.includes('?') ? '&' : '?'
+        const response = await fetch(`${file.download_url}${separator}t=${Date.now()}`, {
+          headers: {
+            'User-Agent': 'namra-profile-media',
+            'Cache-Control': 'no-cache',
+          },
+        })
+        if (response.ok) return response
+      }
+    } catch (error) {
+      console.warn('[NAMRA GitHub] authenticated media read failed, falling back to raw', error)
+    }
+  }
+
+  return fetch(`${rawUrl(env, path)}?t=${Date.now()}`, {
+    headers: {
+      'User-Agent': 'namra-profile-media',
+      'Cache-Control': 'no-cache',
+    },
+  })
 }
 
 export function safeFileName(name) {
