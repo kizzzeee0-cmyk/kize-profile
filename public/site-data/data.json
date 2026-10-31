@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T14:03:57.741Z",
+    "updated_at": "2026-10-31T14:08:30.098Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -168,12 +168,12 @@
     {
       "id": "d6d00019-8ab4-4e7c-80b7-61cd2f51a42f",
       "name": "YouTube",
-      "url": "https://example.com/youtube",
+      "url": "https://www.youtube.com/@younamra?sub_confirmation=1",
       "icon": "▶",
       "sort_order": 3,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+      "updated_at": "2026-10-31T14:08:30.098Z"
     }
   ],
   "navigation_links": [
