@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T14:01:25.266Z",
+    "updated_at": "2026-10-31T14:02:02.109Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -965,6 +965,18 @@
       "is_visible": true,
       "created_at": "2026-10-31T14:01:25.266Z",
       "updated_at": "2026-10-31T14:01:25.266Z"
+    },
+    {
+      "id": "e111cee6-cb1b-43f5-aab9-20f5e701599f",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fsignature_items%2F1793455293815-cb807cf00e-2834_____.png",
+      "title": "이쁜 남라",
+      "number_text": "2834",
+      "description": "단컷 5장 + 움짤 1장 + 움짤프사",
+      "important_info": "",
+      "sort_order": 5,
+      "is_visible": true,
+      "created_at": "2026-10-31T14:02:02.109Z",
+      "updated_at": "2026-10-31T14:02:02.109Z"
     }
   ],
   "songs": [
