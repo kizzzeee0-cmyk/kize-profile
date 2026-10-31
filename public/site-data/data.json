@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T18:04:58.157Z",
+    "updated_at": "2026-10-31T18:05:31.362Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1110,6 +1110,18 @@
       "is_visible": true,
       "created_at": "2026-10-31T18:04:58.157Z",
       "updated_at": "2026-10-31T18:04:58.157Z"
+    },
+    {
+      "id": "ae01f5c2-99c6-42c1-93ba-c5d1af3cc5e1",
+      "name": "의상 D",
+      "period_type": "monthly",
+      "item_type": "outfit",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469926327-ce7830c7d7-Screenshot_067-crop.png",
+      "description": "",
+      "sort_order": 7,
+      "is_visible": true,
+      "created_at": "2026-10-31T18:05:31.362Z",
+      "updated_at": "2026-10-31T18:05:31.362Z"
     }
   ],
   "upbo_people": [
