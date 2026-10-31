@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T17:10:04.022Z",
+    "updated_at": "2026-10-31T17:10:10.727Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1177,6 +1177,15 @@
       "is_visible": true,
       "created_at": "2026-10-31T17:10:04.022Z",
       "updated_at": "2026-10-31T17:10:04.022Z"
+    },
+    {
+      "id": "03323504-62f0-4a3f-89e9-386af5a6133a",
+      "name": "플로팅배너",
+      "note": "",
+      "sort_order": 12,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:10:10.727Z",
+      "updated_at": "2026-10-31T17:10:10.727Z"
     }
   ]
 }
