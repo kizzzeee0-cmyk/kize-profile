@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T17:58:45.406Z",
+    "updated_at": "2026-10-31T17:58:53.609Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1065,7 +1065,7 @@
     },
     {
       "id": "e9d47eff-8de7-4447-a99f-89339a7c7605",
-      "name": "헤어 2번",
+      "name": "포니테일",
       "period_type": "monthly",
       "item_type": "hair",
       "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469349650-c987f0cfa5-Screenshot_060-crop.png",
@@ -1073,7 +1073,7 @@
       "sort_order": 3,
       "is_visible": true,
       "created_at": "2026-10-31T17:55:55.657Z",
-      "updated_at": "2026-10-31T17:55:55.657Z"
+      "updated_at": "2026-10-31T17:58:53.609Z"
     },
     {
       "id": "d17be2bf-5cfe-46fe-bda1-25e6af98fd0e",
