@@ -5301,3 +5301,25 @@ html.namra-native-cursor-control * {
     justify-content: center !important;
   }
 }
+
+
+/* 2026-11-01 wardrobe archive button visibility */
+.wardrobe-archive-guide {
+  display: grid !important;
+  gap: 12px !important;
+}
+
+.wardrobe-archive-guide p {
+  margin: 0 !important;
+}
+
+.wardrobe-archive-button {
+  width: 100% !important;
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
