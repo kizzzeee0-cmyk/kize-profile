@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T17:09:14.928Z",
+    "updated_at": "2026-10-31T17:09:20.593Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1159,6 +1159,15 @@
       "is_visible": true,
       "created_at": "2026-10-31T17:09:14.928Z",
       "updated_at": "2026-10-31T17:09:14.928Z"
+    },
+    {
+      "id": "97fdc12f-51e8-4c4f-8ec4-1d7854b4bb10",
+      "name": "애교",
+      "note": "",
+      "sort_order": 10,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:09:20.593Z",
+      "updated_at": "2026-10-31T17:09:20.593Z"
     }
   ]
 }
