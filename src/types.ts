@@ -90,9 +90,18 @@ export type UpboPerson = {
   is_visible: boolean
 }
 
+export type UpboItem = {
+  id: string
+  name: string
+  note: string | null
+  sort_order: number
+  is_visible: boolean
+}
+
 export type UpboResult = {
   id: string
   person_id: string
+  item_id?: string | null
   result_label: string
   quantity: number
   note: string | null
