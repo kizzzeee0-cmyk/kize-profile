@@ -35,6 +35,23 @@ export async function onRequestPost({ request, env }) {
       return json({ ok: true })
     }
 
+    if (action === 'archive_wardrobe_monthly') {
+      const now = new Date().toISOString()
+      let moved = 0
+
+      data.wardrobe_items = (data.wardrobe_items || []).map(row => {
+        if (row?.period_type !== 'monthly') return row
+        moved += 1
+        return { ...row, period_type: 'existing', updated_at: now }
+      })
+
+      if (moved > 0) {
+        await writeStore(env, data, '[CF-Pages-Skip] Move monthly wardrobe items to existing')
+      }
+
+      return json({ ok: true, moved })
+    }
+
     if (action === 'reorder') {
       if (!isAllowedTable(table)) return json({ error: '허용되지 않은 데이터 영역입니다.' }, 400)
       const ids = Array.isArray(body.ids) ? body.ids.map(String) : []
