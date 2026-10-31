@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T17:10:32.126Z",
+    "updated_at": "2026-10-31T17:10:35.374Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1088,6 +1088,17 @@
       "sort_order": 3,
       "created_at": "2026-10-31T17:10:32.126Z",
       "updated_at": "2026-10-31T17:10:32.126Z"
+    },
+    {
+      "id": "68db8e69-3b9d-4cb8-966e-f30e80748d7d",
+      "person_id": "0bc57efe-a7db-4d31-9256-6d264159b6e9",
+      "item_id": "79bb604f-cba8-4e06-9878-ffbaaa07d1d7",
+      "result_label": "D 의상 단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 5,
+      "created_at": "2026-10-31T17:10:35.374Z",
+      "updated_at": "2026-10-31T17:10:35.374Z"
     }
   ],
   "upbo_items": [
