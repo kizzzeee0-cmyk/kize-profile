@@ -4330,3 +4330,101 @@ html.namra-native-cursor-control * {
     max-height: calc(100dvh - 82px) !important;
   }
 }
+
+
+/* 2026-10-31 schedule category color + stacked event layout */
+.schedule-day {
+  gap: 1px !important;
+}
+
+.schedule-day-number {
+  margin-bottom: 0 !important;
+}
+
+.schedule-day-events {
+  margin-top: -4px !important;
+  display: grid !important;
+  align-content: start !important;
+  gap: 4px !important;
+  width: 100% !important;
+}
+
+.schedule-cell-event,
+.schedule-cell-event.is-off {
+  display: grid !important;
+  grid-template-columns: auto auto minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 5px !important;
+  min-width: 0 !important;
+  padding: 4px 5px !important;
+  border: 0 !important;
+  border-left: 3px solid var(--event, #A79BD9) !important;
+  border-radius: 6px !important;
+  background: color-mix(in srgb, var(--event, #A79BD9) 8%, #ffffff) !important;
+}
+
+.schedule-cell-event em,
+.schedule-cell-event.is-off em {
+  width: fit-content !important;
+  max-width: 100% !important;
+  padding: 2px 5px !important;
+  border-radius: 999px !important;
+  background: color-mix(in srgb, var(--event, #A79BD9) 20%, #ffffff) !important;
+  color: color-mix(in srgb, var(--event, #A79BD9) 78%, #242033) !important;
+  font-size: 10.5px !important;
+  line-height: 1.15 !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+.schedule-cell-event small {
+  color: var(--muted) !important;
+  font-size: 10.5px !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+}
+
+.schedule-cell-event strong {
+  grid-column: auto !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: var(--text) !important;
+  font-size: min(var(--calendar-title-size, 14px), 13px) !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+}
+
+@media (max-width: 700px) {
+  .schedule-day {
+    gap: 0 !important;
+  }
+
+  .schedule-day-events {
+    margin-top: -3px !important;
+    gap: 3px !important;
+  }
+
+  .schedule-cell-event,
+  .schedule-cell-event.is-off {
+    grid-template-columns: auto minmax(0,1fr) !important;
+    gap: 3px !important;
+    padding: 3px 4px !important;
+  }
+
+  .schedule-cell-event small {
+    display: none !important;
+  }
+
+  .schedule-cell-event em,
+  .schedule-cell-event.is-off em {
+    font-size: 9px !important;
+    padding: 2px 4px !important;
+  }
+
+  .schedule-cell-event strong {
+    font-size: 10px !important;
+  }
+}
