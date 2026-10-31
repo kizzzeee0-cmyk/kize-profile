@@ -5026,3 +5026,250 @@ html.namra-native-cursor-control * {
   line-height: 1.3 !important;
   font-weight: 600 !important;
 }
+
+
+/* 2026-11-01 wardrobe image crop editor */
+.wardrobe-image-field {
+  display: grid !important;
+  gap: 10px !important;
+}
+
+.admin-image-crop-hint {
+  display: block !important;
+  color: var(--muted) !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+.wardrobe-image-field .wardrobe-preview {
+  width: min(220px, 100%) !important;
+  height: auto !important;
+  aspect-ratio: 4 / 5 !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+}
+
+.image-crop-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 20px !important;
+  overflow-y: auto !important;
+  background: rgba(35, 31, 47, .48) !important;
+  backdrop-filter: blur(3px) !important;
+}
+
+.image-crop-dialog {
+  width: min(760px, 100%) !important;
+  max-height: calc(100dvh - 40px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 22px 60px rgba(38, 32, 58, .2) !important;
+}
+
+.image-crop-head {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  padding: 18px 20px !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.image-crop-head > div {
+  min-width: 0 !important;
+  display: grid !important;
+  gap: 3px !important;
+}
+
+.image-crop-head strong {
+  color: var(--text) !important;
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+  font-weight: 700 !important;
+}
+
+.image-crop-head span {
+  color: var(--muted) !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+.image-crop-close {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  padding: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 9px !important;
+  background: #fff !important;
+  color: var(--text) !important;
+  font-size: 21px !important;
+  line-height: 1 !important;
+}
+
+.image-crop-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(260px, 380px) minmax(220px, 1fr) !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 24px !important;
+  padding: 22px !important;
+  overflow-y: auto !important;
+}
+
+.image-crop-stage {
+  position: relative !important;
+  width: min(100%, 380px) !important;
+  overflow: hidden !important;
+  border: 1px solid #dcd5f1 !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(45deg, #f4f2f8 25%, transparent 25%),
+    linear-gradient(-45deg, #f4f2f8 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f4f2f8 75%),
+    linear-gradient(-45deg, transparent 75%, #f4f2f8 75%),
+    #fff !important;
+  background-size: 18px 18px !important;
+  background-position: 0 0, 0 9px, 9px -9px, -9px 0 !important;
+  cursor: grab !important;
+  touch-action: none !important;
+  user-select: none !important;
+}
+
+.image-crop-stage:active {
+  cursor: grabbing !important;
+}
+
+.image-crop-stage > img {
+  position: absolute !important;
+  z-index: 1 !important;
+  max-width: none !important;
+  object-fit: fill !important;
+  transform: translate(-50%, -50%) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+.image-crop-guide {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.72) !important;
+}
+
+.image-crop-guide::before,
+.image-crop-guide::after {
+  content: '' !important;
+  position: absolute !important;
+  background: rgba(255,255,255,.42) !important;
+}
+
+.image-crop-guide::before {
+  top: 33.333% !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 1px !important;
+  box-shadow: 0 calc((100% / 3)) 0 rgba(255,255,255,.42) !important;
+}
+
+.image-crop-guide::after {
+  left: 33.333% !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 1px !important;
+  box-shadow: calc((100% / 3)) 0 0 rgba(255,255,255,.42) !important;
+}
+
+.image-crop-controls {
+  min-width: 0 !important;
+  display: grid !important;
+  gap: 16px !important;
+}
+
+.image-crop-controls label {
+  display: grid !important;
+  gap: 7px !important;
+}
+
+.image-crop-controls label > span {
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  color: var(--body) !important;
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+}
+
+.image-crop-controls label b {
+  color: var(--brand-strong) !important;
+  font-weight: 700 !important;
+}
+
+.image-crop-controls input[type="range"] {
+  width: 100% !important;
+  accent-color: var(--brand-strong) !important;
+}
+
+.image-crop-reset {
+  justify-self: start !important;
+}
+
+.image-crop-actions {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 9px !important;
+  padding: 14px 20px 18px !important;
+  border-top: 1px solid var(--border) !important;
+  background: #fff !important;
+}
+
+@media (max-width: 700px) {
+  .image-crop-overlay {
+    place-items: start center !important;
+    padding: 10px !important;
+  }
+
+  .image-crop-dialog {
+    max-height: calc(100dvh - 20px) !important;
+  }
+
+  .image-crop-head {
+    padding: 14px 15px !important;
+  }
+
+  .image-crop-body {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    padding: 16px !important;
+  }
+
+  .image-crop-stage {
+    width: min(100%, 330px) !important;
+    justify-self: center !important;
+  }
+
+  .image-crop-actions {
+    position: sticky !important;
+    bottom: 0 !important;
+    padding: 12px 15px 14px !important;
+  }
+
+  .image-crop-actions > button {
+    flex: 1 1 0 !important;
+  }
+}
