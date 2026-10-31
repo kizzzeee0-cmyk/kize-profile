@@ -46,7 +46,6 @@ export default function SchedulePage() {
     return map
   }, [items])
 
-  const selectedItems = byDate.get(selectedDate) || []
   const upcomingEnd = useMemo(() => {
     const d = new Date(today)
     d.setDate(d.getDate() + 14)
@@ -91,18 +90,6 @@ export default function SchedulePage() {
       </div>
 
       <aside className="schedule-right-column">
-        <section className="diary-card schedule-side-card">
-          <div className="schedule-side-title"><div><h2>{formatShortDate(selectedDate)} 일정</h2><small>SELECTED DAY</small></div><span>{selectedItems.length}개</span></div>
-          <div className="schedule-selected-list">
-            {selectedItems.length ? selectedItems.map(item => <button type="button" key={item.id} onClick={() => setSelected(item)}>
-              <i style={{ background: item.category?.color || '#A79BD9' }} />
-              <span>{formatTime(item.start_time) || '시간 미정'}</span>
-              <strong>{item.title}</strong>
-              <AppIcon name="chevron-right" />
-            </button>) : <EmptyState>선택한 날짜에 등록된 일정이 없습니다.</EmptyState>}
-          </div>
-        </section>
-
         <section className="diary-card schedule-upcoming-side" id="upcoming">
           <div className="schedule-side-title"><div><h2>다가오는 일정</h2><small>UPCOMING</small></div></div>
           {upcoming.length ? <div className="schedule-upcoming-list">{upcoming.slice(0, 8).map(item => <button type="button" key={item.id} onClick={() => setSelected(item)}>
