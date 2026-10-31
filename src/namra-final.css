@@ -4218,3 +4218,88 @@ html.namra-native-cursor-control * {
     font-size: 13px !important;
   }
 }
+
+
+/* 2026-10-31 admin modal scroll + signature editor fix */
+.modal-backdrop {
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  align-items: center !important;
+}
+
+.modal {
+  display: flex !important;
+  flex-direction: column !important;
+  max-height: calc(100dvh - 32px) !important;
+  overflow: hidden !important;
+}
+
+.modal-head {
+  flex: 0 0 auto !important;
+}
+
+.modal-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.admin-modal-form {
+  min-height: 0 !important;
+}
+
+.admin-modal-form .admin-modal-actions {
+  position: sticky !important;
+  bottom: -1px !important;
+  z-index: 5 !important;
+  margin: 8px -28px -28px !important;
+  padding: 14px 28px 18px !important;
+  background: rgba(255,255,255,.98) !important;
+  border-top: 1px solid var(--border) !important;
+  box-shadow: 0 -8px 20px rgba(47,42,70,.05) !important;
+}
+
+.signature-image-field {
+  display: grid !important;
+  gap: 10px !important;
+}
+
+.signature-image-field .signature-preview {
+  width: min(100%, 420px) !important;
+  max-width: 420px !important;
+  height: auto !important;
+  max-height: none !important;
+  aspect-ratio: 293 / 159 !important;
+  object-fit: contain !important;
+  padding: 6px !important;
+  background: #fff !important;
+}
+
+@media (max-width: 700px) {
+  .modal-backdrop {
+    align-items: flex-start !important;
+    padding: 12px !important;
+  }
+
+  .modal {
+    width: 100% !important;
+    max-height: calc(100dvh - 24px) !important;
+  }
+
+  .modal-body {
+    padding: 20px 16px !important;
+  }
+
+  .admin-modal-form .admin-modal-actions {
+    margin: 8px -16px -20px !important;
+    padding: 12px 16px 16px !important;
+  }
+
+  .signature-image-field .signature-preview {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
