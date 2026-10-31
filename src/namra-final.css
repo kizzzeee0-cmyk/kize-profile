@@ -4711,3 +4711,15 @@ html.namra-native-cursor-control * {
     margin-top: 1px !important;
   }
 }
+
+
+/* 2026-10-31 calendar stronger date/event spacing */
+.schedule-day-events {
+  margin-top: 8px !important;
+}
+
+@media (max-width: 700px) {
+  .schedule-day-events {
+    margin-top: 7px !important;
+  }
+}
