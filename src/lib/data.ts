@@ -20,6 +20,10 @@ import type {
 
 type CmsStore = Record<string, any>
 
+function notifyDataChanged() {
+  if (typeof window !== 'undefined') window.dispatchEvent(new Event('namra:data-changed'))
+}
+
 async function responseJson<T>(response: Response): Promise<T> {
   const payload = await response.json().catch(() => ({})) as T & { error?: string }
   if (!response.ok) throw new Error(payload.error || `요청 실패 (${response.status})`)
@@ -104,6 +108,7 @@ export async function saveRow(table: string, values: Record<string, unknown>, id
     body: JSON.stringify({ action: 'save', table, values, id }),
   })
   const payload = await responseJson<{ row: Record<string, any> }>(response)
+  notifyDataChanged()
   return payload.row
 }
 
@@ -115,6 +120,7 @@ export async function deleteRow(table: string, id: string) {
     body: JSON.stringify({ action: 'delete', table, id }),
   })
   await responseJson<{ ok: boolean }>(response)
+  notifyDataChanged()
 }
 
 export async function reorderRows(table: string, ids: string[]) {
@@ -125,6 +131,7 @@ export async function reorderRows(table: string, ids: string[]) {
     body: JSON.stringify({ action: 'reorder', table, ids }),
   })
   const payload = await responseJson<{ rows: Record<string, any>[] }>(response)
+  notifyDataChanged()
   return payload.rows
 }
 
