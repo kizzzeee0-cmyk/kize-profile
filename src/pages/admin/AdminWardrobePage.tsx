@@ -52,13 +52,13 @@ export default function AdminWardrobePage() {
     <AdminPanel
       title="이달의 의상 정리"
       description="이달의 의상에 있는 모든 헤어와 의상을 종류를 유지한 채 기존 의상 탭으로 한 번에 이동합니다."
-      actions={<button className="admin-primary compact" type="button" disabled={moving} onClick={() => void moveMonthlyToExisting()}>
-        <AppIcon name="chevron-right" />
-        {moving ? '이동 중...' : '전체 기존 의상으로 이동'}
-      </button>}
     >
       <div className="wardrobe-archive-guide">
-        새 항목은 아래에서 <strong>이달의 의상</strong>으로 등록하세요. 이동 버튼을 누르면 의상은 기존 의상 → 의상, 헤어는 기존 의상 → 헤어로 그대로 분류됩니다.
+        <p>새 항목은 아래에서 <strong>이달의 의상</strong>으로 등록하세요. 이동하면 의상은 기존 의상 → 의상, 헤어는 기존 의상 → 헤어로 그대로 분류됩니다.</p>
+        <button className="admin-primary wardrobe-archive-button" type="button" disabled={moving} onClick={() => void moveMonthlyToExisting()}>
+          <AppIcon name="chevron-right" />
+          {moving ? '이동 중...' : '이달의 의상 전체를 기존 의상으로 이동'}
+        </button>
       </div>
     </AdminPanel>
 
