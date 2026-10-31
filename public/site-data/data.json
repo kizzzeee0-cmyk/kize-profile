@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T17:40:52.819Z",
+    "updated_at": "2026-10-31T17:54:01.256Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1056,12 +1056,12 @@
       "name": "기본 헤어",
       "period_type": "existing",
       "item_type": "hair",
-      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793468351943-f2e872843b-Screenshot_057.png",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469235573-b46812c10b-Screenshot_057-crop.png",
       "description": "헤어 이미지를 관리자에서 업로드해 주세요.",
       "sort_order": 2,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-10-31T17:40:52.819Z"
+      "updated_at": "2026-10-31T17:54:01.256Z"
     }
   ],
   "upbo_people": [
