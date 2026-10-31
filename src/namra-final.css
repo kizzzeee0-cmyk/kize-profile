@@ -4428,3 +4428,84 @@ html.namra-native-cursor-control * {
     font-size: 10px !important;
   }
 }
+
+
+/* 2026-10-31 calendar event text clipping fix */
+.schedule-day {
+  overflow: hidden !important;
+}
+
+.schedule-day-events {
+  min-width: 0 !important;
+  width: 100% !important;
+  align-self: stretch !important;
+}
+
+.schedule-cell-event,
+.schedule-cell-event.is-off {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  grid-template-areas:
+    "category time"
+    "title title" !important;
+  align-items: center !important;
+  column-gap: 5px !important;
+  row-gap: 3px !important;
+  padding: 5px 6px !important;
+}
+
+.schedule-cell-event em,
+.schedule-cell-event.is-off em {
+  grid-area: category !important;
+  justify-self: start !important;
+  max-width: 100% !important;
+}
+
+.schedule-cell-event small {
+  grid-area: time !important;
+  min-width: 0 !important;
+  justify-self: start !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+.schedule-cell-event strong {
+  grid-area: title !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  display: -webkit-box !important;
+  overflow: hidden !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: keep-all !important;
+  text-overflow: clip !important;
+  font-size: min(var(--calendar-title-size, 14px), 12px) !important;
+  line-height: 1.25 !important;
+}
+
+@media (max-width: 700px) {
+  .schedule-cell-event,
+  .schedule-cell-event.is-off {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "category"
+      "title" !important;
+    row-gap: 2px !important;
+    padding: 4px !important;
+  }
+
+  .schedule-cell-event small {
+    display: none !important;
+  }
+
+  .schedule-cell-event strong {
+    font-size: 9.5px !important;
+    line-height: 1.2 !important;
+    -webkit-line-clamp: 2 !important;
+  }
+}
