@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T17:09:20.593Z",
+    "updated_at": "2026-10-31T17:10:04.022Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1168,6 +1168,15 @@
       "is_visible": true,
       "created_at": "2026-10-31T17:09:20.593Z",
       "updated_at": "2026-10-31T17:09:20.593Z"
+    },
+    {
+      "id": "72e55ca9-4332-4bfc-85bc-f70b3688504a",
+      "name": "상단배너",
+      "note": "",
+      "sort_order": 11,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:10:04.022Z",
+      "updated_at": "2026-10-31T17:10:04.022Z"
     }
   ]
 }
