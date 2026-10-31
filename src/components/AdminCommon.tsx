@@ -99,7 +99,14 @@ export function CrudEditor({
 
   async function submit(e: FormEvent) {
     e.preventDefault()
-    setBusy(true); setMessage(null); setError(null)
+    setMessage(null); setError(null)
+
+    if (table === 'signature_items' && !String(form.image_url || '').trim()) {
+      setError('시그니처 이미지를 먼저 첨부해 주세요.')
+      return
+    }
+
+    setBusy(true)
     try {
       const payload = { ...form }
       if (hasSortOrder && !editingId) payload.sort_order = rows.length + 1
