@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T12:28:51.207Z",
+    "updated_at": "2026-10-31T13:59:50.745Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -917,7 +917,20 @@
       "updated_at": "2026-09-17T16:39:23.569153+00:00"
     }
   ],
-  "signature_items": [],
+  "signature_items": [
+    {
+      "id": "0baff768-4996-46b6-96f8-370463c14723",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fsignature_items%2F1793455165151-469978c0dc-____________1____.png",
+      "title": "하나뿐인 남라",
+      "number_text": "134",
+      "description": "시그룰렛 1회",
+      "important_info": "",
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-10-31T13:59:50.745Z",
+      "updated_at": "2026-10-31T13:59:50.745Z"
+    }
+  ],
   "songs": [
     {
       "id": "b829ec26-b31b-4b84-8223-7c661518e73c",
