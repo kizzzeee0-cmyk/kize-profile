@@ -4991,3 +4991,38 @@ html.namra-native-cursor-control * {
     padding-bottom: 14px !important;
   }
 }
+
+
+/* 2026-11-01 weekly schedule color-only categories */
+.home-week-event {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 3px !important;
+  padding: 8px 9px !important;
+  border: 0 !important;
+  border-left: 3px solid var(--event, #A79BD9) !important;
+  border-radius: 9px !important;
+  background: color-mix(in srgb, var(--event, #A79BD9) 7%, #ffffff) !important;
+}
+
+.home-week-event > small {
+  display: none !important;
+}
+
+.home-week-event > span {
+  margin: 0 !important;
+  color: color-mix(in srgb, var(--event, #A79BD9) 70%, #6f6879) !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  font-weight: 500 !important;
+}
+
+.home-week-event > strong {
+  width: 100% !important;
+  margin: 0 !important;
+  color: var(--text) !important;
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+}
