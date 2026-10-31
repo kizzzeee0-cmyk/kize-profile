@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T12:27:55.994Z",
+    "updated_at": "2026-10-31T12:28:07.615Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -84,12 +84,12 @@
     {
       "id": "44611926-24b1-44f4-9911-ed042f5ce8c9",
       "label": "Debut",
-      "value": "2027 . 01 . 09",
+      "value": "2025 . 04 . 01",
       "description": null,
       "sort_order": 2,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+      "updated_at": "2026-10-31T12:28:07.615Z"
     },
     {
       "id": "ab367eae-843d-4273-b602-2e955f5211cf",
