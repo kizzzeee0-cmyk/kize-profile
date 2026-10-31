@@ -79,12 +79,12 @@ export default function SchedulePage() {
             return <button type="button" className={`schedule-day ${sameMonth ? '' : 'outside'} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`} key={key} onClick={() => setSelectedDate(key)}>
               <span className="schedule-day-number">{date.getDate()}</span>
               <div className="schedule-day-events">
-                {dateItems.slice(0, 4).map(item => <div className="schedule-cell-event" key={item.id} style={{ '--event': item.category?.color || '#A79BD9' } as CSSProperties}>
+                {dateItems.slice(0, 3).map(item => <div className="schedule-cell-event" key={item.id} style={{ '--event': item.category?.color || '#A79BD9' } as CSSProperties}>
                   <em>{item.category?.name || '기타'}</em>
                   <small>{formatTime(item.start_time) || '-'}</small>
                   <strong>{item.title}</strong>
                 </div>)}
-                {dateItems.length > 4 && <small className="schedule-more">+{dateItems.length - 4}</small>}
+                {dateItems.length > 3 && <small className="schedule-more">+{dateItems.length - 3}</small>}
               </div>
             </button>
           })}
