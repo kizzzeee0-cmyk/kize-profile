@@ -203,8 +203,7 @@ export default function HomePage() {
 
               <div className="home-week-events">
                 {items.length
-                  ? items.map(item => <div className={`home-week-event ${/휴방/.test(item.category?.name || '') ? 'is-off' : ''}`} key={item.id}>
-                    <small>{item.category?.name || '기타'}</small>
+                  ? items.map(item => <div className="home-week-event" key={item.id} style={{ '--event': item.category?.color || '#A79BD9' } as CSSProperties}>
                     <span>{formatTime(item.start_time) || '시간 미정'}</span>
                     <strong>{item.title}</strong>
                   </div>)
