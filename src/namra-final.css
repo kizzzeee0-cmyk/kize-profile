@@ -4699,3 +4699,15 @@ html.namra-native-cursor-control * {
     font-size: 9px !important;
   }
 }
+
+
+/* 2026-10-31 calendar date/event breathing room */
+.schedule-day-events {
+  margin-top: 1px !important;
+}
+
+@media (max-width: 700px) {
+  .schedule-day-events {
+    margin-top: 1px !important;
+  }
+}
