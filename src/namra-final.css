@@ -4975,3 +4975,19 @@ html.namra-native-cursor-control * {
     grid-template-columns: 1fr !important;
   }
 }
+
+
+/* 2026-11-01 balance upbo card vertical spacing */
+.upbo-diary-page .upbo-person-card {
+  justify-content: center !important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+}
+
+@media (max-width: 560px) {
+  .upbo-diary-page .upbo-person-card {
+    justify-content: center !important;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+  }
+}
