@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T17:08:58.993Z",
+    "updated_at": "2026-10-31T17:09:07.309Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1141,6 +1141,15 @@
       "is_visible": true,
       "created_at": "2026-10-31T17:08:58.993Z",
       "updated_at": "2026-10-31T17:08:58.993Z"
+    },
+    {
+      "id": "afbe6a1d-d2a0-45a6-a717-a7ecf767c429",
+      "name": "남라네컷",
+      "note": "",
+      "sort_order": 8,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:09:07.309Z",
+      "updated_at": "2026-10-31T17:09:07.309Z"
     }
   ]
 }
