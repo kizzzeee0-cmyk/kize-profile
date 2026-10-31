@@ -145,7 +145,7 @@ export function CrudEditor({
     try {
       const url = await uploadImage(file, table)
       setForm(value => ({ ...value, [key]: url }))
-      setMessage('이미지를 업로드했습니다.')
+      setMessage('이미지를 업로드했습니다. 아래 저장 버튼을 눌러 적용해 주세요.')
     } catch (e) {
       setError(e instanceof Error ? e.message : '이미지 업로드 실패')
     } finally { setBusy(false) }
