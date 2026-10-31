@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T14:03:36.784Z",
+    "updated_at": "2026-10-31T14:03:57.741Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -158,12 +158,12 @@
     {
       "id": "97b62401-dc2e-4195-a758-ea88fdf74c41",
       "name": "SOOP 방송국",
-      "url": "https://example.com/soop",
+      "url": "https://www.sooplive.com/station/younamra",
       "icon": "↗",
       "sort_order": 2,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+      "updated_at": "2026-10-31T14:03:57.741Z"
     },
     {
       "id": "d6d00019-8ab4-4e7c-80b7-61cd2f51a42f",
