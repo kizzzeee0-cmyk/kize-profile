@@ -84,13 +84,13 @@ export default function AdminSettingsPage() {
           <FormField label="로고 텍스트"><input value={form.logo_text || ''} onChange={e => setForm(value => ({ ...value, logo_text: e.target.value }))}/></FormField>
           <FormField label="사이트 설명"><textarea value={form.site_description || ''} onChange={e => setForm(value => ({ ...value, site_description: e.target.value }))}/></FormField>
           <FormField label="Footer 문구"><input value={form.footer_text || ''} onChange={e => setForm(value => ({ ...value, footer_text: e.target.value }))}/></FormField>
+          <FormField label="룰렛 확률 보러가기 링크"><input type="url" value={form.roulette_probability_url || ''} placeholder="https://weflab.com/..." onChange={e => setForm(value => ({ ...value, roulette_probability_url: e.target.value }))}/></FormField>
         </div>
 
         <details className="admin-advanced">
           <summary>고급 설정</summary>
           <div className="admin-profile-basic-grid">
             <FormField label="대표 컬러"><input type="color" value={form.brand_color || '#A79BD9'} onChange={e => setForm(value => ({ ...value, brand_color: e.target.value }))}/></FormField>
-            <FormField label="룰렛 확률 링크"><input type="url" value={form.roulette_probability_url || ''} onChange={e => setForm(value => ({ ...value, roulette_probability_url: e.target.value }))}/></FormField>
             <FormField label="달력 일정 제목 글씨 크기 (px)"><input type="number" min="13" max="17" step="1" value={form.calendar_event_title_size ?? 14} onChange={e => setForm(value => ({ ...value, calendar_event_title_size: Math.min(17, Math.max(13, Number(e.target.value) || 14)) }))}/></FormField>
             <FormField label="Favicon"><input type="file" accept="image/*" onChange={e => void upload('favicon_url', e.target.files?.[0])}/>{form.favicon_url && <img className="admin-preview small" src={form.favicon_url} alt="favicon"/>}</FormField>
             <FormField label="SEO 공유 이미지"><input type="file" accept="image/*" onChange={e => void upload('seo_image_url', e.target.files?.[0])}/>{form.seo_image_url && <img className="admin-preview" src={form.seo_image_url} alt="SEO 미리보기"/>}</FormField>
