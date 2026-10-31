@@ -4636,3 +4636,66 @@ html.namra-native-cursor-control * {
     font-size: 8.5px !important;
   }
 }
+
+
+/* 2026-10-31 calendar legacy-markup compatibility fix */
+/* Even if an older JS bundle still renders <em>카테고리</em>,
+   never show category text inside calendar cells. Color alone identifies it. */
+.schedule-cell-event,
+.schedule-cell-event.is-off {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 3px !important;
+}
+
+.schedule-cell-event > em,
+.schedule-cell-event > .schedule-event-category {
+  display: none !important;
+}
+
+.schedule-cell-event > small,
+.schedule-cell-event > .schedule-event-time {
+  display: block !important;
+  width: 100% !important;
+  grid-area: unset !important;
+  order: 1 !important;
+  margin: 0 !important;
+  color: color-mix(in srgb, var(--event, #A79BD9) 72%, #5f5969) !important;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+.schedule-cell-event > strong,
+.schedule-cell-event > .schedule-event-title {
+  display: block !important;
+  width: 100% !important;
+  grid-area: unset !important;
+  order: 2 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+  overflow-wrap: anywhere !important;
+  color: var(--text) !important;
+  font-size: min(var(--calendar-title-size, 14px), 11.5px) !important;
+  line-height: 1.25 !important;
+  font-weight: 600 !important;
+}
+
+@media (max-width: 700px) {
+  .schedule-cell-event > small,
+  .schedule-cell-event > .schedule-event-time {
+    display: block !important;
+    font-size: 8.5px !important;
+  }
+
+  .schedule-cell-event > strong,
+  .schedule-cell-event > .schedule-event-title {
+    font-size: 9px !important;
+  }
+}
