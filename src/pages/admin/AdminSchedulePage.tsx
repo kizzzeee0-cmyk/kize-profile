@@ -62,7 +62,7 @@ export default function AdminSchedulePage() {
   async function image(file?: File) {
     if (!file) return
     setBusy(true)
-    try { const url = await uploadImage(file, 'schedule'); setForm(v => ({ ...v, image_url: url })); setMessage('이미지가 업로드되었습니다.') }
+    try { const url = await uploadImage(file, 'schedule'); setForm(v => ({ ...v, image_url: url })); setMessage('이미지가 업로드되었습니다. 일정 저장 버튼을 눌러 적용해 주세요.') }
     catch (e) { setError(e instanceof Error ? e.message : '업로드 실패') }
     finally { setBusy(false) }
   }
