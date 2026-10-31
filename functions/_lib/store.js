@@ -3,7 +3,7 @@ import { DATA_PATH, readJson, saveJson } from './github.js'
 export const TABLES = [
   'site_settings', 'profile', 'profile_stats', 'profile_features', 'social_links',
   'navigation_links', 'milestones', 'archives', 'schedule_categories', 'schedules',
-  'site_texts', 'signature_items', 'songs', 'wardrobe_items', 'upbo_people', 'upbo_results',
+  'site_texts', 'signature_items', 'songs', 'wardrobe_items', 'upbo_people', 'upbo_items', 'upbo_results',
 ]
 
 export function isAllowedTable(table) {
@@ -61,6 +61,13 @@ export function saveRowInStore(data, table, values, id) {
     if (index < 0) throw Object.assign(new Error('수정할 항목을 찾지 못했습니다.'), { status: 404 })
     const next = { ...rows[index], ...incoming, id: rows[index].id, updated_at: now }
     rows[index] = next
+    if (table === 'upbo_items') {
+      data.upbo_results = (data.upbo_results || []).map(result =>
+        String(result.item_id || '') === String(next.id)
+          ? { ...result, result_label: String(next.name || result.result_label || ''), updated_at: now }
+          : result
+      )
+    }
     return next
   }
 
@@ -80,6 +87,7 @@ export function deleteRowInStore(data, table, id) {
   if (data[table].length === before) throw Object.assign(new Error('삭제할 항목을 찾지 못했습니다.'), { status: 404 })
 
   if (table === 'upbo_people') data.upbo_results = data.upbo_results.filter(row => String(row.person_id) !== String(id))
+  if (table === 'upbo_items') data.upbo_results = data.upbo_results.filter(row => String(row.item_id || '') !== String(id))
   if (table === 'schedule_categories') {
     data.schedules = data.schedules.map(row => String(row.category_id) === String(id) ? { ...row, category_id: null } : row)
   }
