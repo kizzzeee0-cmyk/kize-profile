@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T14:43:57.295Z",
+    "updated_at": "2026-10-31T14:44:25.372Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1064,6 +1064,18 @@
       "updated_at": "2026-09-17T16:39:23.569153+00:00"
     }
   ],
-  "upbo_people": [],
+  "upbo_people": [
+    {
+      "id": "0bc57efe-a7db-4d31-9256-6d264159b6e9",
+      "soop_name": "쥐가오리",
+      "soop_id": "nqwerask2725",
+      "profile_image_url": "https://stimg.sooplive.com/LOGO/nq/nqwerask2725/m/nqwerask2725.webp",
+      "note": "",
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-10-31T14:44:25.372Z",
+      "updated_at": "2026-10-31T14:44:25.372Z"
+    }
+  ],
   "upbo_results": []
 }
