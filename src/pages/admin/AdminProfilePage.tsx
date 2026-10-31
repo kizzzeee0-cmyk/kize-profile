@@ -47,12 +47,27 @@ export default function AdminProfilePage() {
 
   async function upload(file?: File) {
     if (!file) return
-    setBusy(true)
+    setBusy(true); setMessage(null); setError(null)
     try {
       const url = await uploadImage(file, 'profile')
-      setProfile(value => ({ ...value, profile_image_url: url }))
-      setMessage('메인 이미지를 업로드했습니다. 크롭 위치를 확인한 뒤 저장해 주세요.')
-    } catch (e) { setError(e instanceof Error ? e.message : '업로드 실패') }
+      const next = { ...profile, profile_image_url: url }
+      const saved = await saveRow('profile', next, id)
+      setId(saved.id)
+      setProfile({ ...empty, ...saved })
+      setMessage('메인 이미지를 업로드하고 프로필에 바로 저장했습니다.')
+    } catch (e) { setError(e instanceof Error ? e.message : '업로드 또는 저장 실패') }
+    finally { setBusy(false) }
+  }
+
+  async function removeProfileImage() {
+    setBusy(true); setMessage(null); setError(null)
+    try {
+      const next = { ...profile, profile_image_url: null }
+      const saved = await saveRow('profile', next, id)
+      setId(saved.id)
+      setProfile({ ...empty, ...saved })
+      setMessage('메인 이미지를 삭제하고 프로필에 바로 반영했습니다.')
+    } catch (e) { setError(e instanceof Error ? e.message : '이미지 삭제 저장 실패') }
     finally { setBusy(false) }
   }
 
@@ -74,7 +89,7 @@ export default function AdminProfilePage() {
           <FormField label="배지 문구"><input value={profile.badge_text || ''} onChange={e => setProfile(value => ({ ...value, badge_text: e.target.value }))}/></FormField>
           <FormField label="소개 문구"><textarea value={profile.intro || ''} onChange={e => setProfile(value => ({ ...value, intro: e.target.value }))}/></FormField>
           <FormField label="메인 16:9 이미지">
-            <div className="admin-image-upload-row"><input type="file" accept="image/*" onChange={e => void upload(e.target.files?.[0])}/>{profile.profile_image_url && <button className="admin-secondary compact" type="button" onClick={() => setProfile(value => ({ ...value, profile_image_url: null }))}><AppIcon name="trash" /> 삭제</button>}</div>
+            <div className="admin-image-upload-row"><input type="file" accept="image/*" onChange={e => void upload(e.target.files?.[0])}/>{profile.profile_image_url && <button className="admin-secondary compact" type="button" disabled={busy} onClick={() => void removeProfileImage()}><AppIcon name="trash" /> 삭제</button>}</div>
           </FormField>
         </div>
 
