@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T14:09:24.661Z",
+    "updated_at": "2026-10-31T14:15:54.829Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1007,44 +1007,7 @@
       "updated_at": "2026-10-31T14:02:56.126Z"
     }
   ],
-  "songs": [
-    {
-      "id": "b829ec26-b31b-4b84-8223-7c661518e73c",
-      "title": "Love wins all",
-      "artist": "IU",
-      "song_key": null,
-      "genre": "발라드",
-      "note": null,
-      "sort_order": 1,
-      "is_visible": true,
-      "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
-    },
-    {
-      "id": "4483dd62-6541-4baa-be78-25eb80800b19",
-      "title": "Ditto",
-      "artist": "NewJeans",
-      "song_key": null,
-      "genre": "K-POP",
-      "note": null,
-      "sort_order": 2,
-      "is_visible": true,
-      "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
-    },
-    {
-      "id": "baf1b955-efbe-49e7-97a2-1e4a61730928",
-      "title": "INVU",
-      "artist": "TAEYEON",
-      "song_key": null,
-      "genre": "K-POP",
-      "note": "신청 가능",
-      "sort_order": 3,
-      "is_visible": true,
-      "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
-    }
-  ],
+  "songs": [],
   "wardrobe_items": [
     {
       "id": "b98f07d0-7833-48d4-8b6c-88344e70b2c5",
