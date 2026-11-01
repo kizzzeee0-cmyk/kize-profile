@@ -5453,3 +5453,38 @@ html.namra-native-cursor-control * {
     font-size: 11px !important;
   }
 }
+
+
+/* 2026-11-01 pastel schedule palette + today border */
+/* Today: keep the date number plain and softly emphasize only the whole cell. */
+.schedule-day.today {
+  background: #fff !important;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--brand) 55%, #ffffff) !important;
+}
+
+.schedule-day.today .schedule-day-number {
+  background: transparent !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+
+/* Calendar and profile weekly schedule use the category color exactly as stored. */
+.schedule-cell-event,
+.schedule-cell-event.is-off,
+.home-week-event {
+  background: var(--event, #C9C1F5) !important;
+  color: #272238 !important;
+}
+
+.schedule-cell-event > strong,
+.schedule-cell-event > .schedule-event-title,
+.home-week-event > strong {
+  color: #272238 !important;
+}
+
+/* Category pills in schedule detail also use the exact same stored color. */
+.category-pill {
+  background: var(--event, #C9C1F5) !important;
+  border-color: var(--event, #C9C1F5) !important;
+  color: #272238 !important;
+}
