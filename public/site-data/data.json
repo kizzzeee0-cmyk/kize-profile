@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-01T14:41:09.275Z",
+    "updated_at": "2026-11-01T14:41:23.143Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -356,7 +356,7 @@
     },
     {
       "id": "40fc6e6b-50f1-4bab-b496-73f07b02a48d",
-      "title": "와우 알아보기",
+      "title": "왁리즈컨 같이보기",
       "schedule_date": "2026-11-01",
       "start_time": "17:00",
       "end_time": null,
@@ -368,7 +368,7 @@
       "note": "",
       "is_visible": true,
       "created_at": "2026-10-31T14:41:57.207Z",
-      "updated_at": "2026-10-31T14:41:57.207Z"
+      "updated_at": "2026-11-01T14:41:23.143Z"
     },
     {
       "id": "8e3ca53b-f865-426f-a126-314ddd21a6d0",
