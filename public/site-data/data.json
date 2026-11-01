@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-01T11:43:12.611Z",
+    "updated_at": "2026-11-01T11:43:41.696Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1202,6 +1202,17 @@
       "is_visible": true,
       "created_at": "2026-11-01T11:43:07.107Z",
       "updated_at": "2026-11-01T11:43:12.611Z"
+    },
+    {
+      "id": "5768cc5d-a8db-4769-80db-48dd9940d51e",
+      "soop_name": "mask2203",
+      "soop_id": "mask2203",
+      "profile_image_url": "https://stimg.sooplive.com/LOGO/ma/mask2203/m/mask2203.webp",
+      "note": "",
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-11-01T11:43:41.696Z",
+      "updated_at": "2026-11-01T11:43:41.696Z"
     }
   ],
   "upbo_results": [
