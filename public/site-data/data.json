@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-01T08:59:07.798Z",
+    "updated_at": "2026-11-01T11:43:07.107Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1191,6 +1191,17 @@
       "is_visible": true,
       "created_at": "2026-10-31T14:44:25.372Z",
       "updated_at": "2026-10-31T14:44:28.647Z"
+    },
+    {
+      "id": "c7bcfc46-ec5e-4f3f-92ef-d87631705698",
+      "soop_name": "러브_♥",
+      "soop_id": "jopok922",
+      "profile_image_url": "https://stimg.sooplive.com/LOGO/jo/jopok922/m/jopok922.webp",
+      "note": "",
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-11-01T11:43:07.107Z",
+      "updated_at": "2026-11-01T11:43:07.107Z"
     }
   ],
   "upbo_results": [
