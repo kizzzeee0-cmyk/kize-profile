@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-01T11:44:10.780Z",
+    "updated_at": "2026-11-01T14:41:09.275Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -401,6 +401,22 @@
       "is_visible": true,
       "created_at": "2026-11-01T03:53:24.554Z",
       "updated_at": "2026-11-01T03:53:24.554Z"
+    },
+    {
+      "id": "e17e578f-7d77-4095-b6f3-6d3cf45b8262",
+      "title": "와우 스토리 알아보기",
+      "schedule_date": "2026-11-02",
+      "start_time": "18:00",
+      "end_time": null,
+      "category_id": "ecf05fd9-00e4-4f7d-b22a-e34106655fda",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-01T14:41:09.275Z",
+      "updated_at": "2026-11-01T14:41:09.275Z"
     }
   ],
   "site_texts": [
