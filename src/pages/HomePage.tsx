@@ -245,16 +245,17 @@ export default function HomePage() {
         <SectionTitle eyebrow="MILESTONE" title={t('home_milestone_title', '남라의 여정')} />
 
         {data.milestones.length
-          ? <div className="journey-timeline">
-            {data.milestones.map(item => <article className={item.is_highlight ? 'highlight' : ''} key={item.id}>
-              <div className="journey-line"><i /></div>
-              <div className="journey-content">
-                <time>{formatDate(item.date)}</time>
-                <h3>{item.title}</h3>
-                {item.description && <p>{item.description}</p>}
-                {item.external_url && <a href={item.external_url} target="_blank" rel="noopener noreferrer">관련 링크 <AppIcon name="external" /></a>}
-              </div>
-            </article>)}
+          ? <div className="journey-list">
+            {data.milestones.map(item => item.external_url
+              ? <a className="journey-row" key={item.id} href={item.external_url} target="_blank" rel="noopener noreferrer" aria-label={`${item.date} ${item.title} 다시보기 열기`}>
+                  <time>{item.date.replace(/-/g, '.')}</time>
+                  <strong>{item.title}</strong>
+                  <AppIcon name="chevron-right" />
+                </a>
+              : <div className="journey-row no-link" key={item.id}>
+                  <time>{item.date.replace(/-/g, '.')}</time>
+                  <strong>{item.title}</strong>
+                </div>)}
           </div>
           : <EmptyState>{t('home_milestone_empty', '아직 등록된 여정이 없습니다.')}</EmptyState>}
       </div>
