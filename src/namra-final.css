@@ -5323,3 +5323,133 @@ html.namra-native-cursor-control * {
   font-size: 14px !important;
   font-weight: 700 !important;
 }
+
+
+/* 2026-11-01 schedule filled color-bar style */
+/* Calendar: title-only pastel color bars, matching the reference. */
+.schedule-day-events {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 5px !important;
+  margin-top: 8px !important;
+}
+
+.schedule-cell-event,
+.schedule-cell-event.is-off {
+  appearance: none !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 28px !important;
+  display: block !important;
+  padding: 6px 8px !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  background: var(--event, #C9BCFF) !important;
+  box-shadow: none !important;
+  color: #262238 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+}
+
+.schedule-cell-event:hover {
+  filter: brightness(.97) !important;
+}
+
+.schedule-cell-event > em,
+.schedule-cell-event > small,
+.schedule-cell-event > .schedule-event-category,
+.schedule-cell-event > .schedule-event-time {
+  display: none !important;
+}
+
+.schedule-cell-event > strong,
+.schedule-cell-event > .schedule-event-title {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: #262238 !important;
+  font-size: min(var(--calendar-title-size, 14px), 11.5px) !important;
+  line-height: 1.35 !important;
+  font-weight: 700 !important;
+}
+
+.schedule-more {
+  padding-left: 3px !important;
+}
+
+/* Weekly schedule on profile: use the exact same title-only color-bar language. */
+.home-week-events {
+  gap: 6px !important;
+}
+
+.home-week-event {
+  appearance: none !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 30px !important;
+  display: block !important;
+  padding: 6px 9px !important;
+  border: 0 !important;
+  border-radius: 7px !important;
+  background: var(--event, #C9BCFF) !important;
+  box-shadow: none !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+}
+
+.home-week-event:hover {
+  filter: brightness(.97) !important;
+}
+
+.home-week-event > small,
+.home-week-event > span {
+  display: none !important;
+}
+
+.home-week-event > strong {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: #262238 !important;
+  font-size: 12.5px !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+}
+
+@media (max-width: 700px) {
+  .schedule-day-events {
+    margin-top: 7px !important;
+    gap: 4px !important;
+  }
+
+  .schedule-cell-event,
+  .schedule-cell-event.is-off {
+    min-height: 24px !important;
+    padding: 5px 6px !important;
+  }
+
+  .schedule-cell-event > strong,
+  .schedule-cell-event > .schedule-event-title {
+    font-size: 9.5px !important;
+  }
+
+  .home-week-event {
+    min-height: 28px !important;
+    padding: 6px 8px !important;
+  }
+
+  .home-week-event > strong {
+    font-size: 11px !important;
+  }
+}
