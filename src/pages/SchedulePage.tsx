@@ -15,7 +15,6 @@ export default function SchedulePage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [selected, setSelected] = useState<ScheduleItem | null>(null)
-  const [selectedDate, setSelectedDate] = useState(() => toDateKey(new Date()))
   const days = useMemo(() => getMonthGrid(month), [month])
   const today = useMemo(() => new Date(), [])
 
@@ -74,17 +73,15 @@ export default function SchedulePage() {
             const dateItems = byDate.get(key) || []
             const sameMonth = date.getMonth() === month.getMonth()
             const isToday = key === toDateKey(today)
-            const isSelected = key === selectedDate
-            return <button type="button" className={`schedule-day ${sameMonth ? '' : 'outside'} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`} key={key} onClick={() => setSelectedDate(key)}>
+            return <div className={`schedule-day ${sameMonth ? '' : 'outside'} ${isToday ? 'today' : ''}`} key={key}>
               <span className="schedule-day-number">{date.getDate()}</span>
               <div className="schedule-day-events">
-                {dateItems.slice(0, 3).map(item => <div className="schedule-cell-event" key={item.id} style={{ '--event': item.category?.color || '#A79BD9' } as CSSProperties}>
-                  <span className="schedule-event-time">{formatTime(item.start_time) || '시간 미정'}</span>
+                {dateItems.slice(0, 3).map(item => <button type="button" className="schedule-cell-event" key={item.id} style={{ '--event': item.category?.color || '#A79BD9' } as CSSProperties} onClick={() => setSelected(item)} title={item.title}>
                   <strong className="schedule-event-title">{item.title}</strong>
-                </div>)}
+                </button>)}
                 {dateItems.length > 3 && <small className="schedule-more">+{dateItems.length - 3}</small>}
               </div>
-            </button>
+            </div>
           })}
         </div>
       </div>
