@@ -88,6 +88,7 @@ export default function HomePage() {
   const [weekItems, setWeekItems] = useState<ScheduleItem[]>([])
   const [scheduleError, setScheduleError] = useState<string | null>(null)
   const [selectedSignature, setSelectedSignature] = useState<SignatureItem | null>(null)
+  const [selectedSchedule, setSelectedSchedule] = useState<ScheduleItem | null>(null)
 
   const today = useMemo(() => new Date(), [])
   const weekStart = useMemo(() => weekStartOf(today), [today])
@@ -203,10 +204,9 @@ export default function HomePage() {
 
               <div className="home-week-events">
                 {items.length
-                  ? items.map(item => <div className="home-week-event" key={item.id} style={{ '--event': item.category?.color || '#A79BD9' } as CSSProperties}>
-                    <span>{formatTime(item.start_time) || '시간 미정'}</span>
+                  ? items.map(item => <button type="button" className="home-week-event" key={item.id} style={{ '--event': item.category?.color || '#A79BD9' } as CSSProperties} onClick={() => setSelectedSchedule(item)} title={item.title}>
                     <strong>{item.title}</strong>
-                  </div>)
+                  </button>)
                   : <small className="home-week-empty">일정 없음</small>}
               </div>
             </div>
@@ -286,6 +286,19 @@ export default function HomePage() {
           : <EmptyState>{t('home_archive_empty', '등록된 클립 및 다시보기가 없습니다.')}</EmptyState>}
       </div>
     </section>
+
+    <Modal open={Boolean(selectedSchedule)} onClose={() => setSelectedSchedule(null)} title="일정 상세">
+      {selectedSchedule && <div className="schedule-detail diary-schedule-detail">
+        <div className="detail-date">{formatDate(selectedSchedule.schedule_date)} · {formatTime(selectedSchedule.start_time)}{selectedSchedule.end_time ? ` ~ ${formatTime(selectedSchedule.end_time)}` : ''}</div>
+        <h2>{selectedSchedule.title}</h2>
+        {selectedSchedule.category && <span className="category-pill" style={{ '--event': selectedSchedule.category.color } as CSSProperties}>{selectedSchedule.category.name}</span>}
+        {selectedSchedule.description && <p>{selectedSchedule.description}</p>}
+        {selectedSchedule.participants && <dl><dt>참여자</dt><dd>{selectedSchedule.participants}</dd></dl>}
+        {selectedSchedule.note && <dl><dt>비고</dt><dd>{selectedSchedule.note}</dd></dl>}
+        {selectedSchedule.image_url && <img className="detail-image" src={selectedSchedule.image_url} alt="일정 관련 이미지" />}
+        {selectedSchedule.related_url && <a className="admin-primary inline" href={selectedSchedule.related_url} target="_blank" rel="noopener noreferrer">관련 링크 열기 <AppIcon name="external" /></a>}
+      </div>}
+    </Modal>
 
     <Modal open={Boolean(selectedSignature)} onClose={() => setSelectedSignature(null)} title={selectedSignature?.title || '시그니처 풍선'}>
       {selectedSignature && <img className="signature-modal-image" src={selectedSignature.image_url} alt={selectedSignature.title || '시그니처 풍선 크게 보기'} />}
