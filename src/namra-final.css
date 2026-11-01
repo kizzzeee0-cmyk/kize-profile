@@ -5592,3 +5592,17 @@ a.journey-row:hover {
     height: 14px !important;
   }
 }
+
+
+/* 2026-11-01 journey equal date/title font size */
+.journey-row time,
+.journey-row strong {
+  font-size: 14px !important;
+}
+
+@media (max-width: 700px) {
+  .journey-row time,
+  .journey-row strong {
+    font-size: 12.5px !important;
+  }
+}
