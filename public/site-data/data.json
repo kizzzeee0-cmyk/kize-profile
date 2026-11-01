@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-01T11:43:45.486Z",
+    "updated_at": "2026-11-01T11:43:57.925Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1237,6 +1237,17 @@
       "sort_order": 5,
       "created_at": "2026-10-31T17:10:35.374Z",
       "updated_at": "2026-10-31T17:10:35.374Z"
+    },
+    {
+      "id": "abbc7219-4d8e-4cd7-8efc-06b5237dbc92",
+      "person_id": "c7bcfc46-ec5e-4f3f-92ef-d87631705698",
+      "item_id": "c632a5bd-4eba-40d3-b94a-f86e91c542f1",
+      "result_label": "얼빡단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 1,
+      "created_at": "2026-11-01T11:43:57.925Z",
+      "updated_at": "2026-11-01T11:43:57.925Z"
     }
   ],
   "upbo_items": [
