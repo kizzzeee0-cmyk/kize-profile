@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-10-31T18:08:06.022Z",
+    "updated_at": "2026-11-01T03:04:17.398Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -253,56 +253,56 @@
     {
       "id": "ecf05fd9-00e4-4f7d-b22a-e34106655fda",
       "name": "방송",
-      "color": "#9389DE",
+      "color": "#C9C1F5",
       "sort_order": 1,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+      "updated_at": "2026-11-01T03:04:17.397Z"
     },
     {
       "id": "34deb339-470b-41a6-bd5f-bd55c859c000",
       "name": "휴방",
-      "color": "#9EA4B7",
+      "color": "#D9DDE8",
       "sort_order": 2,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+      "updated_at": "2026-11-01T03:04:17.398Z"
     },
     {
       "id": "f8a33213-7b63-4a0b-a9b3-7dec7a41c0b5",
       "name": "이벤트",
-      "color": "#EDB3C8",
+      "color": "#F3CBD9",
       "sort_order": 3,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+      "updated_at": "2026-11-01T03:04:17.398Z"
     },
     {
       "id": "7074a5d3-93aa-4c25-b02d-24d6f9a8433d",
       "name": "합방",
-      "color": "#7AA6E8",
+      "color": "#C7DCF7",
       "sort_order": 4,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+      "updated_at": "2026-11-01T03:04:17.398Z"
     },
     {
       "id": "4cbec9ac-ec53-4752-abef-e59c52bf9c7c",
       "name": "대회",
-      "color": "#D7B06D",
+      "color": "#F2DCA9",
       "sort_order": 5,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+      "updated_at": "2026-11-01T03:04:17.398Z"
     },
     {
       "id": "f4c7c117-396c-4021-bd63-3d9e7e53c9af",
       "name": "기타",
-      "color": "#A9D79E",
+      "color": "#CFE8C8",
       "sort_order": 6,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+      "updated_at": "2026-11-01T03:04:17.398Z"
     }
   ],
   "schedules": [
