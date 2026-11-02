@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-02T13:15:59.361Z",
+    "updated_at": "2026-11-02T13:16:19.064Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1229,6 +1229,17 @@
       "is_visible": true,
       "created_at": "2026-11-01T11:43:41.696Z",
       "updated_at": "2026-11-01T11:43:45.486Z"
+    },
+    {
+      "id": "9c774e63-ae12-4ed2-911c-3b40a559160f",
+      "soop_name": "야채혐오",
+      "soop_id": "na1403",
+      "profile_image_url": "https://stimg.sooplive.com/LOGO/na/na1403/m/na1403.webp",
+      "note": "",
+      "sort_order": 4,
+      "is_visible": true,
+      "created_at": "2026-11-02T13:16:19.064Z",
+      "updated_at": "2026-11-02T13:16:19.064Z"
     }
   ],
   "upbo_results": [
