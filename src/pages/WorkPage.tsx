@@ -21,7 +21,6 @@ export default function WorkPage() {
   const [results, setResults] = useState<UpboResult[]>([])
   const [query, setQuery] = useState('')
   const [resultType, setResultType] = useState('전체 업보')
-  const [status, setStatus] = useState('전체 상태')
   const [sort, setSort] = useState<'quantity' | 'name' | 'default'>('quantity')
   const [selected, setSelected] = useState<UpboPerson | null>(null)
   const [loading, setLoading] = useState(true)
@@ -49,8 +48,7 @@ export default function WorkPage() {
       const quantity = personResults.reduce((sum, item) => sum + Number(item.quantity || 0), 0)
       const queryOk = !q || person.soop_name.toLowerCase().includes(q) || person.soop_id.toLowerCase().includes(q)
       const typeOk = resultType === '전체 업보' || personResults.some(item => item.result_label === resultType)
-      const statusOk = status === '전체 상태' || (status === '업보 있음' ? quantity > 0 : quantity === 0)
-      return queryOk && typeOk && statusOk
+      return quantity > 0 && queryOk && typeOk
     })
     if (sort === 'name') return [...rows].sort((a, b) => a.soop_name.localeCompare(b.soop_name, 'ko'))
     if (sort === 'quantity') return [...rows].sort((a, b) => {
@@ -59,7 +57,7 @@ export default function WorkPage() {
       return bq - aq || a.sort_order - b.sort_order
     })
     return [...rows].sort((a, b) => a.sort_order - b.sort_order)
-  }, [people, query, resultType, status, sort, resultMap])
+  }, [people, query, resultType, sort, resultMap])
 
   const selectedResults = selected ? (resultMap.get(selected.id) || []) : []
 
@@ -70,7 +68,6 @@ export default function WorkPage() {
     <section className="upbo-filter-bar">
       <label className="diary-search"><AppIcon name="search" /><input value={query} onChange={e => setQuery(e.target.value)} placeholder={t('upbo_search_placeholder', 'SOOP 이름 또는 아이디 검색')} aria-label="업보 검색" /></label>
       <select value={resultType} onChange={e => setResultType(e.target.value)}>{resultTypes.map(item => <option key={item}>{item}</option>)}</select>
-      <select value={status} onChange={e => setStatus(e.target.value)}><option>전체 상태</option><option>업보 있음</option><option>업보 없음</option></select>
       <select value={sort} onChange={e => setSort(e.target.value as 'quantity' | 'name' | 'default')}><option value="quantity">업보 많은 순</option><option value="name">이름순</option><option value="default">등록순</option></select>
     </section>
 
