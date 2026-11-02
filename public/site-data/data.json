@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-01T14:41:23.143Z",
+    "updated_at": "2026-11-02T05:03:19.355Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -94,12 +94,12 @@
     {
       "id": "ab367eae-843d-4273-b602-2e955f5211cf",
       "label": "Live Time",
-      "value": "17 : 00",
+      "value": "18 : 00",
       "description": "일정에 따라 변경될 수 있습니다.",
       "sort_order": 3,
       "is_visible": true,
       "created_at": "2026-09-17T15:25:58.084227+00:00",
-      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+      "updated_at": "2026-11-02T05:03:19.355Z"
     },
     {
       "id": "1a3f8614-2cb4-4708-84be-0cce448e6f89",
