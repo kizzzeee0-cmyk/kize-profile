@@ -46,6 +46,14 @@ export default function AdminUpboPage() {
 
   useEffect(() => { void load() }, [])
 
+  useEffect(() => {
+    const rawSoopId = String(personForm.soop_id || '')
+    const cleanedSoopId = cleanSoopId(rawSoopId)
+    if (rawSoopId !== cleanedSoopId) {
+      setPersonForm(value => ({ ...value, soop_id: cleanedSoopId }))
+    }
+  }, [personForm.soop_id])
+
   async function savePerson(e: FormEvent) {
     e.preventDefault()
     setBusy(true); setError(null); setMessage(null)
@@ -228,7 +236,22 @@ export default function AdminUpboPage() {
             <input required value={personForm.soop_name || ''} onChange={e => setPersonForm(value => ({ ...value, soop_name: e.target.value }))}/>
           </FormField>
           <FormField label="SOOP 아이디">
-            <input required value={personForm.soop_id || ''} onChange={e => setPersonForm(value => ({ ...value, soop_id: cleanSoopId(e.target.value) }))}/>
+            <input
+              required
+              value={personForm.soop_id || ''}
+              onInput={e => {
+                const target = e.currentTarget
+                const cleaned = cleanSoopId(target.value)
+                if (target.value !== cleaned) target.value = cleaned
+                setPersonForm(value => ({ ...value, soop_id: cleaned }))
+              }}
+              onChange={e => setPersonForm(value => ({ ...value, soop_id: cleanSoopId(e.target.value) }))}
+              onPaste={e => {
+                e.preventDefault()
+                const pasted = cleanSoopId(e.clipboardData.getData('text'))
+                setPersonForm(value => ({ ...value, soop_id: cleanSoopId(String(value.soop_id || '') + pasted) }))
+              }}
+            />
           </FormField>
           <FormField label="메모">
             <textarea value={personForm.note || ''} onChange={e => setPersonForm(value => ({ ...value, note: e.target.value }))}/>
