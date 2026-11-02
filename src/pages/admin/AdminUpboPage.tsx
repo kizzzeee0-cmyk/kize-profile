@@ -3,11 +3,15 @@ import { AdminPanel, FormField, Notice } from '../../components/AdminCommon'
 import { AdminSortableList } from '../../components/AdminSortableList'
 import { AppIcon } from '../../components/AppIcon'
 import { deleteRow, fetchAdminTable, reorderRows, saveRow } from '../../lib/data'
-import { advanceSoopProfileImage, primarySoopProfileUrl } from '../../lib/soop'
+import { primarySoopProfileUrl } from '../../lib/soop'
 import type { UpboItem, UpboPerson, UpboResult } from '../../types'
 
 const emptyPerson = { soop_name: '', soop_id: '', profile_image_url: '', note: '', sort_order: 0, is_visible: true }
 const emptyItem = { name: '', note: '', sort_order: 0, is_visible: true }
+
+function cleanSoopId(value: string) {
+  return value.replace(/[()（）]/g, '').trim()
+}
 
 export default function AdminUpboPage() {
   const [people, setPeople] = useState<UpboPerson[]>([])
@@ -46,7 +50,7 @@ export default function AdminUpboPage() {
     e.preventDefault()
     setBusy(true); setError(null); setMessage(null)
     try {
-      const soopId = String(personForm.soop_id || '').trim()
+      const soopId = cleanSoopId(String(personForm.soop_id || ''))
       const payload = {
         ...personForm,
         soop_id: soopId,
@@ -184,7 +188,6 @@ export default function AdminUpboPage() {
     }
   }
 
-  const profilePreview = primarySoopProfileUrl(String(personForm.soop_id || ''))
   const selectedPerson = people.find(person => person.id === selectedPersonId)
 
   return <>
@@ -203,7 +206,10 @@ export default function AdminUpboPage() {
           rows={people}
           disabled={busy}
           onReorder={reorderPeople}
-          renderMain={row => <strong className="upbo-admin-person-name">{row.soop_name}</strong>}
+          renderMain={row => <div className="upbo-admin-person-copy">
+            <strong className="upbo-admin-person-name">{row.soop_name}</strong>
+            <small>@{row.soop_id}</small>
+          </div>}
           renderActions={row => <>
             <button type="button" title="수정" aria-label={`${row.soop_name} 수정`} onClick={() => { setPersonId(row.id); setPersonForm({ ...row }) }}>
               <AppIcon name="edit" /><span>수정</span>
@@ -222,14 +228,7 @@ export default function AdminUpboPage() {
             <input required value={personForm.soop_name || ''} onChange={e => setPersonForm(value => ({ ...value, soop_name: e.target.value }))}/>
           </FormField>
           <FormField label="SOOP 아이디">
-            <input required value={personForm.soop_id || ''} onChange={e => setPersonForm(value => ({ ...value, soop_id: e.target.value }))}/>
-          </FormField>
-          <FormField label="프로필 사진 자동 미리보기">
-            <div className="soop-auto-profile-preview">
-              {profilePreview
-                ? <img src={profilePreview} data-profile-index="0" onError={e => { void advanceSoopProfileImage(e.currentTarget, String(personForm.soop_id || '')) }} alt="SOOP 프로필 미리보기"/>
-                : <span>SOOP 아이디를 입력해 주세요.</span>}
-            </div>
+            <input required value={personForm.soop_id || ''} onChange={e => setPersonForm(value => ({ ...value, soop_id: cleanSoopId(e.target.value) }))}/>
           </FormField>
           <FormField label="메모">
             <textarea value={personForm.note || ''} onChange={e => setPersonForm(value => ({ ...value, note: e.target.value }))}/>
