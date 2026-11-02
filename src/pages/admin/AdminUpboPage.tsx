@@ -198,29 +198,22 @@ export default function AdminUpboPage() {
     {error && <Notice error>{error}</Notice>}
 
     <AdminPanel title="SOOP 시청자" description="시청자를 먼저 등록해 두고 아래에서 선택해 업보 개수를 조정합니다.">
-      <AdminSortableList
-        rows={people}
-        disabled={busy}
-        onReorder={reorderPeople}
-        renderMain={row => <div className="admin-list-summary">
-          <div className="admin-mini-avatar">
-            <img
-              src={row.profile_image_url || primarySoopProfileUrl(row.soop_id)}
-              alt=""
-              onError={e => { void advanceSoopProfileImage(e.currentTarget, row.soop_id) }}
-            />
-          </div>
-          <div><strong>{row.soop_name}</strong><small>@{row.soop_id}</small></div>
-        </div>}
-        renderActions={row => <>
-          <button type="button" onClick={() => { setPersonId(row.id); setPersonForm({ ...row }) }}>
-            <AppIcon name="edit" /> 수정
-          </button>
-          <button className="danger" type="button" onClick={() => void remove('upbo_people', row.id)}>
-            <AppIcon name="trash" /> 삭제
-          </button>
-        </>}
-      />
+      <div className="upbo-admin-people-compact">
+        <AdminSortableList
+          rows={people}
+          disabled={busy}
+          onReorder={reorderPeople}
+          renderMain={row => <strong className="upbo-admin-person-name">{row.soop_name}</strong>}
+          renderActions={row => <>
+            <button type="button" title="수정" aria-label={`${row.soop_name} 수정`} onClick={() => { setPersonId(row.id); setPersonForm({ ...row }) }}>
+              <AppIcon name="edit" /><span>수정</span>
+            </button>
+            <button className="danger" type="button" title="삭제" aria-label={`${row.soop_name} 삭제`} onClick={() => void remove('upbo_people', row.id)}>
+              <AppIcon name="trash" /><span>삭제</span>
+            </button>
+          </>}
+        />
+      </div>
 
       <div className="admin-inline-editor">
         <h3>{personId ? '시청자 수정' : '새 시청자 추가'}</h3>
@@ -304,7 +297,6 @@ export default function AdminUpboPage() {
         </FormField>
         {selectedPerson && <div className="upbo-selected-person">
           <strong>{selectedPerson.soop_name}</strong>
-          <span>@{selectedPerson.soop_id}</span>
         </div>}
       </div>
 
