@@ -23,7 +23,13 @@ export async function onRequestPost({ request, env }) {
     const data = await readStore(env)
 
     if (action === 'save') {
-      const row = saveRowInStore(data, table, body.values || {}, body.id ? String(body.id) : undefined)
+      const values = { ...(body.values || {}) }
+
+      if (table === 'upbo_people') {
+        values.soop_id = String(values.soop_id || '').replace(/[()（）]/g, '').trim()
+      }
+
+      const row = saveRowInStore(data, table, values, body.id ? String(body.id) : undefined)
       await writeStore(env, data, `[CF-Pages-Skip] Save ${table}`)
       return json({ ok: true, row })
     }
