@@ -5685,3 +5685,32 @@ a.journey-row:hover {
     grid-column: auto !important;
   }
 }
+
+
+/* 2026-11-02 upbo admin name-id only rows */
+.upbo-admin-person-copy {
+  min-width: 0 !important;
+  display: grid !important;
+  gap: 2px !important;
+}
+
+.upbo-admin-person-copy > small {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: var(--muted) !important;
+  font-size: 10.5px !important;
+  line-height: 1.15 !important;
+  font-weight: 500 !important;
+}
+
+.upbo-admin-people-compact .admin-list-row {
+  min-height: 40px !important;
+}
+
+.upbo-admin-people-compact img,
+.upbo-admin-people-compact .admin-mini-avatar,
+.upbo-admin-people-compact .soop-auto-profile-preview {
+  display: none !important;
+}
