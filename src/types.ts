@@ -32,7 +32,7 @@ export type Profile = {
   fandom_image_url: string | null
 }
 
-export type ProfileStat = { id: string; label: string; value: string; description: string | null; sort_order: number; is_visible: boolean }
+export type ProfileStat = { id: string; label: string; value: string; secondary_value?: string | null; description: string | null; sort_order: number; is_visible: boolean }
 export type ProfileFeature = { id: string; icon: string; title: string; description: string; sort_order: number; is_visible: boolean }
 export type SocialLink = { id: string; name: string; url: string; icon: string; sort_order: number; is_visible: boolean }
 export type NavigationLink = { id: string; label: string; url: string; is_external: boolean; open_new_tab: boolean; sort_order: number; is_visible: boolean }
