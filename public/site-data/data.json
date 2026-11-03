@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-03T05:20:11.986Z",
+    "updated_at": "2026-11-03T05:20:17.860Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1022,7 +1022,7 @@
       "sort_order": 1,
       "is_visible": true,
       "created_at": "2026-10-31T13:59:50.745Z",
-      "updated_at": "2026-10-31T13:59:50.745Z"
+      "updated_at": "2026-11-03T05:20:17.860Z"
     },
     {
       "id": "a254de14-5968-4078-92f0-2ab386ba6c7d",
@@ -1031,10 +1031,10 @@
       "number_text": "1434",
       "description": "단컷 3장 + 움짤 1장 (의상 택1)",
       "important_info": "",
-      "sort_order": 4,
+      "sort_order": 3,
       "is_visible": true,
       "created_at": "2026-10-31T14:01:25.266Z",
-      "updated_at": "2026-11-02T17:51:31.117Z"
+      "updated_at": "2026-11-03T05:20:17.860Z"
     },
     {
       "id": "e111cee6-cb1b-43f5-aab9-20f5e701599f",
@@ -1043,10 +1043,10 @@
       "number_text": "2834",
       "description": "단컷 4장 +움짤 2장+ 움짤프사 1개 (의상 택2)",
       "important_info": "",
-      "sort_order": 5,
+      "sort_order": 4,
       "is_visible": true,
       "created_at": "2026-10-31T14:02:02.109Z",
-      "updated_at": "2026-11-01T08:58:59.799Z"
+      "updated_at": "2026-11-03T05:20:17.860Z"
     },
     {
       "id": "5dde81e4-a46b-4bce-9de1-8738f1215562",
@@ -1055,10 +1055,10 @@
       "number_text": "5734",
       "description": "단컷 8장 + 움짤 3장 + 움짤프사 + 남라네컷 + 배너 택 1 (의상 택3)",
       "important_info": "",
-      "sort_order": 6,
+      "sort_order": 5,
       "is_visible": true,
       "created_at": "2026-10-31T14:02:56.126Z",
-      "updated_at": "2026-11-01T08:58:48.628Z"
+      "updated_at": "2026-11-03T05:20:17.860Z"
     },
     {
       "id": "cc076ade-ef78-481e-9e21-1e19670b77cf",
@@ -1067,10 +1067,10 @@
       "number_text": "434",
       "description": "단컷 1장",
       "important_info": "",
-      "sort_order": 5,
+      "sort_order": 2,
       "is_visible": true,
       "created_at": "2026-11-03T05:19:53.555Z",
-      "updated_at": "2026-11-03T05:20:11.986Z"
+      "updated_at": "2026-11-03T05:20:17.860Z"
     }
   ],
   "songs": [],
