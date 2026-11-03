@@ -169,9 +169,16 @@ export default function HomePage() {
                   ? debutElapsed(stat.value)
                   : null
 
-              return <article className="home-stat-card" key={stat.id}>
+              const isDebut = /debut|데뷔/.test(key)
+
+              return <article className={`home-stat-card ${isDebut ? 'is-debut' : ''}`} key={stat.id}>
                 <small className="home-stat-label">{statLabel(stat.label)}</small>
-                <strong className="home-stat-value">{stat.value}</strong>
+                {isDebut
+                  ? <div className="home-stat-value home-debut-dates">
+                    <span><b>데뷔</b>{stat.value}</span>
+                    {stat.secondary_value && <span><b>복귀</b>{stat.secondary_value}</span>}
+                  </div>
+                  : <strong className="home-stat-value">{stat.value}</strong>}
                 <div className="home-stat-meta">
                   {badge ? <em>{badge}</em> : stat.description ? <p>{stat.description}</p> : <span aria-hidden="true">&nbsp;</span>}
                 </div>
