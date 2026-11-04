@@ -28,6 +28,8 @@ export default function WardrobePage() {
   )
 
   const probabilityUrl = data.settings?.roulette_probability_url || ''
+  const monthlyPeriodLabel = type === 'hair' ? '이달의 헤어' : t('wardrobe_monthly_tab', '이달의 의상')
+  const existingPeriodLabel = type === 'hair' ? '기존 헤어' : t('wardrobe_existing_tab', '기존 의상')
 
   return <div className="diary-page wardrobe-diary-page">
     <div className="diary-page-heading">
@@ -47,10 +49,10 @@ export default function WardrobePage() {
       <div className="wardrobe-diary-toolbar">
         <div className="diary-filter-tabs">
           <button type="button" className={period === 'monthly' ? 'active' : ''} onClick={() => setPeriod('monthly')}>
-            {type === 'hair' ? '이달의 헤어' : t('wardrobe_monthly_tab', '이달의 의상')}
+            {monthlyPeriodLabel}
           </button>
           <button type="button" className={period === 'existing' ? 'active' : ''} onClick={() => setPeriod('existing')}>
-            {type === 'hair' ? '기존 헤어' : t('wardrobe_existing_tab', '기존 의상')}
+            {existingPeriodLabel}
           </button>
         </div>
 
