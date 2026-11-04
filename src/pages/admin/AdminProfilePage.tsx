@@ -111,8 +111,8 @@ export default function AdminProfilePage() {
       </form>
     </AdminPanel>
 
-    <CrudEditor table="profile_stats" title="방송 기본 정보" description="생일, 데뷔일, 복귀일, 생방송 시간, 휴방 일정을 관리합니다. DEBUT의 D+ 카운트는 기본 값의 데뷔 날짜를 기준으로 계산됩니다." fields={[
-      { key: 'label', label: '제목', required: true }, { key: 'value', label: '기본 값', required: true }, { key: 'secondary_value', label: '복귀 날짜 (DEBUT 전용)', placeholder: '예: 2026 . 10 . 31' }, { key: 'description', label: '부가 설명' }, { key: 'sort_order', label: '순서', type: 'number' }, { key: 'is_visible', label: '공개', type: 'checkbox' },
+    <CrudEditor table="profile_stats" title="방송 기본 정보" description="생일, 데뷔일, 생방송 시간, 휴방 일정을 관리합니다." fields={[
+      { key: 'label', label: '제목', required: true }, { key: 'value', label: '값', required: true }, { key: 'description', label: '부가 설명' }, { key: 'sort_order', label: '순서', type: 'number' }, { key: 'is_visible', label: '공개', type: 'checkbox' },
     ]} defaults={{ is_visible: true, sort_order: 0 }} />
 
     <CrudEditor table="signature_items" title="시그니처 풍선" description="이미지만 등록해도 저장할 수 있습니다. 표시 글씨·숫자·추가 설명은 모두 선택사항이며 293×159 비율을 권장합니다." fields={[
