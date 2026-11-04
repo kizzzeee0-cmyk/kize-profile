@@ -52,7 +52,7 @@ function debutElapsed(value: string) {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   const days = Math.floor((today.getTime() - new Date(debut.getFullYear(), debut.getMonth(), debut.getDate()).getTime()) / 86400000)
 
-  return days < 0 ? null : days === 0 ? 'D-DAY' : `D+${days}`
+  return days < 0 ? null : `D+${days + 1}`
 }
 
 function SectionTitle({ eyebrow, title, action }: { eyebrow: string; title: string; action?: ReactNode }) {
@@ -169,16 +169,9 @@ export default function HomePage() {
                   ? debutElapsed(stat.value)
                   : null
 
-              const isDebut = /debut|데뷔/.test(key)
-
-              return <article className={`home-stat-card ${isDebut ? 'is-debut' : ''}`} key={stat.id}>
+              return <article className="home-stat-card" key={stat.id}>
                 <small className="home-stat-label">{statLabel(stat.label)}</small>
-                {isDebut
-                  ? <div className="home-stat-value home-debut-dates">
-                    <span><b>데뷔</b>{stat.value}</span>
-                    {stat.secondary_value && <span><b>복귀</b>{stat.secondary_value}</span>}
-                  </div>
-                  : <strong className="home-stat-value">{stat.value}</strong>}
+                <strong className="home-stat-value">{stat.value}</strong>
                 <div className="home-stat-meta">
                   {badge ? <em>{badge}</em> : stat.description ? <p>{stat.description}</p> : <span aria-hidden="true">&nbsp;</span>}
                 </div>
