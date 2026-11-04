@@ -13,7 +13,7 @@ export type FieldConfig = {
   type?: FieldType
   required?: boolean
   placeholder?: string
-  options?: Array<{ label: string; value: string }>
+  options?: Array<{ label: string; value: string }> | ((form: Record<string, any>) => Array<{ label: string; value: string }>)
   cropAspect?: number
   cropWidth?: number
   cropHeight?: number
@@ -29,6 +29,10 @@ export function FormField({ label, children }: { label: string; children: ReactN
 
 export function Notice({ children, error = false }: { children: ReactNode; error?: boolean }) {
   return <div className={`admin-notice ${error ? 'error' : ''}`}>{children}</div>
+}
+
+function resolveFieldOptions(field: FieldConfig, form: Record<string, any>) {
+  return typeof field.options === 'function' ? field.options(form) : field.options
 }
 
 function defaultFor(type?: FieldType) {
@@ -221,7 +225,7 @@ export function CrudEditor({
         {editableFields.map(field => <FormField key={field.key} label={field.label}>
           {field.type === 'textarea' ? <textarea required={field.required} value={form[field.key] ?? ''} placeholder={field.placeholder} onChange={e => setForm(value => ({ ...value, [field.key]: e.target.value }))} />
           : field.type === 'checkbox' ? <input type="checkbox" checked={Boolean(form[field.key])} onChange={e => setForm(value => ({ ...value, [field.key]: e.target.checked }))} />
-          : field.type === 'select' ? <select value={form[field.key] ?? ''} onChange={e => setForm(value => ({ ...value, [field.key]: e.target.value }))}>{field.options?.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
+          : field.type === 'select' ? <select value={form[field.key] ?? ''} onChange={e => setForm(value => ({ ...value, [field.key]: e.target.value }))}>{resolveFieldOptions(field, form)?.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
           : field.type === 'image' ? <div className={`admin-image-field ${table === 'signature_items' ? 'signature-image-field' : ''} ${table === 'wardrobe_items' ? 'wardrobe-image-field' : ''}`}><input type="file" accept="image/*" onChange={e => { handleFile(field, e.target.files?.[0]); e.currentTarget.value = '' }}/>{field.cropAspect && <small className="admin-image-crop-hint">사진 선택 후 확대·위치 조정과 크롭을 할 수 있습니다.</small>}{form[field.key] && <><img className={`admin-preview ${table === 'signature_items' ? 'signature-preview' : ''} ${table === 'wardrobe_items' ? 'wardrobe-preview' : ''}`} src={form[field.key]} alt="업로드 미리보기"/><button className="admin-secondary compact" type="button" onClick={() => setForm(value => ({ ...value, [field.key]: '' }))}>이미지 제거</button></>}</div>
           : <input type={field.type || 'text'} required={field.required} value={form[field.key] ?? ''} placeholder={field.placeholder} onChange={e => setForm(value => ({ ...value, [field.key]: field.type === 'number' ? Number(e.target.value) : e.target.value }))} />}
         </FormField>)}
