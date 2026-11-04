@@ -69,9 +69,7 @@ export default function AdminWardrobePage() {
       fields={[
         { key: 'name', label: '이름', required: true },
         { key: 'item_type', label: '종류', type: 'select', options: [{ label: '의상', value: 'outfit' }, { label: '헤어', value: 'hair' }] },
-        { key: 'period_type', label: '구분', type: 'select', options: form => form.item_type === 'hair'
-          ? [{ label: '이달의 헤어', value: 'monthly' }, { label: '기존 헤어', value: 'existing' }]
-          : [{ label: '이달의 의상', value: 'monthly' }, { label: '기존 의상', value: 'existing' }] },
+        { key: 'period_type', label: '구분', type: 'select', options: [{ label: '이달의 의상', value: 'monthly' }, { label: '기존 의상', value: 'existing' }] },
         { key: 'image_url', label: '사진 (4:5 크롭)', type: 'image', cropAspect: 4 / 5, cropWidth: 1200, cropHeight: 1500 },
         { key: 'description', label: '설명', type: 'textarea' },
         { key: 'sort_order', label: '정렬 순서', type: 'number' },
