@@ -46,8 +46,12 @@ export default function WardrobePage() {
     <section className="wardrobe-content">
       <div className="wardrobe-diary-toolbar">
         <div className="diary-filter-tabs">
-          <button type="button" className={period === 'monthly' ? 'active' : ''} onClick={() => setPeriod('monthly')}>{t('wardrobe_monthly_tab', '이달의 의상')}</button>
-          <button type="button" className={period === 'existing' ? 'active' : ''} onClick={() => setPeriod('existing')}>{t('wardrobe_existing_tab', '기존 의상')}</button>
+          <button type="button" className={period === 'monthly' ? 'active' : ''} onClick={() => setPeriod('monthly')}>
+            {type === 'hair' ? '이달의 헤어' : t('wardrobe_monthly_tab', '이달의 의상')}
+          </button>
+          <button type="button" className={period === 'existing' ? 'active' : ''} onClick={() => setPeriod('existing')}>
+            {type === 'hair' ? '기존 헤어' : t('wardrobe_existing_tab', '기존 의상')}
+          </button>
         </div>
 
         <div className="diary-filter-tabs compact">
