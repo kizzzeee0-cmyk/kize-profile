@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-04T18:06:09.039Z",
+    "updated_at": "2026-11-04T18:06:55.483Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1192,12 +1192,12 @@
       "name": "양갈래",
       "period_type": "monthly",
       "item_type": "hair",
-      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793815552806-dfbcc4953b-Screenshot_148-crop.png",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793815607341-0841492540-Screenshot_148-crop.png",
       "description": "",
       "sort_order": 4,
       "is_visible": true,
       "created_at": "2026-11-04T18:05:59.822Z",
-      "updated_at": "2026-11-04T18:06:09.039Z"
+      "updated_at": "2026-11-04T18:06:55.483Z"
     }
   ],
   "upbo_people": [
