@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-07T12:35:00.646Z",
+    "updated_at": "2026-11-07T12:35:04.946Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1028,18 +1028,6 @@
     }
   ],
   "signature_items": [
-    {
-      "id": "a254de14-5968-4078-92f0-2ab386ba6c7d",
-      "image_url": "/api/media?path=public%2Fsite-media%2Fsignature_items%2F1793455255372-9406dab9eb-1434_____.png",
-      "title": "천사남라",
-      "number_text": "1434",
-      "description": "단컷 3장 + 움짤 1장 (의상 택1)",
-      "important_info": "",
-      "sort_order": 3,
-      "is_visible": true,
-      "created_at": "2026-10-31T14:01:25.266Z",
-      "updated_at": "2026-11-03T05:20:17.860Z"
-    },
     {
       "id": "e111cee6-cb1b-43f5-aab9-20f5e701599f",
       "image_url": "/api/media?path=public%2Fsite-media%2Fsignature_items%2F1793455293815-cb807cf00e-2834_____.png",
