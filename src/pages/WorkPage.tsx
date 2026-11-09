@@ -1,11 +1,25 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AppIcon } from '../components/AppIcon'
 import { EmptyState, LoadingBlocks, Modal, StatusMessage } from '../components/Ui'
-import { fetchUpboPeople, fetchUpboResults } from '../lib/data'
+import { fetchUpboPeople, fetchUpboResults, fetchUpboUpdatedAt } from '../lib/data'
 import { usePublicData } from '../lib/PublicDataContext'
 import { makeTextGetter } from '../lib/text'
 import type { UpboPerson, UpboResult } from '../types'
 import { advanceSoopProfileImage, primarySoopProfileUrl } from '../lib/soop'
+
+function formatUpboUpdatedDate(value: string | null) {
+  if (!value) return null
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return null
+  const parts = new Intl.DateTimeFormat('ko-KR', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date)
+  const pick = (type: string) => parts.find(part => part.type === type)?.value || ''
+  return `${pick('year')}.${pick('month')}.${pick('day')}`
+}
 
 function Avatar({ person, large = false }: { person: UpboPerson; large?: boolean }) {
   return <div className={`upbo-avatar ${large ? 'large' : ''}`}>
@@ -19,6 +33,7 @@ export default function WorkPage() {
   const t = makeTextGetter(data.siteTexts)
   const [people, setPeople] = useState<UpboPerson[]>([])
   const [results, setResults] = useState<UpboResult[]>([])
+  const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [resultType, setResultType] = useState('전체 업보')
   const [sort, setSort] = useState<'quantity' | 'name' | 'default'>('quantity')
@@ -27,8 +42,8 @@ export default function WorkPage() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    Promise.all([fetchUpboPeople(), fetchUpboResults()])
-      .then(([p, r]) => { setPeople(p); setResults(r) })
+    Promise.all([fetchUpboPeople(), fetchUpboResults(), fetchUpboUpdatedAt()])
+      .then(([p, r, updatedAt]) => { setPeople(p); setResults(r); setLastUpdatedAt(updatedAt) })
       .catch(e => setError(e instanceof Error ? e.message : '업보 데이터를 불러오지 못했습니다.'))
       .finally(() => setLoading(false))
   }, [])
@@ -62,7 +77,10 @@ export default function WorkPage() {
   const selectedResults = selected ? (resultMap.get(selected.id) || []) : []
 
   return <div className="diary-page upbo-diary-page">
-    <div className="diary-page-heading"><div><h1>{t('upbo_title', '업보 현황')}</h1><small>{t('upbo_label', 'UPBO')}</small></div></div>
+    <div className="diary-page-heading upbo-page-heading">
+      <div><h1>{t('upbo_title', '업보 현황')}</h1><small>{t('upbo_label', 'UPBO')}</small></div>
+      {formatUpboUpdatedDate(lastUpdatedAt) && <div className="upbo-last-updated"><span>마지막 업데이트</span><strong>{formatUpboUpdatedDate(lastUpdatedAt)}</strong></div>}
+    </div>
     {error && <StatusMessage tone="error">{error}</StatusMessage>}
 
     <section className="upbo-filter-bar">
