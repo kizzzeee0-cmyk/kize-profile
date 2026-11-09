@@ -5765,3 +5765,13 @@ a.journey-row:hover {
     font-size: 10.5px !important;
   }
 }
+
+
+/* 2026-11-09 upbo updated label/date spacing */
+.upbo-last-updated {
+  gap: 10px !important;
+}
+
+.upbo-last-updated > strong {
+  margin-left: 2px !important;
+}
