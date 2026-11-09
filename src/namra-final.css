@@ -5716,3 +5716,52 @@ a.journey-row:hover {
 }
 
 
+
+
+/* 2026-11-09 upbo last-updated date */
+.upbo-page-heading {
+  align-items: flex-end !important;
+}
+
+.upbo-last-updated {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  padding: 7px 10px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  color: var(--muted) !important;
+  font-size: 11.5px !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.upbo-last-updated > span {
+  font-weight: 500 !important;
+}
+
+.upbo-last-updated > strong {
+  color: var(--brand-strong) !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  font-weight: 700 !important;
+}
+
+.upbo-admin-page-title .upbo-last-updated.admin {
+  width: fit-content !important;
+  margin-top: 10px !important;
+  background: var(--brand-faint) !important;
+}
+
+@media (max-width: 620px) {
+  .upbo-page-heading {
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .upbo-last-updated {
+    padding: 6px 9px !important;
+    font-size: 10.5px !important;
+  }
+}
