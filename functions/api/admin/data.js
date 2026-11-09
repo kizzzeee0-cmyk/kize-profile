@@ -2,6 +2,11 @@ import { requireAdmin } from '../../_lib/auth.js'
 import { json, errorJson } from '../../_lib/http.js'
 import { deleteRowInStore, isAllowedTable, readStore, saveRowInStore, writeStore } from '../../_lib/store.js'
 
+function markUpboUpdated(data, table) {
+  if (!['upbo_people', 'upbo_items', 'upbo_results'].includes(table)) return
+  data.meta = { ...(data.meta || {}), upbo_updated_at: new Date().toISOString() }
+}
+
 export async function onRequestGet({ request, env }) {
   const session = await requireAdmin(request, env)
   if (!session) return json({ error: '로그인이 필요합니다.' }, 401)
@@ -30,6 +35,7 @@ export async function onRequestPost({ request, env }) {
       }
 
       const row = saveRowInStore(data, table, values, body.id ? String(body.id) : undefined)
+      markUpboUpdated(data, table)
       await writeStore(env, data, `[CF-Pages-Skip] Save ${table}`)
       return json({ ok: true, row })
     }
@@ -37,6 +43,7 @@ export async function onRequestPost({ request, env }) {
     if (action === 'delete') {
       if (!body.id) return json({ error: '삭제할 ID가 없습니다.' }, 400)
       deleteRowInStore(data, table, String(body.id))
+      markUpboUpdated(data, table)
       await writeStore(env, data, `[CF-Pages-Skip] Delete ${table}`)
       return json({ ok: true })
     }
@@ -74,6 +81,7 @@ export async function onRequestPost({ request, env }) {
         row.updated_at = new Date().toISOString()
       })
 
+      markUpboUpdated(data, table)
       await writeStore(env, data, `[CF-Pages-Skip] Reorder ${table}`)
       return json({ ok: true, rows: ids.map(id => byId.get(id)) })
     }
