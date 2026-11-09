@@ -174,6 +174,11 @@ export async function fetchUpboResults(): Promise<UpboResult[]> {
   return [...((store.upbo_results ?? []) as UpboResult[])].sort((a, b) => a.sort_order - b.sort_order || String(a.created_at || '').localeCompare(String(b.created_at || '')))
 }
 
+export async function fetchUpboUpdatedAt(admin = false): Promise<string | null> {
+  const store = await loadStore(admin)
+  return store.meta?.upbo_updated_at ? String(store.meta.upbo_updated_at) : null
+}
+
 
 export type AlbumArtworkCandidate = {
   id: string
