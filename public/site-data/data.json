@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-09T04:42:53.068Z",
+    "updated_at": "2026-11-09T04:42:58.183Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1200,12 +1200,12 @@
       "id": "6eb9315f-ede7-4c37-a1f0-1de5f247cb36",
       "soop_name": "4월_",
       "soop_id": "enddl12006",
-      "profile_image_url": "https://stimg.sooplive.com/LOGO/en/enddl12006/m/enddl12006.webp",
+      "profile_image_url": "/api/media?path=public%2Fsite-media%2Fupbo%2F6eb9315f-ede7-4c37-a1f0-1de5f247cb36-1794199375152.webp",
       "note": "",
       "sort_order": 5,
       "is_visible": true,
       "created_at": "2026-11-09T04:42:53.068Z",
-      "updated_at": "2026-11-09T04:42:53.068Z"
+      "updated_at": "2026-11-09T04:42:58.183Z"
     }
   ],
   "upbo_results": [
