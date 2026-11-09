@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-09T04:44:05.614Z",
+    "updated_at": "2026-11-09T04:44:43.359Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -26,7 +26,8 @@
       "upbo_results",
       "wardrobe_items"
     ],
-    "failed_tables": []
+    "failed_tables": [],
+    "upbo_updated_at": "2026-11-09T04:44:05.614Z"
   },
   "site_settings": [
     {
