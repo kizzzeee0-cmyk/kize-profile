@@ -2,12 +2,26 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { AdminPanel, FormField, Notice } from '../../components/AdminCommon'
 import { AdminSortableList } from '../../components/AdminSortableList'
 import { AppIcon } from '../../components/AppIcon'
-import { deleteRow, fetchAdminTable, reorderRows, saveRow } from '../../lib/data'
+import { deleteRow, fetchAdminTable, fetchUpboUpdatedAt, reorderRows, saveRow } from '../../lib/data'
 import { primarySoopProfileUrl } from '../../lib/soop'
 import type { UpboItem, UpboPerson, UpboResult } from '../../types'
 
 const emptyPerson = { soop_name: '', soop_id: '', profile_image_url: '', note: '', sort_order: 0, is_visible: true }
 const emptyItem = { name: '', note: '', sort_order: 0, is_visible: true }
+
+function formatUpboUpdatedDate(value: string | null) {
+  if (!value) return null
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return null
+  const parts = new Intl.DateTimeFormat('ko-KR', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date)
+  const pick = (type: string) => parts.find(part => part.type === type)?.value || ''
+  return `${pick('year')}.${pick('month')}.${pick('day')}`
+}
 
 function cleanSoopId(value: string) {
   return value.replace(/[()（）]/g, '').trim()
@@ -17,6 +31,7 @@ export default function AdminUpboPage() {
   const [people, setPeople] = useState<UpboPerson[]>([])
   const [items, setItems] = useState<UpboItem[]>([])
   const [results, setResults] = useState<UpboResult[]>([])
+  const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null)
   const [personForm, setPersonForm] = useState<Record<string, any>>(emptyPerson)
   const [itemForm, setItemForm] = useState<Record<string, any>>(emptyItem)
   const [personId, setPersonId] = useState<string | undefined>()
@@ -29,14 +44,16 @@ export default function AdminUpboPage() {
 
   async function load() {
     try {
-      const [p, i, r] = await Promise.all([
+      const [p, i, r, updatedAt] = await Promise.all([
         fetchAdminTable<UpboPerson>('upbo_people', 'sort_order'),
         fetchAdminTable<UpboItem>('upbo_items', 'sort_order'),
         fetchAdminTable<UpboResult>('upbo_results', 'sort_order'),
+        fetchUpboUpdatedAt(true),
       ])
       setPeople(p)
       setItems(i)
       setResults(r)
+      setLastUpdatedAt(updatedAt)
       setSelectedPersonId(current => current && p.some(person => person.id === current) ? current : (p[0]?.id || ''))
       setError(null)
     } catch (e) {
@@ -45,6 +62,14 @@ export default function AdminUpboPage() {
   }
 
   useEffect(() => { void load() }, [])
+
+  async function refreshLastUpdated() {
+    try {
+      setLastUpdatedAt(await fetchUpboUpdatedAt(true))
+    } catch {
+      setLastUpdatedAt(new Date().toISOString())
+    }
+  }
 
   useEffect(() => {
     const rawSoopId = String(personForm.soop_id || '')
@@ -129,6 +154,7 @@ export default function AdminUpboPage() {
     try {
       await reorderRows('upbo_people', next.map(row => row.id))
       setPeople(next.map((row, index) => ({ ...row, sort_order: index + 1 })))
+      await refreshLastUpdated()
     } catch (e) {
       setError(e instanceof Error ? e.message : '시청자 순서 저장 실패')
       throw e
@@ -142,6 +168,7 @@ export default function AdminUpboPage() {
     try {
       await reorderRows('upbo_items', next.map(row => row.id))
       setItems(next.map((row, index) => ({ ...row, sort_order: index + 1 })))
+      await refreshLastUpdated()
     } catch (e) {
       setError(e instanceof Error ? e.message : '항목 순서 저장 실패')
       throw e
@@ -189,6 +216,7 @@ export default function AdminUpboPage() {
           ? current.map(row => row.id === existing.id ? saved : row)
           : [...current, saved])
       }
+      await refreshLastUpdated()
     } catch (e) {
       setError(e instanceof Error ? e.message : '업보 개수 저장 실패')
     } finally {
@@ -199,10 +227,11 @@ export default function AdminUpboPage() {
   const selectedPerson = people.find(person => person.id === selectedPersonId)
 
   return <>
-    <div className="admin-page-title">
+    <div className="admin-page-title upbo-admin-page-title">
       <span>UPBO CMS</span>
       <h1>업보 관리</h1>
       <p>시청자와 업보 항목을 미리 등록한 뒤, 시청자별 개수를 − / + 버튼으로 바로 관리합니다.</p>
+      {formatUpboUpdatedDate(lastUpdatedAt) && <div className="upbo-last-updated admin"><span>마지막 저장</span><strong>{formatUpboUpdatedDate(lastUpdatedAt)}</strong></div>}
     </div>
 
     {message && <Notice>{message}</Notice>}
