@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-10T17:46:28.695Z",
+    "updated_at": "2026-11-10T17:46:31.793Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -27,7 +27,7 @@
       "wardrobe_items"
     ],
     "failed_tables": [],
-    "upbo_updated_at": "2026-11-10T17:46:28.695Z"
+    "upbo_updated_at": "2026-11-10T17:46:31.793Z"
   },
   "site_settings": [
     {
@@ -1380,11 +1380,11 @@
       "person_id": "9c774e63-ae12-4ed2-911c-3b40a559160f",
       "item_id": "fc28918e-6df1-4f15-b395-f3d08eee1066",
       "result_label": "빼빼로데이 단컷",
-      "quantity": 1,
+      "quantity": 2,
       "note": "",
       "sort_order": 14,
       "created_at": "2026-11-10T17:46:28.695Z",
-      "updated_at": "2026-11-10T17:46:28.695Z"
+      "updated_at": "2026-11-10T17:46:31.793Z"
     }
   ],
   "upbo_items": [
