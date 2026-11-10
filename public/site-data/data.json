@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-10T17:46:31.793Z",
+    "updated_at": "2026-11-10T17:46:55.070Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -27,7 +27,7 @@
       "wardrobe_items"
     ],
     "failed_tables": [],
-    "upbo_updated_at": "2026-11-10T17:46:31.793Z"
+    "upbo_updated_at": "2026-11-10T17:46:55.070Z"
   },
   "site_settings": [
     {
@@ -1522,6 +1522,15 @@
       "is_visible": true,
       "created_at": "2026-11-10T17:46:12.463Z",
       "updated_at": "2026-11-10T17:46:12.463Z"
+    },
+    {
+      "id": "512747b9-6ac1-40a1-8f4a-05bdba1473ec",
+      "name": "마크즉석방셀",
+      "note": "",
+      "sort_order": 16,
+      "is_visible": true,
+      "created_at": "2026-11-10T17:46:55.070Z",
+      "updated_at": "2026-11-10T17:46:55.070Z"
     }
   ]
 }
