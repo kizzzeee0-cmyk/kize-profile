@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-11T10:52:25.978Z",
+    "updated_at": "2026-11-11T10:52:35.428Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1137,6 +1137,18 @@
       "is_visible": true,
       "created_at": "2026-11-11T10:52:25.978Z",
       "updated_at": "2026-11-11T10:52:25.978Z"
+    },
+    {
+      "id": "30d02089-8c87-4a09-8ccf-5421038eafbc",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fsignature_items%2F1794394351853-bea4a3b4e8-_______-2834.png",
+      "title": "",
+      "number_text": "2834",
+      "description": "",
+      "important_info": "",
+      "sort_order": 4,
+      "is_visible": true,
+      "created_at": "2026-11-11T10:52:35.428Z",
+      "updated_at": "2026-11-11T10:52:35.428Z"
     }
   ],
   "songs": [],
