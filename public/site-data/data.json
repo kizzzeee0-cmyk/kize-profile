@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-11T20:07:01.125Z",
+    "updated_at": "2026-11-11T20:07:14.540Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -27,7 +27,7 @@
       "wardrobe_items"
     ],
     "failed_tables": [],
-    "upbo_updated_at": "2026-11-11T20:07:01.125Z"
+    "upbo_updated_at": "2026-11-11T20:07:14.540Z"
   },
   "site_settings": [
     {
@@ -1587,6 +1587,17 @@
       "sort_order": 14,
       "created_at": "2026-11-11T20:07:01.125Z",
       "updated_at": "2026-11-11T20:07:01.125Z"
+    },
+    {
+      "id": "3882e874-e8ff-4ba5-a056-550c01842c04",
+      "person_id": "65c00a8a-f7fc-40ba-bd86-58f3a2ce7f9f",
+      "item_id": "512747b9-6ac1-40a1-8f4a-05bdba1473ec",
+      "result_label": "마크즉석방셀",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 16,
+      "created_at": "2026-11-11T20:07:14.540Z",
+      "updated_at": "2026-11-11T20:07:14.540Z"
     }
   ],
   "upbo_items": [
@@ -1748,6 +1759,18 @@
         "result_id": "67939ed2-0a10-492e-afbe-eaec82463c61"
       },
       "created_at": "2026-11-11T20:07:01.125Z"
+    },
+    {
+      "id": "6a0450ce-06a0-4dce-9ff7-91ab066f3136",
+      "action": "manual_increment",
+      "person_id": "65c00a8a-f7fc-40ba-bd86-58f3a2ce7f9f",
+      "item_id": "512747b9-6ac1-40a1-8f4a-05bdba1473ec",
+      "quantity": 1,
+      "source": "admin",
+      "detail": {
+        "result_id": "3882e874-e8ff-4ba5-a056-550c01842c04"
+      },
+      "created_at": "2026-11-11T20:07:14.540Z"
     }
   ],
   "weflab_mappings": [],
