@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-11T20:07:14.540Z",
+    "updated_at": "2026-11-11T20:07:28.236Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -27,7 +27,7 @@
       "wardrobe_items"
     ],
     "failed_tables": [],
-    "upbo_updated_at": "2026-11-11T20:07:14.540Z"
+    "upbo_updated_at": "2026-11-11T20:07:28.236Z"
   },
   "site_settings": [
     {
@@ -1598,6 +1598,17 @@
       "sort_order": 16,
       "created_at": "2026-11-11T20:07:14.540Z",
       "updated_at": "2026-11-11T20:07:14.540Z"
+    },
+    {
+      "id": "4e10fb2d-b4db-4c8e-a9c4-421d63ffc1c9",
+      "person_id": "1c295e8b-f9ee-4213-bd10-74cff952b650",
+      "item_id": "afbe6a1d-d2a0-45a6-a717-a7ecf767c429",
+      "result_label": "남라네컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 8,
+      "created_at": "2026-11-11T20:07:28.236Z",
+      "updated_at": "2026-11-11T20:07:28.236Z"
     }
   ],
   "upbo_items": [
@@ -1771,6 +1782,18 @@
         "result_id": "3882e874-e8ff-4ba5-a056-550c01842c04"
       },
       "created_at": "2026-11-11T20:07:14.540Z"
+    },
+    {
+      "id": "2319da24-9976-4379-96bc-52371d14b647",
+      "action": "manual_increment",
+      "person_id": "1c295e8b-f9ee-4213-bd10-74cff952b650",
+      "item_id": "afbe6a1d-d2a0-45a6-a717-a7ecf767c429",
+      "quantity": 1,
+      "source": "admin",
+      "detail": {
+        "result_id": "4e10fb2d-b4db-4c8e-a9c4-421d63ffc1c9"
+      },
+      "created_at": "2026-11-11T20:07:28.236Z"
     }
   ],
   "weflab_mappings": [],
