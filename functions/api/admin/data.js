@@ -3,10 +3,6 @@ import { json, errorJson } from '../../_lib/http.js'
 import { deleteRowInStore, isAllowedTable, mutateStoreAtomic, readStore, saveRowInStore, writeStore } from '../../_lib/store.js'
 import { appendUpboAudit, markUpboUpdated } from '../../_lib/upbo.js'
 
-function markUpboUpdated(data, table) {
-  if (!['upbo_people', 'upbo_items', 'upbo_results'].includes(table)) return
-  data.meta = { ...(data.meta || {}), upbo_updated_at: new Date().toISOString() }
-}
 
 const UPBO_TABLES = new Set(['upbo_people', 'upbo_items', 'upbo_results'])
 
