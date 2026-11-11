@@ -1,0 +1,39 @@
+name: Probe Weflab alert page
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/probe-weflab.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe Weflab page
+        shell: bash
+        run: |
+          set -o pipefail
+          URL='https://weflab.com/page/guPK2ODAlGBvZWk'
+          mkdir -p probe
+          curl -L -sS -D probe/headers.txt -o probe/body.html "$URL" || true
+          {
+            echo '=== STATUS / HEADERS ==='
+            cat probe/headers.txt
+            echo
+            echo '=== BODY SIZE ==='
+            wc -c probe/body.html
+            echo
+            echo '=== MARKERS ==='
+            grep -Eio 'alertlist_table|roulette|websocket|socket\.io|wss://|api[^"'\'' ]+|<script[^>]+src=[^> ]+' probe/body.html | head -200 || true
+            echo
+            echo '=== BODY HEAD ==='
+            head -120 probe/body.html
+          } > probe/report.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: weflab-probe
+          path: probe/report.txt
