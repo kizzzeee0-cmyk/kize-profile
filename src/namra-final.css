@@ -6642,3 +6642,314 @@ a.journey-row:hover {
   font-size: 10.5px !important;
   line-height: 1.5 !important;
 }
+
+
+/* 2026-11-11 compact upbo cards + SOOP nickname search */
+/* Public upbo — compact reference-style viewer cards */
+.upbo-reference-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.upbo-reference-card {
+  overflow: hidden !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+  transition: border-color .15s ease, transform .15s ease !important;
+}
+
+.upbo-reference-card:hover {
+  border-color: color-mix(in srgb, var(--brand) 42%, var(--border)) !important;
+  transform: translateY(-1px) !important;
+}
+
+.upbo-reference-card > summary {
+  min-height: 174px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  padding: 18px 14px 16px !important;
+  list-style: none !important;
+  cursor: pointer !important;
+  text-align: center !important;
+}
+
+.upbo-reference-card > summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.upbo-reference-card .upbo-avatar.reference {
+  width: 66px !important;
+  height: 66px !important;
+  min-width: 66px !important;
+  margin-bottom: 4px !important;
+  overflow: hidden !important;
+  border: 2px solid color-mix(in srgb, var(--brand) 24%, #fff) !important;
+  border-radius: 50% !important;
+  background: #f8f7fc !important;
+}
+
+.upbo-reference-card .upbo-avatar.reference img {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  border-radius: 50% !important;
+  background: #f8f7fc !important;
+}
+
+.upbo-reference-card .upbo-avatar-fallback {
+  border-radius: 50% !important;
+}
+
+.upbo-reference-card > summary > strong {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: var(--text) !important;
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+}
+
+.upbo-reference-card > summary > small {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: var(--muted) !important;
+  font-size: 10.5px !important;
+}
+
+.upbo-reference-card > summary > em {
+  margin-top: 4px !important;
+  padding: 5px 10px !important;
+  border-radius: 999px !important;
+  background: var(--brand-soft) !important;
+  color: var(--brand-strong) !important;
+  font-size: 10.5px !important;
+  line-height: 1 !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+}
+
+.upbo-reference-card[open] {
+  border-color: color-mix(in srgb, var(--brand) 38%, var(--border)) !important;
+}
+
+.upbo-reference-card-items {
+  display: grid !important;
+  border-top: 1px solid var(--border) !important;
+  background: color-mix(in srgb, var(--brand-faint) 48%, #fff) !important;
+}
+
+.upbo-reference-card-items > div {
+  min-height: 36px !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 48px !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 7px 11px !important;
+}
+
+.upbo-reference-card-items > div + div {
+  border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent) !important;
+}
+
+.upbo-reference-card-items span {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: var(--body) !important;
+  font-size: 11px !important;
+}
+
+.upbo-reference-card-items strong {
+  color: var(--text) !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  text-align: right !important;
+}
+
+/* Admin SOOP nickname search */
+.soop-user-search-box {
+  display: grid !important;
+  gap: 9px !important;
+  margin-bottom: 14px !important;
+  padding: 12px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  background: var(--brand-faint) !important;
+}
+
+.soop-user-search-form {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 7px !important;
+}
+
+.soop-user-search-form > label {
+  min-height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 0 11px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 9px !important;
+  background: #fff !important;
+}
+
+.soop-user-search-form > label svg {
+  width: 15px !important;
+  height: 15px !important;
+  color: var(--brand) !important;
+}
+
+.soop-user-search-form input {
+  min-width: 0 !important;
+  width: 100% !important;
+  min-height: 36px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+}
+
+.soop-user-search-box > small {
+  color: var(--muted) !important;
+  font-size: 10.5px !important;
+  line-height: 1.5 !important;
+}
+
+.soop-user-search-message {
+  padding: 8px 10px !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  color: var(--muted) !important;
+  font-size: 10.5px !important;
+}
+
+.soop-user-search-results {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+}
+
+.soop-user-search-result {
+  min-width: 0 !important;
+  display: grid !important;
+  grid-template-columns: 46px minmax(0, 1fr) auto !important;
+  grid-template-areas:
+    "avatar copy badge"
+    "avatar copy action" !important;
+  align-items: center !important;
+  gap: 3px 9px !important;
+  padding: 8px 9px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  color: var(--text) !important;
+  text-align: left !important;
+}
+
+.soop-user-search-result:hover,
+.soop-user-search-result.selected {
+  border-color: color-mix(in srgb, var(--brand) 55%, var(--border)) !important;
+  background: color-mix(in srgb, var(--brand-faint) 45%, #fff) !important;
+}
+
+.soop-user-search-avatar {
+  grid-area: avatar !important;
+  width: 46px !important;
+  height: 46px !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 50% !important;
+  background: #f7f7fb !important;
+}
+
+.soop-user-search-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: 50% !important;
+  background: #f7f7fb !important;
+}
+
+.soop-user-search-copy {
+  grid-area: copy !important;
+  min-width: 0 !important;
+  display: grid !important;
+  gap: 2px !important;
+}
+
+.soop-user-search-copy strong,
+.soop-user-search-copy small {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.soop-user-search-copy strong {
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+}
+
+.soop-user-search-copy small {
+  color: var(--muted) !important;
+  font-size: 9.5px !important;
+}
+
+.soop-user-search-result em {
+  grid-area: badge !important;
+  justify-self: end !important;
+  padding: 3px 6px !important;
+  border-radius: 999px !important;
+  background: var(--brand-soft) !important;
+  color: var(--brand-strong) !important;
+  font-size: 8.5px !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+}
+
+.soop-user-search-result b {
+  grid-area: action !important;
+  justify-self: end !important;
+  color: var(--brand-strong) !important;
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
+}
+
+@media (max-width: 900px) {
+  .upbo-reference-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .soop-user-search-results {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .upbo-reference-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .upbo-reference-card > summary {
+    min-height: 160px !important;
+  }
+
+  .soop-user-search-form {
+    grid-template-columns: 1fr !important;
+  }
+}
