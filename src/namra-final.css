@@ -6953,3 +6953,14 @@ a.journey-row:hover {
     grid-template-columns: 1fr !important;
   }
 }
+
+
+/* 2026-11-11 public upbo search-only layout */
+.upbo-filter-bar.public-search-only {
+  display: block !important;
+  margin-bottom: 14px !important;
+}
+
+.upbo-filter-bar.public-search-only .diary-search {
+  width: 100% !important;
+}
