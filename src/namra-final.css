@@ -6964,3 +6964,46 @@ a.journey-row:hover {
 .upbo-filter-bar.public-search-only .diary-search {
   width: 100% !important;
 }
+
+
+/* 2026-11-11 force perfect-circle public upbo avatars */
+.upbo-reference-card .upbo-avatar.reference {
+  width: 66px !important;
+  height: 66px !important;
+  min-width: 66px !important;
+  min-height: 66px !important;
+  max-width: 66px !important;
+  max-height: 66px !important;
+  inline-size: 66px !important;
+  block-size: 66px !important;
+  aspect-ratio: 1 / 1 !important;
+  flex: 0 0 66px !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 9999px !important;
+}
+
+.upbo-reference-card .upbo-avatar.reference > img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  box-sizing: border-box !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  border-radius: 9999px !important;
+}
+
+.upbo-reference-card .upbo-avatar.reference > .upbo-avatar-fallback {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 9999px !important;
+}
