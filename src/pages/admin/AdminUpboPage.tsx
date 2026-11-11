@@ -590,6 +590,10 @@ export default function AdminUpboPage() {
     {tab === 'weflab' && <>
       {weflabError && <Notice error>{weflabError}</Notice>}
       <AdminPanel title="위플랩 연동 설정" description="실제 수신기 응답과 웹소켓 연결이 확인돼야만 ‘정상 수신 중’으로 표시합니다.">
+        {!weflab?.settings.source_verified && <div className="weflab-source-warning">
+          <strong>실제 Weflab 데이터 소스 검증 필요</strong>
+          <span>사이트 수신 API와 Windows 브리지는 준비되어 있지만, Weflab 원본 웹소켓을 읽는 source adapter가 확인되기 전에는 정상 수신 상태로 표시하지 않습니다.</span>
+        </div>}
         <div className="weflab-status-grid">
           <div><span>연동 상태</span><strong className={'weflab-status ' + status.tone}>{status.label}</strong></div>
           <div><span>마지막 이벤트</span><strong>{formatDate(weflab?.settings.last_event_at, true)}</strong></div>
