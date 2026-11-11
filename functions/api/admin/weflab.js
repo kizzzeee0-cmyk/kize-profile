@@ -1,7 +1,7 @@
 import { requireAdmin } from '../../_lib/auth.js'
 import { json, errorJson } from '../../_lib/http.js'
 import { mutateStoreAtomic, readStore, saveRowInStore } from '../../_lib/store.js'
-import { encryptSecret, hashToken, randomToken } from '../../_lib/secret.js'
+import { decryptSecret, encryptSecret, hashToken, randomToken } from '../../_lib/secret.js'
 import { ensureUpboOperationalData, markUpboUpdated } from '../../_lib/upbo.js'
 
 function safeSettings(row) {
@@ -59,9 +59,19 @@ export async function onRequestGet({ request, env }) {
       String(a.roulette_name || '').localeCompare(String(b.roulette_name || ''), 'ko') ||
       String(a.source_item_name || '').localeCompare(String(b.source_item_name || ''), 'ko')
     )
-    const events = [...data.weflab_events]
+    const events = await Promise.all([...data.weflab_events]
       .sort((a, b) => String(b.received_at || '').localeCompare(String(a.received_at || '')))
       .slice(0, 120)
+      .map(async event => {
+        let donor_soop_id = ''
+        let donor_display_name = ''
+        try {
+          if (event.donor_soop_id_encrypted) donor_soop_id = await decryptSecret(env, event.donor_soop_id_encrypted)
+          if (event.donor_display_name_encrypted) donor_display_name = await decryptSecret(env, event.donor_display_name_encrypted)
+        } catch { /* keep empty */ }
+        const { donor_soop_id_encrypted, donor_display_name_encrypted, ...rest } = event
+        return { ...rest, donor_soop_id, donor_display_name }
+      }))
 
     return json({ settings: safeSettings(settings), presets, mappings, events })
   } catch (error) {
