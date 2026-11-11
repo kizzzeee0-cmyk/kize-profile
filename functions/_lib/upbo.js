@@ -126,7 +126,7 @@ function ensurePerson(data, soopId, displayName) {
     soop_id: cleanId,
     profile_image_url: null,
     note: '',
-    admin_note: '',
+    admin_note_encrypted: '',
     sort_order: maxOrder + 1,
     is_visible: true,
     created_at: new Date().toISOString(),
