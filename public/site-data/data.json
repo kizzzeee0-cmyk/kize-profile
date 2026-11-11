@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-11T04:12:39.676Z",
+    "updated_at": "2026-11-11T10:52:03.221Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1101,7 +1101,20 @@
       "updated_at": "2026-09-17T16:39:23.569153+00:00"
     }
   ],
-  "signature_items": [],
+  "signature_items": [
+    {
+      "id": "08156d41-f15a-4f69-8cd4-3bf7b7c111c4",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fsignature_items%2F1794394318595-5a442ff843-_______-134.png",
+      "title": "",
+      "number_text": "134",
+      "description": "",
+      "important_info": "",
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-11-11T10:52:03.221Z",
+      "updated_at": "2026-11-11T10:52:03.221Z"
+    }
+  ],
   "songs": [],
   "wardrobe_items": [
     {
