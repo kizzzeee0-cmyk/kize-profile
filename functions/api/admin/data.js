@@ -2,6 +2,7 @@ import { requireAdmin } from '../../_lib/auth.js'
 import { json, errorJson } from '../../_lib/http.js'
 import { deleteRowInStore, isAllowedTable, mutateStoreAtomic, readStore, saveRowInStore, writeStore } from '../../_lib/store.js'
 import { appendUpboAudit, markUpboUpdated } from '../../_lib/upbo.js'
+import { decryptSecret } from '../../_lib/secret.js'
 
 
 const UPBO_TABLES = new Set(['upbo_people', 'upbo_items', 'upbo_results'])
@@ -10,7 +11,29 @@ export async function onRequestGet({ request, env }) {
   const session = await requireAdmin(request, env)
   if (!session) return json({ error: '로그인이 필요합니다.' }, 401)
   try {
-    return json({ data: await readStore(env) })
+    const data = await readStore(env)
+
+    data.upbo_people = await Promise.all((data.upbo_people || []).map(async person => {
+      let admin_note = ''
+      if (person.admin_note_encrypted) {
+        try { admin_note = await decryptSecret(env, person.admin_note_encrypted) } catch { admin_note = '' }
+      }
+      const { admin_note_encrypted, ...rest } = person
+      return { ...rest, admin_note }
+    }))
+
+    data.upbo_completions = await Promise.all((data.upbo_completions || []).map(async completion => {
+      let person_name = ''
+      let person_soop_id = ''
+      try {
+        if (completion.person_name_encrypted) person_name = await decryptSecret(env, completion.person_name_encrypted)
+        if (completion.person_soop_id_encrypted) person_soop_id = await decryptSecret(env, completion.person_soop_id_encrypted)
+      } catch { /* keep empty */ }
+      const { person_name_encrypted, person_soop_id_encrypted, ...rest } = completion
+      return { ...rest, person_name, person_soop_id }
+    }))
+
+    return json({ data })
   } catch (error) {
     return errorJson(error, Number(error?.status) || 500)
   }
