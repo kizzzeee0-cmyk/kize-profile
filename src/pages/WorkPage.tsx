@@ -22,7 +22,7 @@ function formatUpboUpdatedDate(value: string | null) {
 }
 
 function Avatar({ person }: { person: UpboPerson }) {
-  return <div className="upbo-avatar compact">
+  return <div className="upbo-avatar reference">
     <img
       src={person.profile_image_url || primarySoopProfileUrl(person.soop_id)}
       alt=""
@@ -151,17 +151,15 @@ export default function WorkPage() {
       ? <LoadingBlocks />
       : view === 'viewer'
         ? viewerRows.length
-          ? <section className="upbo-overview-list viewer-list">
-            {viewerRows.map(row => <details className="upbo-overview-row" key={row.person.id}>
+          ? <section className="upbo-reference-grid">
+            {viewerRows.map(row => <details className="upbo-reference-card" key={row.person.id}>
               <summary>
-                <div className="upbo-overview-person">
-                  <Avatar person={row.person} />
-                  <div><strong>{row.person.soop_name}</strong><small>@{row.person.soop_id}</small></div>
-                </div>
-                <span className="upbo-total-pill">총 {row.total}개</span>
-                <AppIcon name="chevron-right" />
+                <Avatar person={row.person} />
+                <strong>{row.person.soop_name}</strong>
+                <small>@{row.person.soop_id}</small>
+                <em>업보 {row.total}</em>
               </summary>
-              <div className="upbo-overview-items">
+              <div className="upbo-reference-card-items">
                 {row.results
                   .sort((a, b) => Number(b.quantity || 0) - Number(a.quantity || 0) || a.result_label.localeCompare(b.result_label, 'ko'))
                   .map(item => <div key={item.id}><span>{item.result_label}</span><strong>× {item.quantity}</strong></div>)}
