@@ -60,7 +60,7 @@ export function publicStore(data) {
     } else if (table === 'upbo_people') {
       output[table] = rows
         .filter(row => row?.is_visible !== false)
-        .map(({ admin_note, ...row }) => row)
+        .map(({ admin_note, admin_note_encrypted, ...row }) => row)
     } else {
       output[table] = rows.filter(row => row?.is_visible !== false)
     }
