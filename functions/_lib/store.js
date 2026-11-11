@@ -1,20 +1,43 @@
-import { DATA_PATH, readJson, saveJson } from './github.js'
+import { DATA_PATH, mutateJsonAtomic, readJson, saveJson } from './github.js'
 
 export const TABLES = [
   'site_settings', 'profile', 'profile_stats', 'profile_features', 'social_links',
   'navigation_links', 'milestones', 'archives', 'schedule_categories', 'schedules',
   'site_texts', 'signature_items', 'songs', 'wardrobe_items', 'upbo_people', 'upbo_items', 'upbo_results',
+  'upbo_completions', 'upbo_audit_log', 'weflab_settings', 'weflab_mappings', 'weflab_events', 'weflab_presets',
 ]
+
+const ADMIN_ONLY_TABLES = new Set([
+  'upbo_completions', 'upbo_audit_log', 'weflab_settings', 'weflab_mappings', 'weflab_events', 'weflab_presets',
+])
 
 export function isAllowedTable(table) {
   return TABLES.includes(String(table || ''))
 }
 
-export async function readStore(env) {
-  const data = await readJson(env, DATA_PATH)
+function normalizeStoreShape(data) {
   for (const table of TABLES) if (!Array.isArray(data[table])) data[table] = []
   if (!data.meta || typeof data.meta !== 'object') data.meta = {}
   return data
+}
+
+export async function readStore(env) {
+  const data = await readJson(env, DATA_PATH)
+  return normalizeStoreShape(data)
+}
+
+export async function mutateStoreAtomic(env, mutator, message = '[CF-Pages-Skip] Atomic NAMRA store update') {
+  return mutateJsonAtomic(env, async data => {
+    normalizeStoreShape(data)
+    const result = await mutator(data)
+    data.meta = {
+      ...(data.meta || {}),
+      version: 1,
+      storage: 'github-json',
+      updated_at: new Date().toISOString(),
+    }
+    return result
+  }, DATA_PATH, message)
 }
 
 export async function writeStore(env, data, message = '[CF-Pages-Skip] Update NAMRA CMS data') {
@@ -30,9 +53,14 @@ export async function writeStore(env, data, message = '[CF-Pages-Skip] Update NA
 export function publicStore(data) {
   const output = { meta: { ...(data.meta || {}) } }
   for (const table of TABLES) {
+    if (ADMIN_ONLY_TABLES.has(table)) continue
     const rows = Array.isArray(data[table]) ? data[table] : []
     if (table === 'site_settings' || table === 'profile' || table === 'site_texts' || table === 'upbo_results') {
       output[table] = rows
+    } else if (table === 'upbo_people') {
+      output[table] = rows
+        .filter(row => row?.is_visible !== false)
+        .map(({ admin_note, ...row }) => row)
     } else {
       output[table] = rows.filter(row => row?.is_visible !== false)
     }
