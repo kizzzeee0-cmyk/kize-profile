@@ -215,7 +215,6 @@ export function processRouletteEvent(data, rawEvent, options = {}) {
       duplicate: true,
       event: appendEvent(data, {
         id: crypto.randomUUID(),
-        event_key: null,
         duplicate_of: existingKey.event_id || null,
         event_key_hash: eventKeyHash,
         roulette_name: event.roulette_name,
