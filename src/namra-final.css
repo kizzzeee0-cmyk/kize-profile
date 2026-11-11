@@ -6618,3 +6618,27 @@ a.journey-row:hover {
     justify-content: space-between !important;
   }
 }
+
+
+/* 2026-11-11 Weflab source verification warning */
+.weflab-source-warning {
+  display: grid !important;
+  gap: 4px !important;
+  margin-bottom: 12px !important;
+  padding: 10px 12px !important;
+  border: 1px solid #eadfb5 !important;
+  border-radius: 10px !important;
+  background: #fffaf0 !important;
+}
+
+.weflab-source-warning strong {
+  color: #75633f !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+}
+
+.weflab-source-warning span {
+  color: #897a5a !important;
+  font-size: 10.5px !important;
+  line-height: 1.5 !important;
+}
