@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
     paths:
+      - tools/probe_weflab_history.py
       - .github/workflows/probe-weflab.yml
 
 permissions:
@@ -13,55 +14,12 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: Probe Weflab public alert page and client JS
-        shell: bash
-        run: |
-          set -o pipefail
-          BASE='https://weflab.com'
-          PAGE='https://weflab.com/page/guPK2ODAlGBvZWk'
-          mkdir -p probe
-
-          curl -L -sS -c probe/cookies.txt -D probe/page-headers.txt -o probe/page.html "$PAGE" || true
-          curl -L -sS -b probe/cookies.txt -e "$PAGE" -D probe/alertlist-headers.txt -o probe/alertlist.html "$BASE/alertlist" || true
-          curl -L -sS -o probe/main.js "$BASE/resource/dist/main.js?ver=20261109124502" || true
-          curl -L -sS -o probe/vendor_page.js "$BASE/resource/dist/vendor_page.js?ver=20260707165406" || true
-
-          {
-            echo '=== PAGE ==='
-            grep -m1 -E '<title>|data-page=' probe/page.html || true
-            echo
-            echo '=== ALERTLIST STATUS ==='
-            head -20 probe/alertlist-headers.txt
-            echo
-            echo '=== ALERTLIST MARKERS ==='
-            grep -Eio '<title>[^<]+|alertlist_table|btn_roulette_static|login|로그인' probe/alertlist.html | head -50 || true
-            echo
-            echo '=== MAIN.JS alertlist / donation / roulette snippets ==='
-            python - <<'PY'
-from pathlib import Path
-import re
-for filename in ['probe/main.js','probe/vendor_page.js']:
-    text=Path(filename).read_text(errors='ignore')
-    print('\nFILE', filename, 'SIZE', len(text))
-    needles=['alertlist','roulette_static','btn_roulette_static','alertlist_table','socket.on','socket.emit','loginData.userid','pageid','donation']
-    shown=set()
-    for needle in needles:
-        pos=0
-        count=0
-        while True:
-            i=text.find(needle,pos)
-            if i<0 or count>=12: break
-            snippet=text[max(0,i-300):min(len(text),i+650)].replace('\n',' ')
-            # scrub obvious personal values; report code only
-            key=(needle,snippet)
-            if key not in shown:
-                print('\n---',needle,'---\n',snippet)
-                shown.add(key)
-            pos=i+len(needle)
-            count+=1
-PY
-          } > probe/report.txt
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tools/probe_weflab_history.py
       - uses: actions/upload-artifact@v4
         with:
           name: weflab-probe-2
-          path: probe/report.txt
+          path: probe-report.txt
