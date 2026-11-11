@@ -1,0 +1,7 @@
+{
+  "site_base_url": "https://namra-profile.pages.dev",
+  "receiver_token": "관리자 페이지에서 발급한 인증키를 여기에 입력",
+  "listen_host": "127.0.0.1",
+  "listen_port": 18088,
+  "queue_file": "receiver-queue.jsonl"
+}
