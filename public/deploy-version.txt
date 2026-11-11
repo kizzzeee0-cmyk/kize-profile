@@ -1,1 +1,1 @@
-upbo-reference-ui-soop-search-v1-20261111
+public-upbo-search-only-v1-20261111
