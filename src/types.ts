@@ -113,6 +113,7 @@ export type UpboResult = {
   note: string | null
   sort_order: number
   created_at?: string
+  updated_at?: string
 }
 
 export type PublicData = {
