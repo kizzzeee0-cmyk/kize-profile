@@ -1,6 +1,6 @@
 import { json, errorJson } from '../../_lib/http.js'
 import { mutateStoreAtomic, readStore } from '../../_lib/store.js'
-import { bearerToken, verifyHashedToken } from '../../_lib/secret.js'
+import { bearerToken, encryptSecret, hashToken, verifyHashedToken } from '../../_lib/secret.js'
 import { ensureUpboOperationalData, processRouletteEvent } from '../../_lib/upbo.js'
 
 export async function onRequestPost({ request, env }) {
@@ -14,9 +14,30 @@ export async function onRequestPost({ request, env }) {
     const events = Array.isArray(body.events) ? body.events : [body.event || body]
     if (!events.length || events.length > 50) return json({ error: '한 번에 1~50개의 이벤트만 처리할 수 있습니다.' }, 400)
 
-    const atomic = await mutateStoreAtomic(env, data => {
+    const atomic = await mutateStoreAtomic(env, async data => {
       const current = ensureUpboOperationalData(data)
-      const results = events.map(event => processRouletteEvent(data, event, { testMode: Boolean(body.test_mode) }))
+      const results = []
+      for (const event of events) {
+        const sourceId = String(event?.source_event_id || '').trim()
+        const bridgeId = String(event?.bridge_event_id || '').trim()
+        const rawKey = sourceId ? 'source:' + sourceId : bridgeId ? 'bridge:' + bridgeId : ''
+        const eventKeyHash = rawKey ? await hashToken(rawKey) : ''
+        const result = processRouletteEvent(data, event, {
+          testMode: Boolean(body.test_mode),
+          eventKeyHash,
+        })
+
+        const row = result.event
+        if (row.donor_soop_id) {
+          row.donor_soop_id_encrypted = await encryptSecret(env, row.donor_soop_id)
+          delete row.donor_soop_id
+        }
+        if (row.donor_display_name) {
+          row.donor_display_name_encrypted = await encryptSecret(env, row.donor_display_name)
+          delete row.donor_display_name
+        }
+        results.push(result)
+      }
       current.last_receiver_heartbeat = new Date().toISOString()
       current.receiver_monitoring = true
       if (typeof body.websocket_connected === 'boolean') current.receiver_websocket_connected = body.websocket_connected
