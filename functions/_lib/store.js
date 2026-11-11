@@ -4,11 +4,11 @@ export const TABLES = [
   'site_settings', 'profile', 'profile_stats', 'profile_features', 'social_links',
   'navigation_links', 'milestones', 'archives', 'schedule_categories', 'schedules',
   'site_texts', 'signature_items', 'songs', 'wardrobe_items', 'upbo_people', 'upbo_items', 'upbo_results',
-  'upbo_completions', 'upbo_audit_log', 'weflab_settings', 'weflab_mappings', 'weflab_events', 'weflab_presets',
+  'upbo_completions', 'upbo_audit_log', 'weflab_settings', 'weflab_mappings', 'weflab_events', 'weflab_event_keys', 'weflab_presets',
 ]
 
 const ADMIN_ONLY_TABLES = new Set([
-  'upbo_completions', 'upbo_audit_log', 'weflab_settings', 'weflab_mappings', 'weflab_events', 'weflab_presets',
+  'upbo_completions', 'upbo_audit_log', 'weflab_settings', 'weflab_mappings', 'weflab_events', 'weflab_event_keys', 'weflab_presets',
 ])
 
 export function isAllowedTable(table) {
