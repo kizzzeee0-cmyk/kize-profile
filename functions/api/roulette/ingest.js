@@ -22,21 +22,73 @@ export async function onRequestPost({ request, env }) {
         const bridgeId = String(event?.bridge_event_id || '').trim()
         const rawKey = sourceId ? 'source:' + sourceId : bridgeId ? 'bridge:' + bridgeId : ''
         const eventKeyHash = rawKey ? await hashToken(rawKey) : ''
-        const result = processRouletteEvent(data, event, {
-          testMode: Boolean(body.test_mode),
-          eventKeyHash,
-        })
 
-        const row = result.event
-        if (row.donor_soop_id) {
-          row.donor_soop_id_encrypted = await encryptSecret(env, row.donor_soop_id)
-          delete row.donor_soop_id
+        try {
+          const result = processRouletteEvent(data, event, {
+            testMode: Boolean(body.test_mode),
+            eventKeyHash,
+          })
+
+          const row = result.event
+          if (row.donor_soop_id) {
+            row.donor_soop_id_encrypted = await encryptSecret(env, row.donor_soop_id)
+            delete row.donor_soop_id
+          }
+          if (row.donor_display_name) {
+            row.donor_display_name_encrypted = await encryptSecret(env, row.donor_display_name)
+            delete row.donor_display_name
+          }
+          results.push(result)
+        } catch (eventError) {
+          const now = new Date().toISOString()
+          const existingKey = eventKeyHash
+            ? data.weflab_event_keys.find(row => row.event_key_hash === eventKeyHash)
+            : null
+
+          if (existingKey) {
+            const duplicate = {
+              id: crypto.randomUUID(),
+              duplicate_of: existingKey.event_id || null,
+              event_key_hash: eventKeyHash,
+              roulette_name: String(event?.roulette_name || ''),
+              item_name: String(event?.item_name || ''),
+              applied_quantity: 0,
+              status: 'duplicate',
+              reason: '동일 오류 이벤트 ID 재수신',
+              occurred_at: String(event?.occurred_at || now),
+              received_at: now,
+            }
+            data.weflab_events.push(duplicate)
+            results.push({ duplicate: true, event: duplicate })
+            continue
+          }
+
+          const errorRow = {
+            id: crypto.randomUUID(),
+            duplicate_of: null,
+            event_key_hash: eventKeyHash || null,
+            roulette_name: String(event?.roulette_name || ''),
+            item_name: String(event?.item_name || ''),
+            source_count: Math.max(1, Number.parseInt(event?.count, 10) || 1),
+            applied_quantity: 0,
+            status: 'error',
+            reason: eventError instanceof Error ? eventError.message : '이벤트 처리 오류',
+            occurred_at: String(event?.occurred_at || now),
+            received_at: now,
+          }
+
+          const donorId = String(event?.donor_soop_id || '').trim()
+          const donorName = String(event?.donor_display_name || '').trim()
+          if (donorId) errorRow.donor_soop_id_encrypted = await encryptSecret(env, donorId)
+          if (donorName) errorRow.donor_display_name_encrypted = await encryptSecret(env, donorName)
+
+          data.weflab_events.push(errorRow)
+          if (eventKeyHash) data.weflab_event_keys.push({ event_key_hash: eventKeyHash, event_id: errorRow.id, created_at: now })
+          results.push({ duplicate: false, event: errorRow })
         }
-        if (row.donor_display_name) {
-          row.donor_display_name_encrypted = await encryptSecret(env, row.donor_display_name)
-          delete row.donor_display_name
-        }
-        results.push(result)
+
+        if (data.weflab_events.length > 1200) data.weflab_events = data.weflab_events.slice(-1200)
+        if (data.weflab_event_keys.length > 20000) data.weflab_event_keys = data.weflab_event_keys.slice(-20000)
       }
       current.last_receiver_heartbeat = new Date().toISOString()
       current.receiver_monitoring = true
