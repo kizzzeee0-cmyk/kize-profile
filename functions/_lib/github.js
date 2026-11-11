@@ -112,6 +112,38 @@ export async function saveJson(env, object, path = DATA_PATH, message = '[CF-Pag
   throw lastError
 }
 
+export async function mutateJsonAtomic(env, mutator, path = DATA_PATH, message = '[CF-Pages-Skip] Atomic NAMRA update', maxAttempts = 6) {
+  const { token } = githubConfig(env)
+  if (!token) throw Object.assign(new Error('Cloudflare의 GITHUB_TOKEN 설정이 필요합니다.'), { status: 503 })
+
+  let lastError
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    let current = {}
+    let sha
+    try {
+      const file = await getFile(env, path)
+      current = JSON.parse(decodeContent(file.content))
+      sha = file.sha
+    } catch (error) {
+      if (Number(error?.status) !== 404) throw error
+    }
+
+    const result = await mutator(current)
+    const bytes = enc.encode(JSON.stringify(current, null, 2) + '\n')
+
+    try {
+      const write = await putContent(env, path, bytes, message, sha)
+      return { data: current, result, write }
+    } catch (error) {
+      lastError = error
+      if (Number(error?.status) !== 409 || attempt === maxAttempts - 1) throw error
+      await new Promise(resolve => setTimeout(resolve, 90 * (attempt + 1)))
+    }
+  }
+
+  throw lastError
+}
+
 export async function saveBinary(env, path, fileOrBytes, message = '[CF-Pages-Skip] Upload NAMRA media', overwrite = false) {
   let sha
   if (overwrite) {
