@@ -247,6 +247,7 @@ export default function AdminUpboPage() {
   const [noteDraft, setNoteDraft] = useState('')
   const [completionQty, setCompletionQty] = useState<Record<string, number>>({})
   const [undo, setUndo] = useState<UpboCompletion | null>(null)
+  const [pendingRemovalResultId, setPendingRemovalResultId] = useState<string | null>(null)
   const undoTimer = useRef<number | null>(null)
 
   const [weflab, setWeflab] = useState<WeflabAdminData | null>(null)
@@ -436,13 +437,19 @@ export default function AdminUpboPage() {
     if (!selectedPersonId) return
     const targetItemId = result.item_id || items.find(item => item.name === result.result_label)?.id
     if (!targetItemId) { setError('연결된 업보 항목을 찾지 못했습니다.'); return }
+    const fullCompletion = quantity >= Number(result.quantity || 0)
     setBusyItemId(targetItemId)
     try {
       const payload = await postJson<{ completion: UpboCompletion }>('/api/admin/upbo-actions', { action: 'complete', person_id: selectedPersonId, item_id: targetItemId, quantity })
       if (undoTimer.current) window.clearTimeout(undoTimer.current)
       setUndo(payload.completion)
-      undoTimer.current = window.setTimeout(() => setUndo(null), 5000)
-      await load()
+      setPendingRemovalResultId(fullCompletion ? result.id : null)
+      undoTimer.current = window.setTimeout(() => {
+        setUndo(null)
+        setPendingRemovalResultId(null)
+        if (fullCompletion) void load()
+      }, 5000)
+      if (!fullCompletion) await load()
     } catch (e) { setError(e instanceof Error ? e.message : '배송완료 처리 실패') }
     finally { setBusyItemId(null) }
   }
@@ -451,7 +458,10 @@ export default function AdminUpboPage() {
     setBusy(true)
     try {
       await postJson('/api/admin/upbo-actions', { action: 'undo_completion', completion_id: completion.id })
-      setUndo(null); if (undoTimer.current) window.clearTimeout(undoTimer.current); await load()
+      setUndo(null)
+      setPendingRemovalResultId(null)
+      if (undoTimer.current) window.clearTimeout(undoTimer.current)
+      await load()
     } catch (e) { setError(e instanceof Error ? e.message : '완료 복구 실패') }
     finally { setBusy(false) }
   }
@@ -552,7 +562,18 @@ export default function AdminUpboPage() {
           {selectedResults.length ? selectedResults.map(result => {
             const quantity = Number(result.quantity || 0)
             const completionValue = Math.max(1, Math.min(quantity, completionQty[result.id] || 1))
-            return <div className="upbo-pending-row" key={result.id}><strong>{result.result_label}</strong><span className="upbo-pending-quantity">× {quantity}</span><button type="button" className="admin-secondary compact" disabled={Boolean(busyItemId)} onClick={() => void complete(result, 1)}>1개 완료</button>{quantity > 1 && <button type="button" className="admin-secondary compact" disabled={Boolean(busyItemId)} onClick={() => void complete(result, quantity)}>전체 완료</button>}{quantity > 1 && <div className="upbo-partial-complete"><input type="number" min="1" max={quantity} value={completionValue} onChange={e => setCompletionQty(value => ({ ...value, [result.id]: Math.max(1, Math.min(quantity, Number(e.target.value) || 1)) }))}/><button type="button" className="admin-primary compact" onClick={() => void complete(result, completionValue)}>완료</button></div>}</div>
+            const waitingRemoval = pendingRemovalResultId === result.id && Boolean(undo)
+            return <div className={'upbo-pending-row' + (waitingRemoval ? ' pending-removal' : '')} key={result.id}>
+              <strong>{result.result_label}</strong>
+              <span className="upbo-pending-quantity">× {quantity}</span>
+              {waitingRemoval
+                ? <div className="upbo-pending-removal-state"><span>완료됨 · 5초 후 제거</span><button type="button" className="admin-secondary compact" onClick={() => undo && void undoCompletion(undo)}>실행 취소</button></div>
+                : <>
+                  <button type="button" className="admin-secondary compact" disabled={Boolean(busyItemId)} onClick={() => void complete(result, 1)}>1개 완료</button>
+                  {quantity > 1 && <button type="button" className="admin-secondary compact" disabled={Boolean(busyItemId)} onClick={() => void complete(result, quantity)}>전체 완료</button>}
+                  {quantity > 1 && <div className="upbo-partial-complete"><input type="number" min="1" max={quantity} value={completionValue} onChange={e => setCompletionQty(value => ({ ...value, [result.id]: Math.max(1, Math.min(quantity, Number(e.target.value) || 1)) }))}/><button type="button" className="admin-primary compact" onClick={() => void complete(result, completionValue)}>완료</button></div>}
+                </>}
+            </div>
           }) : <p className="admin-empty">현재 미처리 업보가 없습니다.</p>}
         </div>}
 
