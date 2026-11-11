@@ -202,7 +202,8 @@ export function processRouletteEvent(data, rawEvent, options = {}) {
   if (event.preset_items.length) upsertObservedPreset(data, event.roulette_name, event.preset_items, event.occurred_at)
 
   const eventKey = event.source_event_id ? `source:${event.source_event_id}` : `bridge:${event.bridge_event_id}`
-  const existingKey = data.weflab_event_keys.find(row => row.event_key === eventKey)
+  const eventKeyHash = String(options.eventKeyHash || eventKey)
+  const existingKey = data.weflab_event_keys.find(row => row.event_key_hash === eventKeyHash)
 
   if (existingKey) {
     const original = data.weflab_events.find(row => row.id === existingKey.event_id)
@@ -216,8 +217,7 @@ export function processRouletteEvent(data, rawEvent, options = {}) {
         id: crypto.randomUUID(),
         event_key: null,
         duplicate_of: existingKey.event_id || null,
-        source_event_id: event.source_event_id || null,
-        bridge_event_id: event.bridge_event_id || null,
+        event_key_hash: eventKeyHash,
         roulette_name: event.roulette_name,
         donor_soop_id: event.donor_soop_id || null,
         donor_display_name: event.donor_display_name || null,
@@ -234,10 +234,8 @@ export function processRouletteEvent(data, rawEvent, options = {}) {
 
   const baseLog = {
     id: crypto.randomUUID(),
-    event_key: eventKey,
+    event_key_hash: eventKeyHash,
     duplicate_of: null,
-    source_event_id: event.source_event_id || null,
-    bridge_event_id: event.bridge_event_id || null,
     roulette_name: event.roulette_name,
     donor_soop_id: event.donor_soop_id || null,
     donor_display_name: event.donor_display_name || null,
@@ -253,7 +251,7 @@ export function processRouletteEvent(data, rawEvent, options = {}) {
     duplicate_count: 0,
   }
 
-  data.weflab_event_keys.push({ event_key: eventKey, event_id: baseLog.id, created_at: now })
+  data.weflab_event_keys.push({ event_key_hash: eventKeyHash, event_id: baseLog.id, created_at: now })
   if (data.weflab_event_keys.length > 20000) data.weflab_event_keys = data.weflab_event_keys.slice(-20000)
 
   if (options.testMode === true) {
@@ -301,7 +299,7 @@ export function processRouletteEvent(data, rawEvent, options = {}) {
   applyQuantity(data, person, upboItem, appliedQuantity, 'roulette', {
     roulette_name: event.roulette_name,
     source_item_name: event.item_name,
-    event_key: eventKey,
+    event_key_hash: eventKeyHash,
   })
 
   settings.last_event_at = now
