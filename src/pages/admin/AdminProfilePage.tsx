@@ -115,7 +115,7 @@ export default function AdminProfilePage() {
       { key: 'label', label: '제목', required: true }, { key: 'value', label: '값', required: true }, { key: 'description', label: '부가 설명' }, { key: 'sort_order', label: '순서', type: 'number' }, { key: 'is_visible', label: '공개', type: 'checkbox' },
     ]} defaults={{ is_visible: true, sort_order: 0 }} />
 
-    <CrudEditor table="signature_items" title="시그니처 풍선" description="이미지만 등록해도 저장할 수 있습니다. 표시 글씨·숫자·추가 설명은 모두 선택사항이며 293×159 비율을 권장합니다." fields={[
+    <CrudEditor table="signature_items" title="시그니처 풍선" description="이미지만 등록해도 저장할 수 있습니다. 표시 글씨·숫자·추가 설명은 모두 선택사항이며 시그풍 권장 사이즈는 293×183px입니다." fields={[
       { key: 'image_url', label: '시그니처 이미지', type: 'image', required: true }, { key: 'title', label: '표시 글씨 (선택)', placeholder: '비워두어도 저장됩니다.' }, { key: 'number_text', label: '숫자 (선택)', placeholder: '비워두어도 저장됩니다.' }, { key: 'description', label: '추가 설명 (선택)', type: 'textarea', placeholder: '비워두어도 저장됩니다.' }, { key: 'important_info', label: '기존 중요 정보 (선택)', placeholder: '기존 데이터 호환용 · 비워두어도 저장됩니다.' }, { key: 'sort_order', label: '순서', type: 'number' }, { key: 'is_visible', label: '공개', type: 'checkbox' },
     ]} defaults={{ is_visible: true, sort_order: 0 }} />
 
