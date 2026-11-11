@@ -33,7 +33,12 @@ function normalizeAliases(value) {
 }
 
 function validateWeflabUrl(value) {
-  const url = new URL(String(value || '').trim())
+  let url
+  try {
+    url = new URL(String(value || '').trim())
+  } catch {
+    throw Object.assign(new Error('올바른 위플랩 후원 알림 URL을 입력해 주세요.'), { status: 400 })
+  }
   if (url.protocol !== 'https:') throw Object.assign(new Error('위플랩 후원 알림 URL은 https 주소만 저장할 수 있습니다.'), { status: 400 })
   const host = url.hostname.toLowerCase()
   if (!(host === 'weflab.com' || host.endsWith('.weflab.com'))) {
