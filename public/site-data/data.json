@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-11T20:07:47.912Z",
+    "updated_at": "2026-11-11T20:08:02.392Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -27,7 +27,7 @@
       "wardrobe_items"
     ],
     "failed_tables": [],
-    "upbo_updated_at": "2026-11-11T20:07:47.912Z"
+    "upbo_updated_at": "2026-11-11T20:08:02.392Z"
   },
   "site_settings": [
     {
@@ -1387,6 +1387,18 @@
       "admin_note_encrypted": "",
       "created_at": "2026-11-11T20:06:42.129Z",
       "updated_at": "2026-11-11T20:06:45.022Z"
+    },
+    {
+      "id": "a7ccb376-74a0-4278-b01d-8321e400d575",
+      "soop_name": "짱구··",
+      "soop_id": "ehdrn3743",
+      "profile_image_url": "https://stimg.sooplive.com/LOGO/eh/ehdrn3743/m/ehdrn3743.webp",
+      "note": "",
+      "sort_order": 9,
+      "is_visible": true,
+      "admin_note_encrypted": "",
+      "created_at": "2026-11-11T20:08:02.392Z",
+      "updated_at": "2026-11-11T20:08:02.392Z"
     }
   ],
   "upbo_results": [
