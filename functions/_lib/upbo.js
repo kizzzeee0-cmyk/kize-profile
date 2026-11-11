@@ -3,7 +3,7 @@ export function normalizeSoopId(value) {
 }
 
 export function ensureUpboOperationalData(data) {
-  for (const key of ['upbo_people', 'upbo_items', 'upbo_results', 'upbo_completions', 'upbo_audit_log', 'weflab_settings', 'weflab_mappings', 'weflab_events', 'weflab_presets']) {
+  for (const key of ['upbo_people', 'upbo_items', 'upbo_results', 'upbo_completions', 'upbo_audit_log', 'weflab_settings', 'weflab_mappings', 'weflab_events', 'weflab_event_keys', 'weflab_presets']) {
     if (!Array.isArray(data[key])) data[key] = []
   }
 
@@ -202,17 +202,20 @@ export function processRouletteEvent(data, rawEvent, options = {}) {
   if (event.preset_items.length) upsertObservedPreset(data, event.roulette_name, event.preset_items, event.occurred_at)
 
   const eventKey = event.source_event_id ? `source:${event.source_event_id}` : `bridge:${event.bridge_event_id}`
-  const original = data.weflab_events.find(row => row.event_key === eventKey)
+  const existingKey = data.weflab_event_keys.find(row => row.event_key === eventKey)
 
-  if (original) {
-    original.duplicate_count = Number(original.duplicate_count || 0) + 1
-    original.last_duplicate_at = now
+  if (existingKey) {
+    const original = data.weflab_events.find(row => row.id === existingKey.event_id)
+    if (original) {
+      original.duplicate_count = Number(original.duplicate_count || 0) + 1
+      original.last_duplicate_at = now
+    }
     return {
       duplicate: true,
       event: appendEvent(data, {
         id: crypto.randomUUID(),
         event_key: null,
-        duplicate_of: original.id,
+        duplicate_of: existingKey.event_id || null,
         source_event_id: event.source_event_id || null,
         bridge_event_id: event.bridge_event_id || null,
         roulette_name: event.roulette_name,
@@ -249,6 +252,9 @@ export function processRouletteEvent(data, rawEvent, options = {}) {
     received_at: now,
     duplicate_count: 0,
   }
+
+  data.weflab_event_keys.push({ event_key: eventKey, event_id: baseLog.id, created_at: now })
+  if (data.weflab_event_keys.length > 20000) data.weflab_event_keys = data.weflab_event_keys.slice(-20000)
 
   if (options.testMode === true) {
     return { duplicate: false, event: appendEvent(data, { ...baseLog, status: 'test', reason: '테스트 모드 - 업보 미반영' }) }
