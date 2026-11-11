@@ -84,6 +84,13 @@ type WeflabAdminData = {
   events: WeflabEvent[]
 }
 
+type SoopUserCandidate = {
+  soop_id: string
+  soop_name: string
+  profile_image_url: string
+  exact_name?: boolean
+}
+
 const emptyPerson = { soop_name: '', soop_id: '', profile_image_url: '', note: '', admin_note: '', sort_order: 0, is_visible: true }
 const emptyItem = { name: '', note: '', sort_order: 0, is_visible: true }
 
@@ -232,6 +239,10 @@ export default function AdminUpboPage() {
   const [audit, setAudit] = useState<UpboAudit[]>([])
   const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null)
   const [personForm, setPersonForm] = useState<Record<string, any>>(emptyPerson)
+  const [soopSearchQuery, setSoopSearchQuery] = useState('')
+  const [soopSearchResults, setSoopSearchResults] = useState<SoopUserCandidate[]>([])
+  const [soopSearchLoading, setSoopSearchLoading] = useState(false)
+  const [soopSearchError, setSoopSearchError] = useState<string | null>(null)
   const [itemForm, setItemForm] = useState<Record<string, any>>(emptyItem)
   const [personId, setPersonId] = useState<string | undefined>()
   const [itemId, setItemId] = useState<string | undefined>()
@@ -352,6 +363,47 @@ export default function AdminUpboPage() {
     if (sort === 'recent') return rows.sort((a, b) => b.recent - a.recent)
     return rows.sort((a, b) => b.total - a.total)
   }, [results, personMap, query, sort])
+
+  async function searchSoopUsers(e?: FormEvent) {
+    e?.preventDefault()
+    const keyword = soopSearchQuery.trim()
+    if (!keyword) {
+      setSoopSearchResults([])
+      setSoopSearchError('검색할 SOOP 닉네임을 입력해 주세요.')
+      return
+    }
+
+    setSoopSearchLoading(true)
+    setSoopSearchError(null)
+    try {
+      const response = await fetch('/api/admin/soop-user-search?q=' + encodeURIComponent(keyword), {
+        credentials: 'include',
+        cache: 'no-store',
+      })
+      const payload = await response.json().catch(() => ({})) as { results?: SoopUserCandidate[]; error?: string }
+      if (!response.ok) throw new Error(payload.error || 'SOOP 계정 검색에 실패했습니다.')
+      setSoopSearchResults(Array.isArray(payload.results) ? payload.results : [])
+      if (!payload.results?.length) setSoopSearchError('검색 결과가 없습니다. 닉네임을 다시 확인해 주세요.')
+    } catch (e) {
+      setSoopSearchResults([])
+      setSoopSearchError(e instanceof Error ? e.message : 'SOOP 계정 검색에 실패했습니다.')
+    } finally {
+      setSoopSearchLoading(false)
+    }
+  }
+
+  function selectSoopUser(candidate: SoopUserCandidate) {
+    setPersonId(undefined)
+    setPersonForm({
+      ...emptyPerson,
+      soop_name: candidate.soop_name,
+      soop_id: cleanSoopId(candidate.soop_id),
+      profile_image_url: candidate.profile_image_url || primarySoopProfileUrl(candidate.soop_id),
+      sort_order: people.length + 1,
+    })
+    setMessage(candidate.soop_name + ' (@' + candidate.soop_id + ') 계정을 선택했습니다. 아래 추가 버튼을 눌러 저장해 주세요.')
+    setError(null)
+  }
 
   async function savePerson(e: FormEvent) {
     e.preventDefault(); setBusy(true); setError(null); setMessage(null)
@@ -520,7 +572,47 @@ export default function AdminUpboPage() {
         </div>
       </AdminPanel>
 
-      <AdminPanel title="SOOP 시청자" description="관리자 메모는 공개 사이트에 노출되지 않습니다.">
+      <AdminPanel title="SOOP 시청자" description="닉네임만 검색해도 같은 이름을 가진 SOOP 계정을 확인하고 정확한 계정을 선택할 수 있습니다. 관리자 메모는 공개 사이트에 노출되지 않습니다.">
+        <div className="soop-user-search-box">
+          <form className="soop-user-search-form" onSubmit={searchSoopUsers}>
+            <label>
+              <AppIcon name="search" />
+              <input value={soopSearchQuery} onChange={e => setSoopSearchQuery(e.target.value)} placeholder="SOOP 시청자 이름 검색" />
+            </label>
+            <button className="admin-primary" type="submit" disabled={soopSearchLoading}>{soopSearchLoading ? '검색 중...' : '검색'}</button>
+          </form>
+          <small>SOOP 닉네임을 검색하면 동명이인 계정도 함께 표시됩니다. 아이디와 프로필을 확인한 뒤 선택해 주세요.</small>
+
+          {soopSearchError && <div className="soop-user-search-message">{soopSearchError}</div>}
+          {soopSearchResults.length > 0 && <div className="soop-user-search-results">
+            {soopSearchResults.map(candidate => <button
+              type="button"
+              className={'soop-user-search-result' + (String(personForm.soop_id || '') === candidate.soop_id ? ' selected' : '')}
+              key={candidate.soop_id}
+              onClick={() => selectSoopUser(candidate)}
+            >
+              <span className="soop-user-search-avatar">
+                <img
+                  src={candidate.profile_image_url || primarySoopProfileUrl(candidate.soop_id)}
+                  alt=""
+                  loading="lazy"
+                  onError={e => {
+                    const next = primarySoopProfileUrl(candidate.soop_id)
+                    if (next && e.currentTarget.src !== next) e.currentTarget.src = next
+                    else e.currentTarget.style.display = 'none'
+                  }}
+                />
+              </span>
+              <span className="soop-user-search-copy">
+                <strong>{candidate.soop_name}</strong>
+                <small>@{candidate.soop_id}</small>
+              </span>
+              {candidate.exact_name && <em>이름 일치</em>}
+              <b>선택</b>
+            </button>)}
+          </div>}
+        </div>
+
         <div className="upbo-admin-people-compact">
           <AdminSortableList rows={people} disabled={busy} onReorder={reorderPeople}
             renderMain={row => <div className="upbo-admin-person-copy"><strong className="upbo-admin-person-name">{row.soop_name}</strong><small>@{row.soop_id}</small>{row.admin_note && <em>메모 있음</em>}</div>}
@@ -531,13 +623,13 @@ export default function AdminUpboPage() {
         {notePersonId && <div className="upbo-note-editor"><strong>{people.find(person => person.id === notePersonId)?.soop_name} 관리자 메모</strong><textarea value={noteDraft} onChange={e => setNoteDraft(e.target.value)} placeholder="공개 사이트에는 보이지 않는 메모입니다." /><div><button className="admin-secondary" type="button" onClick={() => void saveNote('')}>메모 삭제</button><button className="admin-primary" type="button" onClick={() => void saveNote()}>메모 저장</button></div></div>}
 
         <div className="admin-inline-editor">
-          <h3>{personId ? '시청자 수정' : '새 시청자 추가'}</h3>
+          <h3>{personId ? '시청자 수정' : '선택한 시청자 추가'}</h3>
           <form className="admin-form admin-profile-basic-grid" onSubmit={savePerson}>
             <FormField label="SOOP 이름"><input required value={personForm.soop_name || ''} onChange={e => setPersonForm(value => ({ ...value, soop_name: e.target.value }))}/></FormField>
             <FormField label="SOOP 아이디"><input required value={personForm.soop_id || ''} onChange={e => setPersonForm(value => ({ ...value, soop_id: cleanSoopId(e.target.value) }))}/></FormField>
             <FormField label="공개 메모 (선택)"><textarea value={personForm.note || ''} onChange={e => setPersonForm(value => ({ ...value, note: e.target.value }))}/></FormField>
             <FormField label="공개"><input type="checkbox" checked={Boolean(personForm.is_visible)} onChange={e => setPersonForm(value => ({ ...value, is_visible: e.target.checked }))}/></FormField>
-            <div className="form-actions"><button className="admin-primary" disabled={busy}>{personId ? '수정 저장' : '추가'}</button>{personId && <button className="admin-secondary" type="button" onClick={() => { setPersonId(undefined); setPersonForm(emptyPerson) }}>취소</button>}</div>
+            <div className="form-actions"><button className="admin-primary" disabled={busy}>{personId ? '수정 저장' : '선택 계정 추가'}</button>{personId && <button className="admin-secondary" type="button" onClick={() => { setPersonId(undefined); setPersonForm(emptyPerson) }}>취소</button>}</div>
           </form>
         </div>
       </AdminPanel>
