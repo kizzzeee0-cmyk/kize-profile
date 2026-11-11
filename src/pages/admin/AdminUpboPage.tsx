@@ -556,22 +556,6 @@ export default function AdminUpboPage() {
         <div><span>업보 항목</span><strong>{items.length}개</strong></div>
       </section>
 
-      <AdminPanel title="업보 현황" description="같은 데이터를 시청자별 또는 항목별로 확인합니다.">
-        <div className="upbo-view-tabs admin">
-          <button type="button" className={overviewView === 'viewer' ? 'active' : ''} onClick={() => { setOverviewView('viewer'); setQuery('') }}>시청자별</button>
-          <button type="button" className={overviewView === 'item' ? 'active' : ''} onClick={() => { setOverviewView('item'); setQuery('') }}>항목별</button>
-        </div>
-        <div className="upbo-admin-filter-row">
-          <input value={query} onChange={e => setQuery(e.target.value)} placeholder={overviewView === 'viewer' ? '시청자 이름 / 아이디 검색' : '업보 항목명 검색'} />
-          <select value={sort} onChange={e => setSort(e.target.value as 'quantity' | 'name' | 'recent')}><option value="quantity">미처리 수량순</option><option value="name">이름순</option><option value="recent">최근 등록순</option></select>
-        </div>
-        <div className="upbo-admin-overview-list">
-          {overviewView === 'viewer'
-            ? viewerOverview.map(row => <details key={row.person.id} className="upbo-admin-overview-row"><summary><strong>{row.person.soop_name}</strong><small>@{row.person.soop_id}</small><span>총 {row.total}개</span></summary><div>{row.rows.map(result => <p key={result.id}><span>{result.result_label}</span><strong>× {result.quantity}</strong></p>)}</div></details>)
-            : itemOverview.map(row => <details key={row.label} className="upbo-admin-overview-row"><summary><strong>{row.label}</strong><small>{row.viewers.length}명</small><span>총 {row.total}개</span></summary><div>{row.viewers.map(viewer => <p key={viewer.person.id}><span>{viewer.person.soop_name}</span><strong>× {viewer.quantity}</strong></p>)}</div></details>)}
-        </div>
-      </AdminPanel>
-
       <AdminPanel title="SOOP 시청자" description="닉네임만 검색해도 같은 이름을 가진 SOOP 계정을 확인하고 정확한 계정을 선택할 수 있습니다. 관리자 메모는 공개 사이트에 노출되지 않습니다.">
         <div className="soop-user-search-box">
           <form className="soop-user-search-form" onSubmit={searchSoopUsers}>
@@ -634,19 +618,6 @@ export default function AdminUpboPage() {
         </div>
       </AdminPanel>
 
-      <AdminPanel title="업보 항목" description="위플랩 원본 이름과 달라도 연동 탭에서 매핑할 수 있습니다.">
-        <AdminSortableList rows={items} disabled={busy} onReorder={reorderItems} emptyText="등록된 업보 항목이 없습니다."
-          renderMain={row => <div className="admin-list-summary"><div><strong>{row.name}</strong><small>{row.note || '업보 항목'}</small></div></div>}
-          renderActions={row => <><button type="button" onClick={() => { setItemId(row.id); setItemForm({ ...row }) }}><AppIcon name="edit" /> 수정</button><button className="danger" type="button" onClick={() => void remove('upbo_items', row.id)}><AppIcon name="trash" /> 삭제</button></>}
-        />
-        <div className="admin-inline-editor"><h3>{itemId ? '업보 항목 수정' : '새 업보 항목 추가'}</h3><form className="admin-form admin-profile-basic-grid" onSubmit={saveItem}>
-          <FormField label="항목 이름"><input required value={itemForm.name || ''} onChange={e => setItemForm(value => ({ ...value, name: e.target.value }))}/></FormField>
-          <FormField label="설명 (선택)"><input value={itemForm.note || ''} onChange={e => setItemForm(value => ({ ...value, note: e.target.value }))}/></FormField>
-          <FormField label="사용"><input type="checkbox" checked={Boolean(itemForm.is_visible)} onChange={e => setItemForm(value => ({ ...value, is_visible: e.target.checked }))}/></FormField>
-          <div className="form-actions"><button className="admin-primary" disabled={busy}>{itemId ? '수정 저장' : '항목 추가'}</button>{itemId && <button className="admin-secondary" type="button" onClick={() => { setItemId(undefined); setItemForm(emptyItem) }}>취소</button>}</div>
-        </form></div>
-      </AdminPanel>
-
       <AdminPanel title="시청자별 업보 처리" description="시청자를 선택해 수량을 조정하거나 배송완료 처리합니다.">
         <div className="upbo-counter-toolbar"><FormField label="시청자 선택"><select value={selectedPersonId} onChange={e => setSelectedPersonId(e.target.value)}><option value="">시청자를 선택해 주세요.</option>{people.map(person => <option key={person.id} value={person.id}>{person.soop_name} (@{person.soop_id})</option>)}</select></FormField>{selectedPerson && <button type="button" className="admin-secondary compact" onClick={() => openNote(selectedPerson)}>메모 {selectedPerson.admin_note ? '수정' : '작성'}</button>}</div>
 
@@ -676,6 +647,35 @@ export default function AdminUpboPage() {
             return <div className="upbo-counter-card" key={item.id}><div className="upbo-counter-copy"><strong>{item.name}</strong>{item.note && <small>{item.note}</small>}</div><div className="upbo-counter-stepper"><button type="button" disabled={quantity <= 0 || Boolean(busyItemId)} onClick={() => void changeQuantity(item, -1)}>−</button><span>{busyItemId === item.id ? '…' : quantity}</span><button type="button" disabled={Boolean(busyItemId)} onClick={() => void changeQuantity(item, 1)}>+</button></div></div>
           })}
         </div></div>}
+      </AdminPanel>
+
+      <AdminPanel title="업보 항목" description="위플랩 원본 이름과 달라도 연동 탭에서 매핑할 수 있습니다.">
+        <AdminSortableList rows={items} disabled={busy} onReorder={reorderItems} emptyText="등록된 업보 항목이 없습니다."
+          renderMain={row => <div className="admin-list-summary"><div><strong>{row.name}</strong><small>{row.note || '업보 항목'}</small></div></div>}
+          renderActions={row => <><button type="button" onClick={() => { setItemId(row.id); setItemForm({ ...row }) }}><AppIcon name="edit" /> 수정</button><button className="danger" type="button" onClick={() => void remove('upbo_items', row.id)}><AppIcon name="trash" /> 삭제</button></>}
+        />
+        <div className="admin-inline-editor"><h3>{itemId ? '업보 항목 수정' : '새 업보 항목 추가'}</h3><form className="admin-form admin-profile-basic-grid" onSubmit={saveItem}>
+          <FormField label="항목 이름"><input required value={itemForm.name || ''} onChange={e => setItemForm(value => ({ ...value, name: e.target.value }))}/></FormField>
+          <FormField label="설명 (선택)"><input value={itemForm.note || ''} onChange={e => setItemForm(value => ({ ...value, note: e.target.value }))}/></FormField>
+          <FormField label="사용"><input type="checkbox" checked={Boolean(itemForm.is_visible)} onChange={e => setItemForm(value => ({ ...value, is_visible: e.target.checked }))}/></FormField>
+          <div className="form-actions"><button className="admin-primary" disabled={busy}>{itemId ? '수정 저장' : '항목 추가'}</button>{itemId && <button className="admin-secondary" type="button" onClick={() => { setItemId(undefined); setItemForm(emptyItem) }}>취소</button>}</div>
+        </form></div>
+      </AdminPanel>
+
+      <AdminPanel title="업보 현황" description="같은 데이터를 시청자별 또는 항목별로 확인합니다.">
+        <div className="upbo-view-tabs admin">
+          <button type="button" className={overviewView === 'viewer' ? 'active' : ''} onClick={() => { setOverviewView('viewer'); setQuery('') }}>시청자별</button>
+          <button type="button" className={overviewView === 'item' ? 'active' : ''} onClick={() => { setOverviewView('item'); setQuery('') }}>항목별</button>
+        </div>
+        <div className="upbo-admin-filter-row">
+          <input value={query} onChange={e => setQuery(e.target.value)} placeholder={overviewView === 'viewer' ? '시청자 이름 / 아이디 검색' : '업보 항목명 검색'} />
+          <select value={sort} onChange={e => setSort(e.target.value as 'quantity' | 'name' | 'recent')}><option value="quantity">미처리 수량순</option><option value="name">이름순</option><option value="recent">최근 등록순</option></select>
+        </div>
+        <div className="upbo-admin-overview-list">
+          {overviewView === 'viewer'
+            ? viewerOverview.map(row => <details key={row.person.id} className="upbo-admin-overview-row"><summary><strong>{row.person.soop_name}</strong><small>@{row.person.soop_id}</small><span>총 {row.total}개</span></summary><div>{row.rows.map(result => <p key={result.id}><span>{result.result_label}</span><strong>× {result.quantity}</strong></p>)}</div></details>)
+            : itemOverview.map(row => <details key={row.label} className="upbo-admin-overview-row"><summary><strong>{row.label}</strong><small>{row.viewers.length}명</small><span>총 {row.total}개</span></summary><div>{row.viewers.map(viewer => <p key={viewer.person.id}><span>{viewer.person.soop_name}</span><strong>× {viewer.quantity}</strong></p>)}</div></details>)}
+        </div>
       </AdminPanel>
     </>}
 
