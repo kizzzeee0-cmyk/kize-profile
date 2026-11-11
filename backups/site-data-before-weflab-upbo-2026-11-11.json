@@ -1,0 +1,1569 @@
+{
+  "meta": {
+    "version": 1,
+    "storage": "github-json",
+    "updated_at": "2026-11-10T17:47:50.206Z",
+    "migration_pending": false,
+    "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
+    "migrated_from": "supabase",
+    "migrated_at": "2026-10-29T19:44:21.269Z",
+    "migration_mode": "public-visible",
+    "imported_tables": [
+      "archives",
+      "milestones",
+      "navigation_links",
+      "profile",
+      "profile_features",
+      "profile_stats",
+      "schedule_categories",
+      "schedules",
+      "signature_items",
+      "site_settings",
+      "site_texts",
+      "social_links",
+      "songs",
+      "upbo_people",
+      "upbo_results",
+      "wardrobe_items"
+    ],
+    "failed_tables": [],
+    "upbo_updated_at": "2026-11-10T17:47:50.206Z"
+  },
+  "site_settings": [
+    {
+      "id": "457cd9af-7b08-4462-bc5f-0444190b6fbf",
+      "singleton": true,
+      "site_title": "NAMRA",
+      "site_description": "깔끔하고 단정한 버추얼 스트리머 유남라 프로필",
+      "brand_color": "#A79BD9",
+      "footer_text": "© 2026 NAMRA. ALL RIGHTS RESERVED.",
+      "logo_text": "유남라",
+      "favicon_url": null,
+      "seo_image_url": null,
+      "dark_mode_enabled": false,
+      "roulette_probability_url": "https://weflab.com/user/lOPU2suTkmdtYA",
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-10-31T17:13:14.434Z",
+      "calendar_event_title_size": 14
+    }
+  ],
+  "profile": [
+    {
+      "id": "af51dffe-2dbd-4a12-984e-469cd21b4744",
+      "singleton": true,
+      "korean_name": "유남라",
+      "english_name": "NAMRA",
+      "since_date": "2025-04-01",
+      "badge_text": "SOOP STREAMER",
+      "intro": "밝고 다정한 성격과 맛깔나는 리액션이 매력인 멋쟁이 스트리머 유남라입니다!",
+      "profile_image_url": "/api/media?path=public%2Fsite-media%2Fprofile%2F1793449640313-d4b84761de-Screenshot_047.png",
+      "fandom_name": "예시 팬네임",
+      "fandom_character_name": "예시 팬캐릭터",
+      "fandom_description": "팬캐릭터 소개, 디자인 설정, 방송국에서 사용하는 팬덤 브랜딩 설명을 이곳에 입력해 주세요.",
+      "fandom_image_url": null,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-10-31T12:27:27.615Z",
+      "hero_position_x": 70,
+      "hero_position_y": 50,
+      "hero_mobile_position_x": 72,
+      "hero_mobile_position_y": 50,
+      "hero_overlay_strength": 0.72,
+      "hero_text_position": "left"
+    }
+  ],
+  "profile_stats": [
+    {
+      "id": "aac957dd-c141-40d9-ba81-29704160dc73",
+      "label": "Birthday",
+      "value": "12 . 14",
+      "description": null,
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-10-31T12:28:51.207Z"
+    },
+    {
+      "id": "44611926-24b1-44f4-9911-ed042f5ce8c9",
+      "label": "Debut",
+      "value": "2026 . 10 . 31",
+      "description": null,
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-11-04T13:57:57.329Z"
+    },
+    {
+      "id": "ab367eae-843d-4273-b602-2e955f5211cf",
+      "label": "Live Time",
+      "value": "18 : 00",
+      "description": "일정에 따라 변경될 수 있습니다.",
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-11-02T05:03:19.355Z"
+    },
+    {
+      "id": "1a3f8614-2cb4-4708-84be-0cce448e6f89",
+      "label": "Off-Day",
+      "value": "매주공지",
+      "description": "일정 페이지를 확인해 주세요.",
+      "sort_order": 4,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-10-31T12:28:31.981Z"
+    }
+  ],
+  "profile_features": [
+    {
+      "id": "344d60b0-6cf2-4e50-87ea-db6ff2355343",
+      "icon": "☁",
+      "title": "소통",
+      "description": "",
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "89d86561-ab59-4ec2-bd6c-01be529def04",
+      "icon": "♫",
+      "title": "노래",
+      "description": "",
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "3fbc7787-f326-440f-92af-6f174de97826",
+      "icon": "✦",
+      "title": "종합게임",
+      "description": "",
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    }
+  ],
+  "social_links": [
+    {
+      "id": "2d7494a3-632a-4c0e-a0ab-fe264209a769",
+      "name": "남라 팬카페",
+      "url": "https://cafe.naver.com/younamra",
+      "icon": "↗",
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-10-31T14:03:36.784Z"
+    },
+    {
+      "id": "97b62401-dc2e-4195-a758-ea88fdf74c41",
+      "name": "SOOP 방송국",
+      "url": "https://www.sooplive.com/station/younamra",
+      "icon": "↗",
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-10-31T14:03:57.741Z"
+    },
+    {
+      "id": "d6d00019-8ab4-4e7c-80b7-61cd2f51a42f",
+      "name": "YouTube",
+      "url": "https://www.youtube.com/@younamra?sub_confirmation=1",
+      "icon": "▶",
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-10-31T14:08:30.098Z"
+    }
+  ],
+  "navigation_links": [
+    {
+      "id": "92f0a83c-261b-4432-a948-05bbaf0146fe",
+      "label": "프로필",
+      "url": "/",
+      "is_external": false,
+      "open_new_tab": false,
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "6fda29e1-7514-451d-973f-1bcc9fc4c85b",
+      "label": "일정",
+      "url": "/schedule/",
+      "is_external": false,
+      "open_new_tab": false,
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "5b592af7-b5af-4adf-9519-41c29f892c3a",
+      "label": "노래책",
+      "url": "/songs/",
+      "is_external": false,
+      "open_new_tab": false,
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "6d480e3e-bcc2-4dfd-b455-39a44eb8363e",
+      "label": "옷장",
+      "url": "/roulette/",
+      "is_external": false,
+      "open_new_tab": false,
+      "sort_order": 4,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "76152f22-5da7-4428-9192-e30de450781a",
+      "label": "업보",
+      "url": "/work/",
+      "is_external": false,
+      "open_new_tab": false,
+      "sort_order": 5,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    }
+  ],
+  "milestones": [
+    {
+      "id": "93b6843e-b99e-4cc0-b7f5-618fd9beba81",
+      "date": "2026-10-31",
+      "title": "남라 재데뷔 / 뉴남라 공개",
+      "description": "",
+      "image_url": "",
+      "external_url": "https://vod.sooplive.com/player/211307883",
+      "is_highlight": false,
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-10-31T14:43:57.295Z",
+      "updated_at": "2026-11-01T03:50:24.100Z"
+    }
+  ],
+  "archives": [],
+  "schedule_categories": [
+    {
+      "id": "ecf05fd9-00e4-4f7d-b22a-e34106655fda",
+      "name": "방송",
+      "color": "#C9C1F5",
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-11-01T03:04:17.397Z"
+    },
+    {
+      "id": "34deb339-470b-41a6-bd5f-bd55c859c000",
+      "name": "휴방",
+      "color": "#D9DDE8",
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-11-01T03:04:17.398Z"
+    },
+    {
+      "id": "f8a33213-7b63-4a0b-a9b3-7dec7a41c0b5",
+      "name": "이벤트",
+      "color": "#F3CBD9",
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-11-01T03:04:17.398Z"
+    },
+    {
+      "id": "7074a5d3-93aa-4c25-b02d-24d6f9a8433d",
+      "name": "합방",
+      "color": "#C7DCF7",
+      "sort_order": 4,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-11-01T03:04:17.398Z"
+    },
+    {
+      "id": "4cbec9ac-ec53-4752-abef-e59c52bf9c7c",
+      "name": "대회",
+      "color": "#F2DCA9",
+      "sort_order": 5,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-11-01T03:04:17.398Z"
+    },
+    {
+      "id": "f4c7c117-396c-4021-bd63-3d9e7e53c9af",
+      "name": "기타",
+      "color": "#CFE8C8",
+      "sort_order": 6,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-11-01T03:04:17.398Z"
+    }
+  ],
+  "schedules": [
+    {
+      "id": "8dfed1bc-955b-4bc8-9fbf-bd35a153df4a",
+      "title": "데뷔",
+      "schedule_date": "2026-09-18",
+      "start_time": "09:00:00",
+      "end_time": null,
+      "category_id": "ecf05fd9-00e4-4f7d-b22a-e34106655fda",
+      "description": "",
+      "participants": "유남라",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-09-17T16:00:27.331132+00:00",
+      "updated_at": "2026-09-17T16:00:27.331132+00:00"
+    },
+    {
+      "id": "c7951775-957a-460c-8603-5494e8c962c3",
+      "title": "배린이 벽킬내기",
+      "schedule_date": "2026-09-18",
+      "start_time": "17:00:00",
+      "end_time": null,
+      "category_id": "7074a5d3-93aa-4c25-b02d-24d6f9a8433d",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-09-17T16:00:51.040137+00:00",
+      "updated_at": "2026-09-17T16:48:39.743833+00:00"
+    },
+    {
+      "id": "2ae77000-de78-4ef7-a3d5-c46564bf4a6e",
+      "title": "남라 재데뷔",
+      "schedule_date": "2026-10-31",
+      "start_time": "14:00",
+      "end_time": null,
+      "category_id": "f8a33213-7b63-4a0b-a9b3-7dec7a41c0b5",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-10-31T14:09:24.661Z",
+      "updated_at": "2026-10-31T14:09:24.661Z"
+    },
+    {
+      "id": "40fc6e6b-50f1-4bab-b496-73f07b02a48d",
+      "title": "왁리즈컨 같이보기",
+      "schedule_date": "2026-11-01",
+      "start_time": "17:00",
+      "end_time": null,
+      "category_id": "ecf05fd9-00e4-4f7d-b22a-e34106655fda",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-10-31T14:41:57.207Z",
+      "updated_at": "2026-11-01T14:41:23.143Z"
+    },
+    {
+      "id": "8e3ca53b-f865-426f-a126-314ddd21a6d0",
+      "title": "휴뱅",
+      "schedule_date": "2026-11-04",
+      "start_time": null,
+      "end_time": null,
+      "category_id": "34deb339-470b-41a6-bd5f-bd55c859c000",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-01T03:52:02.464Z",
+      "updated_at": "2026-11-01T03:52:02.464Z"
+    },
+    {
+      "id": "8d6df5ad-cedd-4c94-9a2a-d6ebe47dc51a",
+      "title": "와우 포에버 오픈런",
+      "schedule_date": "2026-11-05",
+      "start_time": "07:00",
+      "end_time": null,
+      "category_id": "ecf05fd9-00e4-4f7d-b22a-e34106655fda",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-01T03:53:24.554Z",
+      "updated_at": "2026-11-01T03:53:24.554Z"
+    },
+    {
+      "id": "e17e578f-7d77-4095-b6f3-6d3cf45b8262",
+      "title": "와우 스토리 알아보기",
+      "schedule_date": "2026-11-02",
+      "start_time": "18:00",
+      "end_time": null,
+      "category_id": "ecf05fd9-00e4-4f7d-b22a-e34106655fda",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-01T14:41:09.275Z",
+      "updated_at": "2026-11-01T14:41:09.275Z"
+    },
+    {
+      "id": "e2a63a5b-536f-44a6-a2af-b8bf18f70f30",
+      "title": "휴뱅",
+      "schedule_date": "2026-11-03",
+      "start_time": null,
+      "end_time": null,
+      "category_id": "34deb339-470b-41a6-bd5f-bd55c859c000",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-03T05:20:37.962Z",
+      "updated_at": "2026-11-03T05:20:58.916Z"
+    }
+  ],
+  "site_texts": [
+    {
+      "id": "1d56c23f-a423-40bf-9599-ff918ef067d4",
+      "text_key": "home_main_contents_label",
+      "label": "컨텐츠 영문 라벨",
+      "value": "Contents",
+      "group_name": "홈",
+      "sort_order": 1,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "30861291-8db3-4624-838a-ee2f37870257",
+      "text_key": "schedule_label",
+      "label": "일정 영문 라벨",
+      "value": "SCHEDULE",
+      "group_name": "일정",
+      "sort_order": 2,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "3cce9bdd-7720-4d86-8368-d1f5fc391371",
+      "text_key": "wardrobe_label",
+      "label": "옷장 영문 라벨",
+      "value": "CLOSET",
+      "group_name": "룰렛/옷장",
+      "sort_order": 3,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "b79ef9c8-7529-4b89-99f9-2b0e38137818",
+      "text_key": "upbo_label",
+      "label": "업보 영문 라벨",
+      "value": "UPBO",
+      "group_name": "업보",
+      "sort_order": 4,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "bf409760-4c3f-4dbd-b40c-d49523908460",
+      "text_key": "preview_notice",
+      "label": "미리보기 안내",
+      "value": "현재는 미리보기 데이터입니다. Supabase를 연결하면 관리자 CMS의 데이터로 자동 전환됩니다.",
+      "group_name": "공통",
+      "sort_order": 5,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "e8d5947b-4c62-4aee-a904-0d2d09f4175c",
+      "text_key": "songbook_label",
+      "label": "노래책 영문 라벨",
+      "value": "SONGBOOK",
+      "group_name": "노래책",
+      "sort_order": 6,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "2cb2f5d2-5865-4fa0-b338-ea44af02276c",
+      "text_key": "schedule_title",
+      "label": "일정 제목",
+      "value": "방송 일정",
+      "group_name": "일정",
+      "sort_order": 7,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "70418fb4-b4c4-4a70-aa98-abff15b53662",
+      "text_key": "songbook_title",
+      "label": "노래책 제목",
+      "value": "노래책",
+      "group_name": "노래책",
+      "sort_order": 8,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "7b9aa4ae-c1d3-4476-8c28-45d5ac6a73e7",
+      "text_key": "upbo_title",
+      "label": "업보 제목",
+      "value": "업보 현황",
+      "group_name": "업보",
+      "sort_order": 9,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "e885938e-7057-462c-ab05-e1658194ee90",
+      "text_key": "wardrobe_title",
+      "label": "옷장 제목",
+      "value": "옷장",
+      "group_name": "룰렛/옷장",
+      "sort_order": 10,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "f50e94be-9339-4e2d-aa47-912d75434472",
+      "text_key": "home_fandom_label",
+      "label": "팬덤 브랜딩 영문 라벨",
+      "value": "Fandom Branding",
+      "group_name": "홈",
+      "sort_order": 11,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "23fdaf02-33e5-45db-9617-f467fd09025c",
+      "text_key": "wardrobe_description",
+      "label": "옷장 설명",
+      "value": "이번 달 룰렛 의상과 지금까지의 헤어·의상을 한눈에 확인해 보세요.",
+      "group_name": "룰렛/옷장",
+      "sort_order": 12,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "454326f8-f9bb-4962-aff1-88619975a350",
+      "text_key": "schedule_description",
+      "label": "일정 설명",
+      "value": "월간 방송 일정과 앞으로 일주일의 계획을 한눈에 확인할 수 있습니다.",
+      "group_name": "일정",
+      "sort_order": 13,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "6308e0cc-de34-4a9d-a1f6-47cec9ec84a6",
+      "text_key": "upbo_description",
+      "label": "업보 설명",
+      "value": "SOOP 닉네임 또는 아이디로 검색하고 시청자별 룰렛 결과를 확인할 수 있습니다.",
+      "group_name": "업보",
+      "sort_order": 14,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "925b6846-ad7e-4c75-aa6f-36fac423ce7c",
+      "text_key": "songbook_description",
+      "label": "노래책 설명",
+      "value": "유남라가 부를 수 있는 곡을 장르별로 정리한 노래책입니다.",
+      "group_name": "노래책",
+      "sort_order": 15,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "c21aceb6-665f-42e7-bf9a-6aef8625e7b5",
+      "text_key": "home_fandom_title",
+      "label": "팬덤 브랜딩 제목",
+      "value": "팬덤 브랜딩",
+      "group_name": "홈",
+      "sort_order": 16,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "8ea2b951-e354-40ae-b8ba-d7e44bdae2b3",
+      "text_key": "upbo_search_placeholder",
+      "label": "업보 검색 안내",
+      "value": "SOOP 이름 또는 아이디 검색",
+      "group_name": "업보",
+      "sort_order": 17,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "963400fd-9d6c-447d-96d2-7fca6d066207",
+      "text_key": "home_milestone_label",
+      "label": "여정 영문 라벨",
+      "value": "MILESTONE",
+      "group_name": "홈",
+      "sort_order": 18,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "a4b12a07-dd1b-4d87-88c2-adca55262b2d",
+      "text_key": "songbook_search_placeholder",
+      "label": "노래책 검색 안내",
+      "value": "제목, 가수 또는 장르 검색",
+      "group_name": "노래책",
+      "sort_order": 19,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "c66e0c61-b088-4a61-aca5-0f3bad7f52fe",
+      "text_key": "wardrobe_probability_button",
+      "label": "룰렛 확률 버튼",
+      "value": "룰렛확률 확인하기",
+      "group_name": "룰렛/옷장",
+      "sort_order": 20,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "94496038-5ea1-41f5-b0c1-5dc47996f5b6",
+      "text_key": "wardrobe_monthly_tab",
+      "label": "이달의 의상 탭",
+      "value": "이달의 의상",
+      "group_name": "룰렛/옷장",
+      "sort_order": 21,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "9b5e867e-bedc-426b-b361-4635d1177577",
+      "text_key": "upbo_no_result",
+      "label": "업보 결과 없음",
+      "value": "등록된 룰렛 결과가 없습니다.",
+      "group_name": "업보",
+      "sort_order": 22,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "bd3658e6-d40c-425d-8200-9add2a19c7f9",
+      "text_key": "schedule_upcoming_label",
+      "label": "다가오는 일정 라벨",
+      "value": "UPCOMING SCHEDULES",
+      "group_name": "일정",
+      "sort_order": 23,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "cc26a250-4dab-4a2b-b19f-2b49aa667e25",
+      "text_key": "home_milestone_title",
+      "label": "여정 제목",
+      "value": "남라의 여정",
+      "group_name": "홈",
+      "sort_order": 24,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "db6cd2e2-d919-4ac2-bd66-f6e0abf2e685",
+      "text_key": "songbook_empty",
+      "label": "노래책 빈 상태",
+      "value": "조건에 맞는 노래가 없습니다.",
+      "group_name": "노래책",
+      "sort_order": 25,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "07d4280b-58fb-48c0-a917-23d3c750b524",
+      "text_key": "home_archive_label",
+      "label": "아카이브 영문 라벨",
+      "value": "ARCHIVE",
+      "group_name": "홈",
+      "sort_order": 26,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "1b973275-c61e-4f1a-afbd-ddcd4d557a8f",
+      "text_key": "wardrobe_existing_tab",
+      "label": "기존 의상 탭",
+      "value": "기존 의상",
+      "group_name": "룰렛/옷장",
+      "sort_order": 27,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "2e3f766f-e9c3-4efd-8e76-bd02581a3b7b",
+      "text_key": "schedule_upcoming_title",
+      "label": "다가오는 일정 제목",
+      "value": "다가오는 일정",
+      "group_name": "일정",
+      "sort_order": 28,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "8d589c47-4582-4cb7-9822-ba677587ed28",
+      "text_key": "upbo_empty",
+      "label": "업보 검색 결과 없음",
+      "value": "검색 조건에 맞는 시청자가 없습니다.",
+      "group_name": "업보",
+      "sort_order": 29,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "7928c185-fcb3-4282-a586-88b40dae34d1",
+      "text_key": "wardrobe_outfit_tab",
+      "label": "의상 탭",
+      "value": "의상",
+      "group_name": "룰렛/옷장",
+      "sort_order": 30,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "b40d43f9-12f6-487c-bb27-f5c7ce316b28",
+      "text_key": "home_archive_title",
+      "label": "아카이브 제목",
+      "value": "클립 및 다시보기",
+      "group_name": "홈",
+      "sort_order": 31,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "c55b4448-da73-4b80-b687-645d6dbdd29a",
+      "text_key": "schedule_upcoming_description",
+      "label": "다가오는 일정 설명",
+      "value": "오늘을 포함해 앞으로 7일간의 일정입니다.",
+      "group_name": "일정",
+      "sort_order": 32,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "3d98d110-a4e0-49f2-9810-f4b86c82b820",
+      "text_key": "schedule_today_button",
+      "label": "오늘 버튼",
+      "value": "오늘",
+      "group_name": "일정",
+      "sort_order": 33,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "9edb553c-7b93-493a-ac8e-bcaa7418a34f",
+      "text_key": "wardrobe_hair_tab",
+      "label": "헤어 탭",
+      "value": "헤어",
+      "group_name": "룰렛/옷장",
+      "sort_order": 34,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "b31b47bf-e2da-492b-963c-d8f45158cdb3",
+      "text_key": "home_archive_description",
+      "label": "아카이브 설명",
+      "value": "영상, 다시보기 및 노래커버, 그리고 추억을 차곡차곡 모아두는 공간입니다.",
+      "group_name": "홈",
+      "sort_order": 35,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "08b10572-935b-4223-b30b-b4ed4223c2d0",
+      "text_key": "home_cta_label",
+      "label": "홈 일정 CTA 라벨",
+      "value": "SCHEDULE",
+      "group_name": "홈",
+      "sort_order": 36,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "93b78fb8-2eaa-4430-837d-2f2d63677ce2",
+      "text_key": "schedule_empty",
+      "label": "일정 빈 상태",
+      "value": "이번 주에 등록된 일정이 없습니다.",
+      "group_name": "일정",
+      "sort_order": 37,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "d0d111bf-aaf8-496a-9208-26a403f38a53",
+      "text_key": "wardrobe_empty",
+      "label": "옷장 빈 상태",
+      "value": "아직 등록된 항목이 없습니다.",
+      "group_name": "룰렛/옷장",
+      "sort_order": 38,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "f98565e0-11a1-4f50-a854-6ee5c6cf0b2c",
+      "text_key": "home_signature_label",
+      "label": "시그니처 영문 라벨",
+      "value": "SIGNATURE",
+      "group_name": "홈",
+      "sort_order": 39,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "0fc2e4ff-e9f2-40d7-92ff-aab2a0dfbd25",
+      "text_key": "home_signature_title",
+      "label": "시그니처 제목",
+      "value": "시그니처 풍선",
+      "group_name": "홈",
+      "sort_order": 40,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "7dc10e41-2c84-444d-a8bd-3f0c5eb48ae6",
+      "text_key": "home_cta_title",
+      "label": "홈 일정 CTA 문구",
+      "value": "이번 달 일정과 다가오는 방송을 확인해 보세요.",
+      "group_name": "홈",
+      "sort_order": 41,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "15a64e92-8d05-44fb-be68-a020e500b550",
+      "text_key": "home_cta_button",
+      "label": "홈 일정 CTA 버튼",
+      "value": "일정 페이지 열기",
+      "group_name": "홈",
+      "sort_order": 42,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "fefb27f0-fdfd-42e7-b174-f0957daf826e",
+      "text_key": "home_intro_fallback",
+      "label": "소개 문구 기본값",
+      "value": "프로필 소개 문구를 관리자 페이지에서 입력해 주세요.",
+      "group_name": "홈",
+      "sort_order": 43,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "f75ca55b-4dc6-451e-9cbf-4b6b0e9be8bf",
+      "text_key": "home_schedule_button",
+      "label": "홈 일정 버튼",
+      "value": "방송 일정 보기",
+      "group_name": "홈",
+      "sort_order": 44,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "7aaa85e3-bd48-4b2e-9f11-24d7f78ac89d",
+      "text_key": "profile_image_label",
+      "label": "프로필 이미지 라벨",
+      "value": "PROFILE IMAGE",
+      "group_name": "홈",
+      "sort_order": 45,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "6b1f695b-8577-4472-b0e4-ee4445e54985",
+      "text_key": "profile_image_help",
+      "label": "프로필 이미지 안내",
+      "value": "PNG 투명 이미지를 업로드해 주세요",
+      "group_name": "홈",
+      "sort_order": 46,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "dac09eaf-59a5-4214-a30f-fb7f78211d9c",
+      "text_key": "home_main_contents_title",
+      "label": "메인 컨텐츠 제목",
+      "value": "메인 컨텐츠",
+      "group_name": "홈",
+      "sort_order": 47,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "a27d592e-3ac8-4ace-8c09-a23c22e6d96e",
+      "text_key": "home_main_contents_fallback",
+      "label": "메인 컨텐츠 기본 설명",
+      "value": "종합게임 / 마인크래프트 / 소통 / 노래",
+      "group_name": "홈",
+      "sort_order": 48,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "f4142a2e-c51d-45f2-b7e2-549ebbd4a905",
+      "text_key": "home_fandom_name_label",
+      "label": "팬네임 라벨",
+      "value": "팬네임",
+      "group_name": "홈",
+      "sort_order": 49,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "859e68e0-46f7-43a2-956a-350853422b9d",
+      "text_key": "home_fandom_name_fallback",
+      "label": "팬네임 기본 안내",
+      "value": "팬네임을 등록해 주세요.",
+      "group_name": "홈",
+      "sort_order": 50,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "5623c619-4796-49a4-a8a5-1d45918e1c9a",
+      "text_key": "home_fandom_character_label",
+      "label": "팬캐릭터 라벨",
+      "value": "팬캐릭터",
+      "group_name": "홈",
+      "sort_order": 51,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "35d117bf-d379-4e8d-9c7b-02334489ecd9",
+      "text_key": "home_fandom_character_fallback",
+      "label": "팬캐릭터 기본 안내",
+      "value": "팬캐릭터 이름을 등록해 주세요.",
+      "group_name": "홈",
+      "sort_order": 52,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "6a7b9b0c-cc27-4803-ae77-6e0c0ac14490",
+      "text_key": "home_fandom_description_fallback",
+      "label": "팬덤 설명 기본값",
+      "value": "팬캐릭터 소개, 디자인 설정, 방송국에서 사용하는 팬덤 브랜딩 설명을 이 영역에 자유롭게 적을 수 있습니다.",
+      "group_name": "홈",
+      "sort_order": 53,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "f2562126-5b16-47cd-928b-b2be72292bb3",
+      "text_key": "home_fandom_image_label",
+      "label": "팬덤 이미지 라벨",
+      "value": "FANDOM DESIGN",
+      "group_name": "홈",
+      "sort_order": 54,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "58fbeb29-98e6-450a-95d6-a3f9a74156c5",
+      "text_key": "home_fandom_image_help",
+      "label": "팬덤 이미지 안내",
+      "value": "팬캐릭터 디자인 이미지를 업로드해 주세요",
+      "group_name": "홈",
+      "sort_order": 55,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "5f561903-bd0f-4d2e-bc95-dff45ea3c353",
+      "text_key": "home_milestone_link",
+      "label": "여정 관련 링크 문구",
+      "value": "관련 링크 ↗",
+      "group_name": "홈",
+      "sort_order": 56,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "ed58d764-fb69-4068-bc88-c58365ed9af1",
+      "text_key": "home_milestone_empty",
+      "label": "여정 빈 상태",
+      "value": "아직 등록된 여정이 없습니다.",
+      "group_name": "홈",
+      "sort_order": 57,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "18b24ac4-d882-4872-97a2-4f3faf11fd5a",
+      "text_key": "archive_no_image",
+      "label": "아카이브 이미지 없음",
+      "value": "NO IMAGE",
+      "group_name": "홈",
+      "sort_order": 58,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    },
+    {
+      "id": "8777c4df-3d69-4278-baa0-9b14a35fb4d6",
+      "text_key": "home_archive_empty",
+      "label": "아카이브 빈 상태",
+      "value": "등록된 아카이브가 없습니다.",
+      "group_name": "홈",
+      "sort_order": 59,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-09-17T16:39:23.569153+00:00"
+    }
+  ],
+  "signature_items": [],
+  "songs": [],
+  "wardrobe_items": [
+    {
+      "id": "c1fe291c-6d84-4c8f-acc3-d2c0fb2008a5",
+      "name": "기본 헤어",
+      "period_type": "monthly",
+      "item_type": "hair",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469611175-94b021dca5-Screenshot_057-crop.png",
+      "description": "",
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-09-17T15:25:58.084227+00:00",
+      "updated_at": "2026-11-04T18:06:09.039Z"
+    },
+    {
+      "id": "e9d47eff-8de7-4447-a99f-89339a7c7605",
+      "name": "포니테일",
+      "period_type": "monthly",
+      "item_type": "hair",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469349650-c987f0cfa5-Screenshot_060-crop.png",
+      "description": "",
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:55:55.657Z",
+      "updated_at": "2026-11-04T18:06:09.039Z"
+    },
+    {
+      "id": "d17be2bf-5cfe-46fe-bda1-25e6af98fd0e",
+      "name": "단발",
+      "period_type": "monthly",
+      "item_type": "hair",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469575572-8ffd7fb43f-Screenshot_072-crop.png",
+      "description": "",
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:57:20.750Z",
+      "updated_at": "2026-11-04T18:06:09.039Z"
+    },
+    {
+      "id": "2e9b7a0d-3f44-4195-8d09-bafca52450fd",
+      "name": "의상 A",
+      "period_type": "monthly",
+      "item_type": "outfit",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469823663-cb27200568-Screenshot_063-crop.png",
+      "description": "",
+      "sort_order": 5,
+      "is_visible": true,
+      "created_at": "2026-10-31T18:03:48.903Z",
+      "updated_at": "2026-11-04T18:06:09.039Z"
+    },
+    {
+      "id": "35c202ae-9d00-4e37-9ce3-2ed6e57a44c0",
+      "name": "의상 B",
+      "period_type": "monthly",
+      "item_type": "outfit",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469859947-74a6103cd9-Screenshot_064-crop.png",
+      "description": "",
+      "sort_order": 6,
+      "is_visible": true,
+      "created_at": "2026-10-31T18:04:26.118Z",
+      "updated_at": "2026-11-04T18:06:09.039Z"
+    },
+    {
+      "id": "2b3467a8-ff67-4159-8941-869d558e8636",
+      "name": "의상 C",
+      "period_type": "monthly",
+      "item_type": "outfit",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469892212-53638961bb-Screenshot_065-crop.png",
+      "description": "",
+      "sort_order": 7,
+      "is_visible": true,
+      "created_at": "2026-10-31T18:04:58.157Z",
+      "updated_at": "2026-11-04T18:06:09.039Z"
+    },
+    {
+      "id": "ae01f5c2-99c6-42c1-93ba-c5d1af3cc5e1",
+      "name": "의상 D",
+      "period_type": "monthly",
+      "item_type": "outfit",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793469926327-ce7830c7d7-Screenshot_067-crop.png",
+      "description": "",
+      "sort_order": 8,
+      "is_visible": true,
+      "created_at": "2026-10-31T18:05:31.362Z",
+      "updated_at": "2026-11-04T18:06:09.039Z"
+    },
+    {
+      "id": "cec77d9d-b35f-4091-b371-f3c5e80c6127",
+      "name": "의상 E-01",
+      "period_type": "monthly",
+      "item_type": "outfit",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793470050191-4f9e9abe25-Screenshot_068-crop.png",
+      "description": "",
+      "sort_order": 9,
+      "is_visible": true,
+      "created_at": "2026-10-31T18:07:35.949Z",
+      "updated_at": "2026-11-04T18:06:09.039Z"
+    },
+    {
+      "id": "42201314-f613-40b4-9a65-6688d5287fa5",
+      "name": "의상 E-02",
+      "period_type": "monthly",
+      "item_type": "outfit",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793470081262-36348f3bc0-Screenshot_071-crop.png",
+      "description": "",
+      "sort_order": 10,
+      "is_visible": true,
+      "created_at": "2026-10-31T18:08:06.022Z",
+      "updated_at": "2026-11-04T18:06:09.039Z"
+    },
+    {
+      "id": "d6b4b986-4697-485e-ba66-841b0f70715a",
+      "name": "양갈래",
+      "period_type": "monthly",
+      "item_type": "hair",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fwardrobe_items%2F1793815607341-0841492540-Screenshot_148-crop.png",
+      "description": "",
+      "sort_order": 4,
+      "is_visible": true,
+      "created_at": "2026-11-04T18:05:59.822Z",
+      "updated_at": "2026-11-04T18:06:55.483Z"
+    }
+  ],
+  "upbo_people": [
+    {
+      "id": "0bc57efe-a7db-4d31-9256-6d264159b6e9",
+      "soop_name": "쥐가오리",
+      "soop_id": "nqwerask2725",
+      "profile_image_url": "/api/media?path=public%2Fsite-media%2Fupbo%2F0bc57efe-a7db-4d31-9256-6d264159b6e9-1793457867033.webp",
+      "note": "",
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-10-31T14:44:25.372Z",
+      "updated_at": "2026-10-31T14:44:28.647Z"
+    },
+    {
+      "id": "c7bcfc46-ec5e-4f3f-92ef-d87631705698",
+      "soop_name": "러브_♥",
+      "soop_id": "jopok922",
+      "profile_image_url": "/api/media?path=public%2Fsite-media%2Fupbo%2Fc7bcfc46-ec5e-4f3f-92ef-d87631705698-1793533389229.webp",
+      "note": "",
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-11-01T11:43:07.107Z",
+      "updated_at": "2026-11-01T11:43:12.611Z"
+    },
+    {
+      "id": "5768cc5d-a8db-4769-80db-48dd9940d51e",
+      "soop_name": "mask2203",
+      "soop_id": "mask2203",
+      "profile_image_url": "/api/media?path=public%2Fsite-media%2Fupbo%2F5768cc5d-a8db-4769-80db-48dd9940d51e-1793533423644.webp",
+      "note": "",
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-11-01T11:43:41.696Z",
+      "updated_at": "2026-11-01T11:43:45.486Z"
+    },
+    {
+      "id": "9c774e63-ae12-4ed2-911c-3b40a559160f",
+      "soop_name": "야채혐오",
+      "soop_id": "na1403",
+      "profile_image_url": "/api/media?path=public%2Fsite-media%2Fupbo%2F9c774e63-ae12-4ed2-911c-3b40a559160f-1793625381034.webp",
+      "note": "",
+      "sort_order": 4,
+      "is_visible": true,
+      "created_at": "2026-11-02T13:16:19.064Z",
+      "updated_at": "2026-11-02T13:16:23.021Z"
+    },
+    {
+      "id": "6eb9315f-ede7-4c37-a1f0-1de5f247cb36",
+      "soop_name": "4월_",
+      "soop_id": "enddl12006",
+      "profile_image_url": "/api/media?path=public%2Fsite-media%2Fupbo%2F6eb9315f-ede7-4c37-a1f0-1de5f247cb36-1794199375152.webp",
+      "note": "",
+      "sort_order": 5,
+      "is_visible": true,
+      "created_at": "2026-11-09T04:42:53.068Z",
+      "updated_at": "2026-11-09T04:42:58.183Z"
+    },
+    {
+      "id": "9afda4e5-6813-4b34-b6f7-2f73c09d4feb",
+      "soop_name": "똘복이네영웅",
+      "soop_id": "hanboor",
+      "profile_image_url": "/api/media?path=public%2Fsite-media%2Fupbo%2F9afda4e5-6813-4b34-b6f7-2f73c09d4feb-1794199395316.webp",
+      "note": "",
+      "sort_order": 6,
+      "is_visible": true,
+      "created_at": "2026-11-09T04:43:13.453Z",
+      "updated_at": "2026-11-09T04:43:16.823Z"
+    },
+    {
+      "id": "65c00a8a-f7fc-40ba-bd86-58f3a2ce7f9f",
+      "soop_name": "칙촉칙촉",
+      "soop_id": "entman1105",
+      "profile_image_url": "/api/media?path=public%2Fsite-media%2Fupbo%2F65c00a8a-f7fc-40ba-bd86-58f3a2ce7f9f-1794332858097.webp",
+      "note": "",
+      "sort_order": 7,
+      "is_visible": true,
+      "created_at": "2026-11-10T17:47:36.139Z",
+      "updated_at": "2026-11-10T17:47:40.098Z"
+    }
+  ],
+  "upbo_results": [
+    {
+      "id": "f59a98ed-3f70-4975-a4d1-1b36c9b2ee38",
+      "person_id": "0bc57efe-a7db-4d31-9256-6d264159b6e9",
+      "item_id": "6a4bfb80-bcb9-42e1-924d-5afecbc0db6b",
+      "result_label": "B 의상 단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 3,
+      "created_at": "2026-10-31T17:10:32.126Z",
+      "updated_at": "2026-10-31T17:10:32.126Z"
+    },
+    {
+      "id": "68db8e69-3b9d-4cb8-966e-f30e80748d7d",
+      "person_id": "0bc57efe-a7db-4d31-9256-6d264159b6e9",
+      "item_id": "79bb604f-cba8-4e06-9878-ffbaaa07d1d7",
+      "result_label": "D 의상 단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 5,
+      "created_at": "2026-10-31T17:10:35.374Z",
+      "updated_at": "2026-10-31T17:10:35.374Z"
+    },
+    {
+      "id": "abbc7219-4d8e-4cd7-8efc-06b5237dbc92",
+      "person_id": "c7bcfc46-ec5e-4f3f-92ef-d87631705698",
+      "item_id": "c632a5bd-4eba-40d3-b94a-f86e91c542f1",
+      "result_label": "얼빡단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 1,
+      "created_at": "2026-11-01T11:43:57.925Z",
+      "updated_at": "2026-11-01T11:43:57.925Z"
+    },
+    {
+      "id": "33e75189-7e88-418e-a48e-620c1fc80e24",
+      "person_id": "5768cc5d-a8db-4769-80db-48dd9940d51e",
+      "item_id": "6a4bfb80-bcb9-42e1-924d-5afecbc0db6b",
+      "result_label": "B 의상 단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 3,
+      "created_at": "2026-11-01T11:44:02.328Z",
+      "updated_at": "2026-11-01T11:44:02.328Z"
+    },
+    {
+      "id": "eed98fb2-e15d-4292-a84d-7fec4d32c480",
+      "person_id": "5768cc5d-a8db-4769-80db-48dd9940d51e",
+      "item_id": "79bb604f-cba8-4e06-9878-ffbaaa07d1d7",
+      "result_label": "D 의상 단컷",
+      "quantity": 2,
+      "note": "",
+      "sort_order": 5,
+      "created_at": "2026-11-01T11:44:10.780Z",
+      "updated_at": "2026-11-10T17:47:15.889Z"
+    },
+    {
+      "id": "89fda4e7-17fe-4961-8ef4-4dbb4c42cbde",
+      "person_id": "5768cc5d-a8db-4769-80db-48dd9940d51e",
+      "item_id": "afbe6a1d-d2a0-45a6-a717-a7ecf767c429",
+      "result_label": "남라네컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 8,
+      "created_at": "2026-11-02T13:15:59.361Z",
+      "updated_at": "2026-11-02T13:15:59.361Z"
+    },
+    {
+      "id": "05ce8acd-60cb-4491-b0f5-9f42e0c42d78",
+      "person_id": "9c774e63-ae12-4ed2-911c-3b40a559160f",
+      "item_id": "c632a5bd-4eba-40d3-b94a-f86e91c542f1",
+      "result_label": "얼빡단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 1,
+      "created_at": "2026-11-02T13:16:39.734Z",
+      "updated_at": "2026-11-02T13:16:39.734Z"
+    },
+    {
+      "id": "050ab8fa-79f4-4341-82c0-57d4d24956f3",
+      "person_id": "9c774e63-ae12-4ed2-911c-3b40a559160f",
+      "item_id": "c3542cf4-f29b-4342-9f39-30aed04724ca",
+      "result_label": "C 의상 단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 4,
+      "created_at": "2026-11-02T13:16:43.101Z",
+      "updated_at": "2026-11-02T13:16:43.101Z"
+    },
+    {
+      "id": "9abb7a9d-8cfa-46d3-8ab7-e98a7ac8feda",
+      "person_id": "9afda4e5-6813-4b34-b6f7-2f73c09d4feb",
+      "item_id": "c632a5bd-4eba-40d3-b94a-f86e91c542f1",
+      "result_label": "얼빡단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 1,
+      "created_at": "2026-11-09T04:43:39.615Z",
+      "updated_at": "2026-11-09T04:43:39.615Z"
+    },
+    {
+      "id": "e1ffbddf-26d2-4588-a437-ae549748402a",
+      "person_id": "6eb9315f-ede7-4c37-a1f0-1de5f247cb36",
+      "item_id": "c3542cf4-f29b-4342-9f39-30aed04724ca",
+      "result_label": "C 의상 단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 4,
+      "created_at": "2026-11-09T04:43:51.398Z",
+      "updated_at": "2026-11-09T04:43:51.398Z"
+    },
+    {
+      "id": "f851dc63-0faa-4959-bac1-00d2d95109fe",
+      "person_id": "6eb9315f-ede7-4c37-a1f0-1de5f247cb36",
+      "item_id": "c632a5bd-4eba-40d3-b94a-f86e91c542f1",
+      "result_label": "얼빡단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 1,
+      "created_at": "2026-11-09T04:43:54.163Z",
+      "updated_at": "2026-11-09T04:43:54.163Z"
+    },
+    {
+      "id": "f2ee7626-e9f7-4d77-9701-e8e3cda27c25",
+      "person_id": "6eb9315f-ede7-4c37-a1f0-1de5f247cb36",
+      "item_id": "7f320fb6-35e4-4ea4-8738-11f811d2be08",
+      "result_label": "움짤프사",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 7,
+      "created_at": "2026-11-09T04:43:58.843Z",
+      "updated_at": "2026-11-09T04:43:58.843Z"
+    },
+    {
+      "id": "fb403a03-373e-4bc8-8627-b6b932dac247",
+      "person_id": "6eb9315f-ede7-4c37-a1f0-1de5f247cb36",
+      "item_id": "09fc726e-db82-46a6-b424-10377e3d19ff",
+      "result_label": "A 의상 단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 2,
+      "created_at": "2026-11-09T04:44:02.920Z",
+      "updated_at": "2026-11-09T04:44:02.920Z"
+    },
+    {
+      "id": "f2d14f49-2cfd-4cab-adb2-4c355df257a6",
+      "person_id": "6eb9315f-ede7-4c37-a1f0-1de5f247cb36",
+      "item_id": "6a4bfb80-bcb9-42e1-924d-5afecbc0db6b",
+      "result_label": "B 의상 단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 3,
+      "created_at": "2026-11-09T04:44:05.614Z",
+      "updated_at": "2026-11-09T04:44:05.614Z"
+    },
+    {
+      "id": "c11e283d-a84e-4153-8606-5e02b79868c8",
+      "person_id": "9c774e63-ae12-4ed2-911c-3b40a559160f",
+      "item_id": "fc28918e-6df1-4f15-b395-f3d08eee1066",
+      "result_label": "빼빼로데이 단컷",
+      "quantity": 2,
+      "note": "",
+      "sort_order": 14,
+      "created_at": "2026-11-10T17:46:28.695Z",
+      "updated_at": "2026-11-10T17:46:31.793Z"
+    },
+    {
+      "id": "a2c6a967-4e18-4404-8a16-7e305044122e",
+      "person_id": "5768cc5d-a8db-4769-80db-48dd9940d51e",
+      "item_id": "512747b9-6ac1-40a1-8f4a-05bdba1473ec",
+      "result_label": "마크즉석방셀",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 16,
+      "created_at": "2026-11-10T17:47:12.472Z",
+      "updated_at": "2026-11-10T17:47:12.472Z"
+    },
+    {
+      "id": "2bf68de3-eb85-4da4-b61d-feb9e18f7c7d",
+      "person_id": "65c00a8a-f7fc-40ba-bd86-58f3a2ce7f9f",
+      "item_id": "eaec99f5-6e94-4c31-9881-ce32e8597a61",
+      "result_label": "빼빼로데이 체키",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 15,
+      "created_at": "2026-11-10T17:47:50.206Z",
+      "updated_at": "2026-11-10T17:47:50.206Z"
+    }
+  ],
+  "upbo_items": [
+    {
+      "id": "c632a5bd-4eba-40d3-b94a-f86e91c542f1",
+      "name": "얼빡단컷",
+      "note": "",
+      "sort_order": 1,
+      "is_visible": true,
+      "created_at": "2026-10-31T16:56:44.252Z",
+      "updated_at": "2026-10-31T16:56:44.252Z"
+    },
+    {
+      "id": "09fc726e-db82-46a6-b424-10377e3d19ff",
+      "name": "A 의상 단컷",
+      "note": "",
+      "sort_order": 2,
+      "is_visible": true,
+      "created_at": "2026-10-31T16:56:53.235Z",
+      "updated_at": "2026-10-31T16:56:53.235Z"
+    },
+    {
+      "id": "6a4bfb80-bcb9-42e1-924d-5afecbc0db6b",
+      "name": "B 의상 단컷",
+      "note": "",
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-10-31T16:57:02.245Z",
+      "updated_at": "2026-10-31T16:57:02.245Z"
+    },
+    {
+      "id": "c3542cf4-f29b-4342-9f39-30aed04724ca",
+      "name": "C 의상 단컷",
+      "note": "",
+      "sort_order": 4,
+      "is_visible": true,
+      "created_at": "2026-10-31T16:57:09.734Z",
+      "updated_at": "2026-10-31T16:57:09.734Z"
+    },
+    {
+      "id": "79bb604f-cba8-4e06-9878-ffbaaa07d1d7",
+      "name": "D 의상 단컷",
+      "note": "",
+      "sort_order": 5,
+      "is_visible": true,
+      "created_at": "2026-10-31T16:57:16.030Z",
+      "updated_at": "2026-10-31T16:57:16.030Z"
+    },
+    {
+      "id": "4dc72db5-b716-4180-8fa7-21c82a780ec6",
+      "name": "E 의상 단컷",
+      "note": "",
+      "sort_order": 6,
+      "is_visible": true,
+      "created_at": "2026-10-31T16:57:24.386Z",
+      "updated_at": "2026-10-31T16:57:24.386Z"
+    },
+    {
+      "id": "7f320fb6-35e4-4ea4-8738-11f811d2be08",
+      "name": "움짤프사",
+      "note": "",
+      "sort_order": 7,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:08:58.993Z",
+      "updated_at": "2026-10-31T17:08:58.993Z"
+    },
+    {
+      "id": "afbe6a1d-d2a0-45a6-a717-a7ecf767c429",
+      "name": "남라네컷",
+      "note": "",
+      "sort_order": 8,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:09:07.309Z",
+      "updated_at": "2026-10-31T17:09:07.309Z"
+    },
+    {
+      "id": "84e8e7bb-1202-4d5c-b981-4a15f9802889",
+      "name": "애교송",
+      "note": "",
+      "sort_order": 9,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:09:14.928Z",
+      "updated_at": "2026-10-31T17:09:14.928Z"
+    },
+    {
+      "id": "97fdc12f-51e8-4c4f-8ec4-1d7854b4bb10",
+      "name": "애교",
+      "note": "",
+      "sort_order": 10,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:09:20.593Z",
+      "updated_at": "2026-10-31T17:09:20.593Z"
+    },
+    {
+      "id": "72e55ca9-4332-4bfc-85bc-f70b3688504a",
+      "name": "상단배너",
+      "note": "",
+      "sort_order": 11,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:10:04.022Z",
+      "updated_at": "2026-10-31T17:10:04.022Z"
+    },
+    {
+      "id": "03323504-62f0-4a3f-89e9-386af5a6133a",
+      "name": "플로팅배너",
+      "note": "",
+      "sort_order": 12,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:10:10.727Z",
+      "updated_at": "2026-10-31T17:10:10.727Z"
+    },
+    {
+      "id": "35815baf-f5d0-4e93-9b29-06adf5235712",
+      "name": "하단배너",
+      "note": "",
+      "sort_order": 13,
+      "is_visible": true,
+      "created_at": "2026-10-31T17:10:18.967Z",
+      "updated_at": "2026-10-31T17:10:18.967Z"
+    },
+    {
+      "id": "fc28918e-6df1-4f15-b395-f3d08eee1066",
+      "name": "빼빼로데이 단컷",
+      "note": "",
+      "sort_order": 14,
+      "is_visible": true,
+      "created_at": "2026-11-10T17:46:04.181Z",
+      "updated_at": "2026-11-10T17:46:04.181Z"
+    },
+    {
+      "id": "eaec99f5-6e94-4c31-9881-ce32e8597a61",
+      "name": "빼빼로데이 체키",
+      "note": "",
+      "sort_order": 15,
+      "is_visible": true,
+      "created_at": "2026-11-10T17:46:12.463Z",
+      "updated_at": "2026-11-10T17:46:12.463Z"
+    },
+    {
+      "id": "512747b9-6ac1-40a1-8f4a-05bdba1473ec",
+      "name": "마크즉석방셀",
+      "note": "",
+      "sort_order": 16,
+      "is_visible": true,
+      "created_at": "2026-11-10T17:46:55.070Z",
+      "updated_at": "2026-11-10T17:46:55.070Z"
+    }
+  ]
+}
