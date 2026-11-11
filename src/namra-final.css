@@ -593,8 +593,9 @@ body {
 
 .signature-diary-card img {
   width: 100%;
-  aspect-ratio: 16 / 9 !important;
-  object-fit: cover !important;
+  aspect-ratio: 293 / 183 !important;
+  object-fit: contain !important;
+  object-position: center center !important;
   display: block;
   border-radius: 10px !important;
   background: #fff;
@@ -4098,7 +4099,7 @@ body div {
   max-width: 420px !important;
   height: auto !important;
   max-height: none !important;
-  aspect-ratio: 293 / 159 !important;
+  aspect-ratio: 293 / 183 !important;
   object-fit: contain !important;
   padding: 6px !important;
   background: #fff !important;
@@ -6832,4 +6833,33 @@ a.journey-row:hover {
   width: 100% !important;
   height: 100% !important;
   border-radius: 9999px !important;
+}
+
+
+/* 2026-11-11 signature balloon 293x183 no-crop */
+.signature-diary-card > img,
+.signature-image-field .signature-preview,
+.signature-modal-image {
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+.signature-diary-card > img {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 293 / 183 !important;
+  padding: 0 !important;
+  background: #fff !important;
+}
+
+.signature-image-field .signature-preview {
+  aspect-ratio: 293 / 183 !important;
+  object-fit: contain !important;
+}
+
+.signature-modal-image {
+  max-width: 100% !important;
+  max-height: calc(100dvh - 180px) !important;
+  width: auto !important;
+  height: auto !important;
 }
