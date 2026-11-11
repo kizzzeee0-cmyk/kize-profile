@@ -58,6 +58,7 @@ export type SongItem = {
   sort_order: number
   is_visible: boolean
   created_at?: string
+  updated_at?: string
 }
 
 export type SiteText = {
@@ -86,8 +87,11 @@ export type UpboPerson = {
   soop_id: string
   profile_image_url: string | null
   note: string | null
+  admin_note?: string | null
   sort_order: number
   is_visible: boolean
+  created_at?: string
+  updated_at?: string
 }
 
 export type UpboItem = {
@@ -96,6 +100,8 @@ export type UpboItem = {
   note: string | null
   sort_order: number
   is_visible: boolean
+  created_at?: string
+  updated_at?: string
 }
 
 export type UpboResult = {
