@@ -2,7 +2,7 @@ import { requireAdmin } from '../../_lib/auth.js'
 import { json, errorJson } from '../../_lib/http.js'
 import { deleteRowInStore, isAllowedTable, mutateStoreAtomic, readStore, saveRowInStore, writeStore } from '../../_lib/store.js'
 import { appendUpboAudit, markUpboUpdated } from '../../_lib/upbo.js'
-import { decryptSecret } from '../../_lib/secret.js'
+import { decryptSecret, encryptSecret } from '../../_lib/secret.js'
 
 
 const UPBO_TABLES = new Set(['upbo_people', 'upbo_items', 'upbo_results'])
@@ -54,6 +54,11 @@ export async function onRequestPost({ request, env }) {
 
       if (table === 'upbo_people') {
         values.soop_id = String(values.soop_id || '').replace(/[()（）]/g, '').trim()
+        if (Object.prototype.hasOwnProperty.call(values, 'admin_note')) {
+          const adminNote = String(values.admin_note || '')
+          values.admin_note_encrypted = adminNote ? await encryptSecret(env, adminNote) : ''
+          delete values.admin_note
+        }
       }
 
       if (UPBO_TABLES.has(table)) {
