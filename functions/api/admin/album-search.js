@@ -29,13 +29,41 @@ function artistText(recording) {
     .trim()
 }
 
-function exactMatch(recording, title, artist) {
-  const titleOk = normalized(recording?.title) === normalized(title)
-  const resultArtist = normalized(artistText(recording))
+function similarity(left, right) {
+  const a = normalized(left)
+  const b = normalized(right)
+  if (!a || !b) return 0
+  if (a === b) return 1
+
+  const rows = Array.from({ length: a.length + 1 }, (_, index) => index)
+  for (let j = 1; j <= b.length; j += 1) {
+    let previous = rows[0]
+    rows[0] = j
+    for (let i = 1; i <= a.length; i += 1) {
+      const current = rows[i]
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1
+      rows[i] = Math.min(
+        rows[i] + 1,
+        rows[i - 1] + 1,
+        previous + cost,
+      )
+      previous = current
+    }
+  }
+
+  return 1 - rows[a.length] / Math.max(a.length, b.length)
+}
+
+function artistMatch(recording, artist) {
   const queryArtist = normalized(artist)
-  const artistOk = Boolean(resultArtist && queryArtist) &&
+  if (!queryArtist) return true
+  const resultArtist = normalized(artistText(recording))
+  return Boolean(resultArtist) &&
     (resultArtist === queryArtist || resultArtist.includes(queryArtist) || queryArtist.includes(resultArtist))
-  return titleOk && artistOk
+}
+
+function exactMatch(recording, title, artist) {
+  return normalized(recording?.title) === normalized(title) && artistMatch(recording, artist)
 }
 
 function releaseCandidates(recordings, title, artist) {
@@ -43,9 +71,14 @@ function releaseCandidates(recordings, title, artist) {
   const rows = []
 
   for (const recording of recordings || []) {
-    const exact = exactMatch(recording, title, artist)
+    const titleSimilarity = similarity(recording?.title, title)
+    const exactTitle = titleSimilarity === 1
+    const exact = exactTitle && artistMatch(recording, artist)
     const searchScore = Number(recording?.score || 0)
-    if (!exact && searchScore < 80) continue
+
+    // The title is the primary key for suggestions. Only keep results whose
+    // normalized title is at least 90% similar to what the admin typed.
+    if (titleSimilarity < 0.9) continue
 
     for (const release of recording?.releases || []) {
       const id = String(release?.id || '')
@@ -63,6 +96,7 @@ function releaseCandidates(recordings, title, artist) {
         country: release.country || '',
         status: release.status || '',
         score: searchScore,
+        titleSimilarity,
         exact,
       })
     }
@@ -71,6 +105,7 @@ function releaseCandidates(recordings, title, artist) {
   return rows.sort((a, b) =>
     Number(b.exact) - Number(a.exact) ||
     Number(String(b.status).toLowerCase() === 'official') - Number(String(a.status).toLowerCase() === 'official') ||
+    b.titleSimilarity - a.titleSimilarity ||
     b.score - a.score ||
     String(a.date || '').localeCompare(String(b.date || ''))
   )
@@ -92,7 +127,9 @@ async function mbFetch(url) {
 }
 
 async function searchRecordings(title, artist) {
-  const query = `recording:"${lucene(title)}" AND artist:"${lucene(artist)}"`
+  const query = artist
+    ? `recording:"${lucene(title)}" AND artist:"${lucene(artist)}"`
+    : `recording:"${lucene(title)}"`
   const url = new URL(MB_RECORDING_URL)
   url.searchParams.set('query', query)
   url.searchParams.set('fmt', 'json')
@@ -131,14 +168,14 @@ export async function onRequestGet({ request, env }) {
     const url = new URL(request.url)
     const title = clean(url.searchParams.get('title'))
     const artist = clean(url.searchParams.get('artist'))
-    if (!title || !artist) return json({ error: '노래 제목과 가수를 모두 입력해 주세요.' }, 400)
+    if (!title) return json({ error: '노래 제목을 입력해 주세요.' }, 400)
 
     const payload = await searchRecordings(title, artist)
     let recordings = payload?.recordings || []
     let raw = releaseCandidates(recordings, title, artist)
 
     if (!raw.length) {
-      const best = recordings.find(item => exactMatch(item, title, artist)) || recordings[0]
+      const best = recordings.find(item => similarity(item?.title, title) >= 0.9) || recordings[0]
       if (best?.id) {
         await sleep(1100)
         const detail = await lookupRecording(best.id)
@@ -165,7 +202,8 @@ export async function onRequestGet({ request, env }) {
       ok: true,
       query: { title, artist },
       candidates,
-      autoSelect: exact.length === 1 && candidates.length === 1 ? exact[0].id : null,
+      // When only a title was entered, always let the admin choose the artist/release.
+      autoSelect: artist && exact.length === 1 && candidates.length === 1 ? exact[0].id : null,
       confidence: exact.length ? 'exact' : candidates.length ? 'review' : 'none',
     }, 200, { 'Cache-Control': 'private, max-age=300' })
   } catch (error) {
