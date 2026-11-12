@@ -19,28 +19,15 @@ function sim(a,b) {
   }
   return 1-rows[a.length]/Math.max(a.length,b.length);
 }
-function countries(title){
-  if(/[\u3040-\u30ff]/u.test(title)) return ['JP','KR'];
-  if(/[\uac00-\ud7af]/u.test(title)) return ['KR'];
-  if(/[\u4e00-\u9fff]/u.test(title)) return ['CN','TW','HK','KR'];
-  return ['KR','US'];
-}
 
 for (const title of samples) {
-  const rows=[];
-  for(const country of countries(title)){
-    const url=new URL('https://itunes.apple.com/search');
-    url.searchParams.set('term',title);
-    url.searchParams.set('media','music');
-    url.searchParams.set('entity','song');
-    url.searchParams.set('limit','25');
-    url.searchParams.set('country',country);
-    const res=await fetch(url,{headers:{'User-Agent':'NAMRA-Profile/1.0'}});
-    const json=await res.json();
-    for(const r of json.results||[]){
-      const similarity=sim(r.trackName,title);
-      if(similarity>=0.9 && r.artworkUrl100) rows.push({country,track:r.trackName,artist:r.artistName,album:r.collectionName,similarity,art:r.artworkUrl100});
-    }
-  }
-  console.log(JSON.stringify({title,count:rows.length,top:rows.slice(0,5)},null,2));
+  const url=new URL('https://api.deezer.com/search');
+  url.searchParams.set('q',title);
+  url.searchParams.set('limit','30');
+  const res=await fetch(url,{headers:{'User-Agent':'NAMRA-Profile/1.0'}});
+  const json=await res.json();
+  const rows=(json.data||[])
+    .map(r=>({track:r.title_short||r.title,artist:r.artist?.name,album:r.album?.title,similarity:sim(r.title_short||r.title,title),art:r.album?.cover_xl||r.album?.cover_big}))
+    .filter(r=>r.similarity>=0.9 && r.art);
+  console.log(JSON.stringify({title,count:rows.length,top:rows.slice(0,8)},null,2));
 }
