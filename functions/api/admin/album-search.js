@@ -392,16 +392,34 @@ export async function onRequestGet({ request, env }) {
 
     const merged = []
     const mergedKeys = new Set()
-    for (const item of [...itunesCandidates, ...deezerCandidates]) {
-      const key = `${normalized(item.title)}::${normalized(item.artist)}::${normalized(item.releaseTitle)}`
-      if (!key || mergedKeys.has(key)) continue
-      mergedKeys.add(key)
-      merged.push(item)
+    const addCandidates = rows => {
+      for (const item of rows || []) {
+        const key = `${normalized(item.title)}::${normalized(item.artist)}::${normalized(item.releaseTitle)}`
+        if (!key || mergedKeys.has(key)) continue
+        mergedKeys.add(key)
+        merged.push(item)
+      }
     }
 
+    addCandidates([...itunesCandidates, ...deezerCandidates])
+
+    // Artist names often differ by script or official styling (e.g. 넬 vs NELL).
+    // If the strict title+artist search is too sparse, retry by title only instead
+    // of incorrectly treating the song as missing.
+    let usedTitleOnlyFallback = false
+    if (artist && merged.length < 3) {
+      const [itunesTitleOnly, deezerTitleOnly] = await Promise.all([
+        searchItunes(title, ''),
+        searchDeezer(title, ''),
+      ])
+      addCandidates([...itunesTitleOnly, ...deezerTitleOnly])
+      usedTitleOnlyFallback = true
+    }
+
+    const rankingUsesArtist = Boolean(artist) && !usedTitleOnlyFallback
     let candidates = merged
       .sort((a, b) =>
-        candidatePriority(b, Boolean(artist)) - candidatePriority(a, Boolean(artist)) ||
+        candidatePriority(b, rankingUsesArtist) - candidatePriority(a, rankingUsesArtist) ||
         Number(b.titleSimilarity || 0) - Number(a.titleSimilarity || 0) ||
         Number(b.score || 0) - Number(a.score || 0)
       )
@@ -410,9 +428,10 @@ export async function onRequestGet({ request, env }) {
     // Supplement/fallback with MusicBrainz + Cover Art Archive when the two
     // artwork-friendly sources still have too few usable matches.
     if (candidates.length < 3) {
-      const payload = await searchRecordings(title, artist)
+      const fallbackArtist = usedTitleOnlyFallback ? '' : artist
+      const payload = await searchRecordings(title, fallbackArtist)
       let recordings = payload?.recordings || []
-      let raw = releaseCandidates(recordings, title, artist)
+      let raw = releaseCandidates(recordings, title, fallbackArtist)
 
       if (!raw.length) {
         const best = recordings.find(item => titleSimilarity(item?.title, title) >= 0.9) || recordings[0]
@@ -420,7 +439,7 @@ export async function onRequestGet({ request, env }) {
           await sleep(1100)
           const detail = await lookupRecording(best.id)
           recordings = [{ ...best, ...detail, score: best.score || 100 }]
-          raw = releaseCandidates(recordings, title, artist)
+          raw = releaseCandidates(recordings, title, fallbackArtist)
         }
       }
 
@@ -444,7 +463,7 @@ export async function onRequestGet({ request, env }) {
     candidates = candidates
       .filter(item => Number(item.titleSimilarity ?? titleSimilarity(item.title, title)) >= 0.9)
       .sort((a, b) =>
-        candidatePriority(b, Boolean(artist)) - candidatePriority(a, Boolean(artist)) ||
+        candidatePriority(b, rankingUsesArtist) - candidatePriority(a, rankingUsesArtist) ||
         Number(b.titleSimilarity || 0) - Number(a.titleSimilarity || 0) ||
         Number(b.score || 0) - Number(a.score || 0)
       )
