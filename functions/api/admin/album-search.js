@@ -4,6 +4,7 @@ import { json, errorJson } from '../../_lib/http.js'
 const MB_RECORDING_URL = 'https://musicbrainz.org/ws/2/recording/'
 const CAA = 'https://coverartarchive.org'
 const ITUNES_SEARCH_URL = 'https://itunes.apple.com/search'
+const DEEZER_SEARCH_URL = 'https://api.deezer.com/search'
 const USER_AGENT = 'NAMRA-Profile/1.0 (https://namra-profile.pages.dev/)'
 
 function clean(value) {
@@ -91,6 +92,70 @@ function storefrontsFor(title) {
   if (/[\uac00-\ud7af]/u.test(value)) return ['KR']
   if (/[\u4e00-\u9fff]/u.test(value)) return ['CN', 'TW', 'HK', 'KR']
   return ['KR', 'US']
+}
+
+async function searchDeezer(title, artist) {
+  const term = artist ? `${title} ${artist}` : title
+  const url = new URL(DEEZER_SEARCH_URL)
+  url.searchParams.set('q', term)
+  url.searchParams.set('limit', '30')
+
+  const response = await fetch(url.toString(), {
+    headers: {
+      Accept: 'application/json',
+      'User-Agent': USER_AGENT,
+    },
+  })
+  if (!response.ok) return []
+
+  const payload = await response.json().catch(() => ({}))
+  if (payload?.error) return []
+
+  const seen = new Set()
+  const candidates = []
+
+  for (const row of Array.isArray(payload?.data) ? payload.data : []) {
+    const titleSimilarity = similarity(row?.title_short || row?.title, title)
+    if (titleSimilarity < 0.9) continue
+
+    const resultArtist = clean(row?.artist?.name)
+    if (artist && !textArtistMatch(resultArtist, artist)) continue
+
+    const trackId = String(row?.id || '')
+    const albumId = String(row?.album?.id || '')
+    const key = trackId || `${normalized(row?.title)}::${normalized(resultArtist)}::${albumId}`
+    if (!key || seen.has(key)) continue
+
+    const imageUrl = clean(row?.album?.cover_xl || row?.album?.cover_big || row?.album?.cover_medium || row?.album?.cover)
+    if (!imageUrl) continue
+
+    seen.add(key)
+    candidates.push({
+      id: `deezer:${key}`,
+      recordingId: null,
+      releaseId: albumId,
+      title: clean(row?.title_short || row?.title) || title,
+      artist: resultArtist || artist,
+      releaseTitle: clean(row?.album?.title) || clean(row?.title) || title,
+      date: '',
+      country: '',
+      status: 'official',
+      score: Math.round(titleSimilarity * 100),
+      titleSimilarity,
+      exact: titleSimilarity === 1 && textArtistMatch(resultArtist, artist),
+      imageUrl,
+      source: 'Deezer',
+      sourceId: trackId || albumId,
+    })
+  }
+
+  return candidates
+    .sort((a, b) =>
+      Number(b.exact) - Number(a.exact) ||
+      b.titleSimilarity - a.titleSimilarity ||
+      Number(b.score || 0) - Number(a.score || 0)
+    )
+    .slice(0, 8)
 }
 
 async function searchItunes(title, artist) {
@@ -273,10 +338,30 @@ export async function onRequestGet({ request, env }) {
     // Title-only lookup first uses iTunes because it returns song title, artist,
     // album and artwork together. This avoids the old case where MusicBrainz found
     // a recording but no Cover Art Archive image, which looked like "no search".
-    let candidates = await searchItunes(title, artist)
+    const [itunesCandidates, deezerCandidates] = await Promise.all([
+      searchItunes(title, artist),
+      searchDeezer(title, artist),
+    ])
 
-    // Supplement/fallback with MusicBrainz + Cover Art Archive when iTunes has
-    // too few usable matches.
+    const merged = []
+    const mergedKeys = new Set()
+    for (const item of [...itunesCandidates, ...deezerCandidates]) {
+      const key = `${normalized(item.title)}::${normalized(item.artist)}::${normalized(item.releaseTitle)}`
+      if (!key || mergedKeys.has(key)) continue
+      mergedKeys.add(key)
+      merged.push(item)
+    }
+
+    let candidates = merged
+      .sort((a, b) =>
+        Number(b.exact) - Number(a.exact) ||
+        Number(b.titleSimilarity || 0) - Number(a.titleSimilarity || 0) ||
+        Number(b.score || 0) - Number(a.score || 0)
+      )
+      .slice(0, 8)
+
+    // Supplement/fallback with MusicBrainz + Cover Art Archive when the two
+    // artwork-friendly sources still have too few usable matches.
     if (candidates.length < 3) {
       const payload = await searchRecordings(title, artist)
       let recordings = payload?.recordings || []
