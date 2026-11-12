@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T23:24:49.773Z",
+    "updated_at": "2026-11-12T23:39:13.170Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1673,6 +1673,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T23:24:49.773Z",
       "updated_at": "2026-11-12T23:24:49.773Z"
+    },
+    {
+      "id": "bfd9758e-25e6-4e37-86fe-2fddd122561e",
+      "title": "像晴天像雨天",
+      "artist": "汪蘇瀧",
+      "image_url": "https://cdnimg.melon.co.kr/cm2/album/images/117/32/964/11732964_20250310160849_500.jpg?1d0fd902b29caaabc15d38c28573ca00",
+      "image_source": "Melon",
+      "image_source_id": "38639788",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T23:39:08.943Z",
+      "song_key": "",
+      "genre": "중국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 26,
+      "is_visible": true,
+      "created_at": "2026-11-12T23:39:13.170Z",
+      "updated_at": "2026-11-12T23:39:13.170Z"
     }
   ],
   "wardrobe_items": [
