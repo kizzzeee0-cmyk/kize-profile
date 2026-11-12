@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:26:09.411Z",
+    "updated_at": "2026-11-12T22:27:08.373Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1367,6 +1367,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:26:09.411Z",
       "updated_at": "2026-11-12T22:26:09.411Z"
+    },
+    {
+      "id": "354ff97a-cd21-437f-8f8d-f2287c115841",
+      "title": "마음을 드려요",
+      "artist": "IU",
+      "image_url": "https://coverartarchive.org/release/4b7b5197-bb77-4749-9fce-db03bf3867e7/front-500",
+      "image_source": "Cover Art Archive / MusicBrainz",
+      "image_source_id": "4b7b5197-bb77-4749-9fce-db03bf3867e7",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T22:27:06.901Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 9,
+      "is_visible": true,
+      "created_at": "2026-11-12T22:27:08.373Z",
+      "updated_at": "2026-11-12T22:27:08.373Z"
     }
   ],
   "wardrobe_items": [
