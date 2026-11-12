@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:20:19.847Z",
+    "updated_at": "2026-11-12T22:21:42.794Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1318,11 +1318,11 @@
       "id": "4c845b90-8467-4198-87a5-aacaf28d678a",
       "title": "童话",
       "artist": "光良",
-      "image_url": "",
-      "image_source": "",
-      "image_source_id": "",
-      "image_origin": "",
-      "image_registered_at": "",
+      "image_url": "https://coverartarchive.org/release/1ed58f13-060a-4af2-ba41-c7fa06f57465/front-500",
+      "image_source": "Cover Art Archive / MusicBrainz",
+      "image_source_id": "1ed58f13-060a-4af2-ba41-c7fa06f57465",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T22:21:41.242Z",
       "song_key": "",
       "genre": "중국노래",
       "status": "",
@@ -1330,7 +1330,7 @@
       "sort_order": 6,
       "is_visible": true,
       "created_at": "2026-11-12T22:20:19.847Z",
-      "updated_at": "2026-11-12T22:20:19.847Z"
+      "updated_at": "2026-11-12T22:21:42.794Z"
     }
   ],
   "wardrobe_items": [
