@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:50:00.190Z",
+    "updated_at": "2026-11-12T22:50:15.521Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1165,14 +1165,14 @@
     {
       "id": "26a76623-15c4-4fa1-ad3e-136ed17da9df",
       "image_url": "/api/media?path=public%2Fsite-media%2Fsignature_items%2F1794394329451-ae8c68042b-_______-486.png",
-      "title": "",
+      "title": "사랑해 남라",
       "number_text": "486",
-      "description": "",
+      "description": "단컷 1장",
       "important_info": "",
       "sort_order": 2,
       "is_visible": true,
       "created_at": "2026-11-11T10:52:12.820Z",
-      "updated_at": "2026-11-11T10:52:12.820Z"
+      "updated_at": "2026-11-12T22:50:15.521Z"
     },
     {
       "id": "5fed9972-3024-4711-bd29-92adad861903",
