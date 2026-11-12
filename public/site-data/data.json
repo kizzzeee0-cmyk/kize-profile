@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:22:52.855Z",
+    "updated_at": "2026-11-12T22:23:01.613Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1316,7 +1316,7 @@
     },
     {
       "id": "4c845b90-8467-4198-87a5-aacaf28d678a",
-      "title": "童话",
+      "title": "童话 (동화)",
       "artist": "光良",
       "image_url": "https://coverartarchive.org/release/1ed58f13-060a-4af2-ba41-c7fa06f57465/front-500",
       "image_source": "Cover Art Archive / MusicBrainz",
@@ -1330,7 +1330,7 @@
       "sort_order": 6,
       "is_visible": true,
       "created_at": "2026-11-12T22:20:19.847Z",
-      "updated_at": "2026-11-12T22:21:42.794Z"
+      "updated_at": "2026-11-12T22:23:01.613Z"
     },
     {
       "id": "64fe1aab-e123-403c-9cbc-f1eecf41662f",
