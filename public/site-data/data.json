@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:14:48.661Z",
+    "updated_at": "2026-11-12T22:16:12.651Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1259,6 +1259,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:14:48.661Z",
       "updated_at": "2026-11-12T22:14:48.661Z"
+    },
+    {
+      "id": "a669c882-eb54-498e-a5e6-f6f8966020f8",
+      "title": "想见你想见你想见你",
+      "artist": "八三夭 ",
+      "image_url": "https://coverartarchive.org/release/1b66a1b1-a83f-479c-9335-f19dc35410dc/front-500",
+      "image_source": "Cover Art Archive / MusicBrainz",
+      "image_source_id": "1b66a1b1-a83f-479c-9335-f19dc35410dc",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T22:16:01.402Z",
+      "song_key": "",
+      "genre": "중국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 3,
+      "is_visible": true,
+      "created_at": "2026-11-12T22:16:12.651Z",
+      "updated_at": "2026-11-12T22:16:12.651Z"
     }
   ],
   "wardrobe_items": [
