@@ -379,7 +379,7 @@ export default function AdminSongsPage() {
 
         <div className="album-artwork-editor">
           <div className="album-artwork-head">
-            <div><strong>앨범 이미지</strong><small>제목과 90% 이상 유사한 후보를 표시하며, 선택한 앨범의 가수명이 자동으로 입력됩니다.</small></div>
+            <div><strong>앨범 이미지</strong><small>제목이 같거나 90% 이상 유사한 후보 중 한국 발매 결과를 우선 표시합니다. 앨범을 고르면 가수명도 자동 입력됩니다.</small></div>
             <button className="admin-secondary compact" type="button" disabled={busy || !form.title.trim()} onClick={() => void runAlbumSearch(true, true)}>앨범 이미지 다시 찾기</button>
           </div>
 
