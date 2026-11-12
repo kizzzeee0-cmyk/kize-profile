@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T23:08:42.361Z",
+    "updated_at": "2026-11-12T23:23:37.410Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1619,6 +1619,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T23:06:01.216Z",
       "updated_at": "2026-11-12T23:06:01.216Z"
+    },
+    {
+      "id": "57beda15-3161-4ee6-8f0c-5a46cbf51dd8",
+      "title": "오랜 날 오랜 밤",
+      "artist": "악뮤",
+      "image_url": "https://cdnimg.melon.co.kr/cm/album/images/100/27/786/10027786_500.jpg?922b7b248cc34ce59184278b317d5f0d",
+      "image_source": "Melon",
+      "image_source_id": "30181278",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T23:23:30.369Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 23,
+      "is_visible": true,
+      "created_at": "2026-11-12T23:23:37.410Z",
+      "updated_at": "2026-11-12T23:23:37.410Z"
     }
   ],
   "wardrobe_items": [
