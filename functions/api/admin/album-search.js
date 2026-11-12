@@ -5,6 +5,8 @@ const MB_RECORDING_URL = 'https://musicbrainz.org/ws/2/recording/'
 const CAA = 'https://coverartarchive.org'
 const ITUNES_SEARCH_URL = 'https://itunes.apple.com/search'
 const DEEZER_SEARCH_URL = 'https://api.deezer.com/search'
+const MELON_SEARCH_URL = 'https://www.melon.com/search/song/index.htm'
+const MELON_ALBUM_URL = 'https://www.melon.com/album/detail.htm'
 const USER_AGENT = 'NAMRA-Profile/1.0 (https://namra-profile.pages.dev/)'
 
 function clean(value) {
@@ -131,6 +133,158 @@ function artworkLarge(value) {
     .replace(/\/\d+x\d+bb\./i, '/600x600bb.')
     .replace(/\/\d+x\d+-\d+\./i, '/600x600-75.')
     .replace(/100x100/g, '600x600')
+}
+
+function decodeHtml(value) {
+  return String(value || '')
+    .replace(/&nbsp;|&#160;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&#x27;/gi, "'")
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code) || 32))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16) || 32))
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function stripHtml(value) {
+  return decodeHtml(String(value || '').replace(/<[^>]*>/g, ' '))
+}
+
+function melonHeaders() {
+  return {
+    Accept: 'text/html,application/xhtml+xml',
+    'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.7',
+    Referer: 'https://www.melon.com/',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/157 Safari/537.36',
+  }
+}
+
+async function melonAlbumCover(albumId) {
+  if (!albumId) return ''
+  try {
+    const url = new URL(MELON_ALBUM_URL)
+    url.searchParams.set('albumId', albumId)
+    const response = await fetch(url.toString(), { headers: melonHeaders() })
+    if (!response.ok) return ''
+    const html = await response.text()
+
+    const og = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
+      html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i)
+    if (og?.[1]) return decodeHtml(og[1]).replace(/^http:/i, 'https:')
+
+    const image = html.match(/https?:\/\/cdnimg\.melon\.co\.kr\/[^"'\s>]+(?:500|1000)\.jpg[^"'\s>]*/i)
+    return image?.[0] ? decodeHtml(image[0]).replace(/^http:/i, 'https:') : ''
+  } catch {
+    return ''
+  }
+}
+
+function parseMelonRows(html, title, artist) {
+  const rows = []
+  const seen = new Set()
+  const trMatches = String(html || '').match(/<tr\b[\s\S]*?<\/tr>/gi) || []
+
+  for (const row of trMatches) {
+    const songId = row.match(/goSongDetail\(['"]?(\d+)['"]?\)/i)?.[1] ||
+      row.match(/name=["']input_check["'][^>]+value=["'](\d+)["']/i)?.[1]
+    if (!songId || seen.has(songId)) continue
+
+    const titleMatch = row.match(/class=["'][^"']*fc_gray[^"']*["'][^>]+title=["']([^"']+)["']/i) ||
+      row.match(/title=["']([^"']+)["'][^>]+class=["'][^"']*fc_gray/i)
+    const songTitle = decodeHtml(titleMatch?.[1] || '')
+    if (!songTitle) continue
+
+    const similarityValue = titleSimilarity(songTitle, title)
+    if (similarityValue < 0.86) continue
+
+    const artistBlock = row.match(/<div[^>]+(?:id=["']artistName["']|class=["'][^"']*wrapArtistName[^"']*["'])[^>]*>([\s\S]*?)<\/div>/i)?.[1] || ''
+    const artistTitle = artistBlock.match(/title=["']([^"']+?)\s*-\s*페이지\s*이동["']/i)?.[1]
+    const resultArtist = decodeHtml(artistTitle || stripHtml(artistBlock))
+      .replace(/\s+-\s*페이지\s*이동\s*$/i, '')
+      .trim()
+    if (artist && resultArtist && !textArtistMatch(resultArtist, artist)) continue
+
+    const albumLink = row.match(/goAlbumDetail\(['"]?(\d+)['"]?\)[^>]*>[^<]*<\/a>/i) ||
+      row.match(/goAlbumDetail\(['"]?(\d+)['"]?\)/i)
+    const albumId = albumLink?.[1] || ''
+    const albumAnchor = row.match(/<a[^>]+goAlbumDetail\(['"]?\d+['"]?\)[^>]*title=["']([^"']+?)\s*-\s*페이지\s*이동["'][^>]*>([\s\S]*?)<\/a>/i)
+    const releaseTitle = decodeHtml(albumAnchor?.[1] || stripHtml(albumAnchor?.[2] || '')) || songTitle
+
+    seen.add(songId)
+    rows.push({
+      id: `melon:${songId}`,
+      recordingId: null,
+      releaseId: albumId,
+      title: songTitle,
+      artist: resultArtist || artist,
+      releaseTitle,
+      date: '',
+      country: 'KR',
+      status: 'official',
+      score: Math.round(similarityValue * 100),
+      titleSimilarity: similarityValue,
+      popularity: 0,
+      exact: normalized(songTitle) === normalized(title) && (!artist || textArtistMatch(resultArtist, artist)),
+      imageUrl: '',
+      source: 'Melon',
+      sourceId: songId,
+    })
+  }
+
+  return rows
+}
+
+async function searchMelon(title, artist) {
+  const queries = []
+  const combined = clean([title, artist].filter(Boolean).join(' '))
+  if (combined) queries.push(combined)
+  if (title && combined !== title) queries.push(title)
+
+  const collected = []
+  const keys = new Set()
+
+  for (const query of queries) {
+    try {
+      const url = new URL(MELON_SEARCH_URL)
+      url.searchParams.set('section', 'all')
+      url.searchParams.set('searchGnbYn', 'Y')
+      url.searchParams.set('kkoSpl', 'N')
+      url.searchParams.set('kkoDpType', 'RESULT')
+      url.searchParams.set('q', query)
+
+      const response = await fetch(url.toString(), { headers: melonHeaders() })
+      if (!response.ok) continue
+      const html = await response.text()
+      for (const row of parseMelonRows(html, title, artist)) {
+        const key = `${normalized(row.title)}::${normalized(row.artist)}::${row.releaseId}`
+        if (keys.has(key)) continue
+        keys.add(key)
+        collected.push(row)
+      }
+    } catch {
+      // Overseas sources remain available as fallback.
+    }
+
+    if (collected.length >= 8) break
+  }
+
+  const top = collected
+    .sort((a, b) =>
+      Number(b.exact) - Number(a.exact) ||
+      b.titleSimilarity - a.titleSimilarity ||
+      Number(b.score || 0) - Number(a.score || 0)
+    )
+    .slice(0, 8)
+
+  const withCovers = await Promise.all(top.map(async item => ({
+    ...item,
+    imageUrl: await melonAlbumCover(item.releaseId),
+  })))
+
+  return withCovers.filter(item => item.imageUrl)
 }
 
 function storefrontsFor(title) {
@@ -385,10 +539,10 @@ export async function onRequestGet({ request, env }) {
     // Title-only lookup first uses iTunes because it returns song title, artist,
     // album and artwork together. This avoids the old case where MusicBrainz found
     // a recording but no Cover Art Archive image, which looked like "no search".
-    const [itunesCandidates, deezerCandidates] = await Promise.all([
-      searchItunes(title, artist),
-      searchDeezer(title, artist),
-    ])
+    // Melon is the primary source for Korean songs. Its search results provide
+    // the Korean catalog's song/artist/album relationship, avoiding unrelated
+    // overseas albums that can share the same English title.
+    const melonCandidates = await searchMelon(title, artist)
 
     const merged = []
     const mergedKeys = new Set()
@@ -401,24 +555,32 @@ export async function onRequestGet({ request, env }) {
       }
     }
 
-    addCandidates([...itunesCandidates, ...deezerCandidates])
+    addCandidates(melonCandidates)
 
-    // Artist names often differ by script or official styling (e.g. 넬 vs NELL).
-    // If the strict title+artist search is too sparse, retry by title only instead
-    // of incorrectly treating the song as missing.
-    let usedTitleOnlyFallback = false
-    if (artist && merged.length < 3) {
-      const [itunesTitleOnly, deezerTitleOnly] = await Promise.all([
-        searchItunes(title, ''),
-        searchDeezer(title, ''),
+    // Only supplement Melon with global catalogs when Melon has too few usable
+    // cover candidates. Melon candidates always stay ahead of overseas sources.
+    if (melonCandidates.length < 5) {
+      const [itunesCandidates, deezerCandidates] = await Promise.all([
+        searchItunes(title, artist),
+        searchDeezer(title, artist),
       ])
-      addCandidates([...itunesTitleOnly, ...deezerTitleOnly])
-      usedTitleOnlyFallback = true
+      addCandidates([...itunesCandidates, ...deezerCandidates])
+
+      if (artist && merged.length < 3) {
+        const [itunesTitleOnly, deezerTitleOnly] = await Promise.all([
+          searchItunes(title, ''),
+          searchDeezer(title, ''),
+        ])
+        addCandidates([...itunesTitleOnly, ...deezerTitleOnly])
+      }
     }
 
-    const rankingUsesArtist = Boolean(artist) && !usedTitleOnlyFallback
+    const hasMelon = melonCandidates.length > 0
+    const rankingUsesArtist = Boolean(artist) && !hasMelon
     let candidates = merged
       .sort((a, b) =>
+        Number(b.source === 'Melon') - Number(a.source === 'Melon') ||
+        Number(b.exact) - Number(a.exact) ||
         candidatePriority(b, rankingUsesArtist) - candidatePriority(a, rankingUsesArtist) ||
         Number(b.titleSimilarity || 0) - Number(a.titleSimilarity || 0) ||
         Number(b.score || 0) - Number(a.score || 0)
@@ -428,7 +590,7 @@ export async function onRequestGet({ request, env }) {
     // Supplement/fallback with MusicBrainz + Cover Art Archive when the two
     // artwork-friendly sources still have too few usable matches.
     if (candidates.length < 3) {
-      const fallbackArtist = usedTitleOnlyFallback ? '' : artist
+      const fallbackArtist = hasMelon ? artist : (artist && candidates.length < 3 ? '' : artist)
       const payload = await searchRecordings(title, fallbackArtist)
       let recordings = payload?.recordings || []
       let raw = releaseCandidates(recordings, title, fallbackArtist)
@@ -463,6 +625,8 @@ export async function onRequestGet({ request, env }) {
     candidates = candidates
       .filter(item => Number(item.titleSimilarity ?? titleSimilarity(item.title, title)) >= 0.9)
       .sort((a, b) =>
+        Number(b.source === 'Melon') - Number(a.source === 'Melon') ||
+        Number(b.exact) - Number(a.exact) ||
         candidatePriority(b, rankingUsesArtist) - candidatePriority(a, rankingUsesArtist) ||
         Number(b.titleSimilarity || 0) - Number(a.titleSimilarity || 0) ||
         Number(b.score || 0) - Number(a.score || 0)
