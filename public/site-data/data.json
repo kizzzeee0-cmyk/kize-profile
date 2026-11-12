@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T23:03:02.267Z",
+    "updated_at": "2026-11-12T23:06:01.216Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1601,6 +1601,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T23:03:02.267Z",
       "updated_at": "2026-11-12T23:03:02.267Z"
+    },
+    {
+      "id": "823623cc-8a6f-4e87-bf57-16ca020e42c3",
+      "title": "혼자라고 생각말기",
+      "artist": "김보경 ",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fsongs%2F1794524756548-054ea10f5c-352733.jpg",
+      "image_source": "직접 업로드",
+      "image_source_id": "",
+      "image_origin": "manual",
+      "image_registered_at": "2026-11-12T23:05:58.010Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 22,
+      "is_visible": true,
+      "created_at": "2026-11-12T23:06:01.216Z",
+      "updated_at": "2026-11-12T23:06:01.216Z"
     }
   ],
   "wardrobe_items": [
