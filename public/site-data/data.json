@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:21:42.794Z",
+    "updated_at": "2026-11-12T22:22:52.855Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1331,6 +1331,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:20:19.847Z",
       "updated_at": "2026-11-12T22:21:42.794Z"
+    },
+    {
+      "id": "64fe1aab-e123-403c-9cbc-f1eecf41662f",
+      "title": "告白氣球 (고백풍선)",
+      "artist": "周杰伦",
+      "image_url": "https://coverartarchive.org/release/7287c832-9190-4334-bfde-905c06843524/front-500",
+      "image_source": "Cover Art Archive / MusicBrainz",
+      "image_source_id": "7287c832-9190-4334-bfde-905c06843524",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T22:22:42.465Z",
+      "song_key": "",
+      "genre": "중국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 7,
+      "is_visible": true,
+      "created_at": "2026-11-12T22:22:52.855Z",
+      "updated_at": "2026-11-12T22:22:52.855Z"
     }
   ],
   "wardrobe_items": [
