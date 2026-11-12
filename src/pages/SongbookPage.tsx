@@ -5,6 +5,7 @@ import { fetchSongs } from '../lib/data'
 import type { SongItem } from '../types'
 import { usePublicData } from '../lib/PublicDataContext'
 import { makeTextGetter } from '../lib/text'
+import { SONG_CATEGORIES } from '../lib/songCategories'
 
 const PAGE_SIZE = 12
 
@@ -25,7 +26,11 @@ export default function SongbookPage() {
     fetchSongs().then(setSongs).catch(e => setError(e instanceof Error ? e.message : '노래책을 불러오지 못했습니다.')).finally(() => setLoading(false))
   }, [])
 
-  const genres = useMemo(() => ['전체', ...Array.from(new Set<string>(songs.map(song => song.genre).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'ko'))], [songs])
+  const genres = useMemo(() => {
+    const stored = Array.from(new Set<string>(songs.map(song => song.genre).filter(Boolean)))
+    const legacy = stored.filter(item => !SONG_CATEGORIES.includes(item as typeof SONG_CATEGORIES[number])).sort((a, b) => a.localeCompare(b, 'ko'))
+    return ['전체', ...SONG_CATEGORIES, ...legacy]
+  }, [songs])
   const statuses = useMemo(() => {
     const values = Array.from(new Set(songs.map(song => String(song.status || song.note || '').trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'ko'))
     return ['전체 상태', ...values, '상태 없음']
