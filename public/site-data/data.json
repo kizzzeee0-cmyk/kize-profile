@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:25:17.426Z",
+    "updated_at": "2026-11-12T22:26:09.411Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1349,6 +1349,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:22:52.855Z",
       "updated_at": "2026-11-12T22:22:52.855Z"
+    },
+    {
+      "id": "91a366af-6e3a-4ef4-ba60-71ca667e6c3c",
+      "title": "숲",
+      "artist": "최유리",
+      "image_url": "https://coverartarchive.org/release/844be69d-e48f-4a18-9f50-6132729c4e56/front-500",
+      "image_source": "Cover Art Archive / MusicBrainz",
+      "image_source_id": "844be69d-e48f-4a18-9f50-6132729c4e56",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T22:26:05.993Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 8,
+      "is_visible": true,
+      "created_at": "2026-11-12T22:26:09.411Z",
+      "updated_at": "2026-11-12T22:26:09.411Z"
     }
   ],
   "wardrobe_items": [
