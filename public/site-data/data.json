@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:31:42.306Z",
+    "updated_at": "2026-11-12T22:32:36.494Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1457,6 +1457,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:31:42.306Z",
       "updated_at": "2026-11-12T22:31:42.306Z"
+    },
+    {
+      "id": "b01c3b31-c13b-4ff3-9052-f816810729dd",
+      "title": "그대라는 시",
+      "artist": "태연",
+      "image_url": "https://coverartarchive.org/release/18ca7ed8-cfc0-4f8b-91a1-0c760e1eb9c8/front-500",
+      "image_source": "Cover Art Archive / MusicBrainz",
+      "image_source_id": "18ca7ed8-cfc0-4f8b-91a1-0c760e1eb9c8",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T22:32:34.926Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 14,
+      "is_visible": true,
+      "created_at": "2026-11-12T22:32:36.494Z",
+      "updated_at": "2026-11-12T22:32:36.494Z"
     }
   ],
   "wardrobe_items": [
