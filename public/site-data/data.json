@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:16:12.651Z",
+    "updated_at": "2026-11-12T22:17:58.704Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1277,6 +1277,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:16:12.651Z",
       "updated_at": "2026-11-12T22:16:12.651Z"
+    },
+    {
+      "id": "a927490b-bc09-48b2-ae20-ed51ddc743ea",
+      "title": "晚点",
+      "artist": "张碧晨",
+      "image_url": "https://coverartarchive.org/release/3f26c7e4-e242-49ab-9697-85d3f23ef0fe/front-500",
+      "image_source": "Cover Art Archive / MusicBrainz",
+      "image_source_id": "3f26c7e4-e242-49ab-9697-85d3f23ef0fe",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T22:17:38.188Z",
+      "song_key": "",
+      "genre": "중국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 4,
+      "is_visible": true,
+      "created_at": "2026-11-12T22:17:58.704Z",
+      "updated_at": "2026-11-12T22:17:58.704Z"
     }
   ],
   "wardrobe_items": [
