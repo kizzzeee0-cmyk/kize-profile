@@ -122,6 +122,7 @@ export default function AdminSongsPage() {
   function applyCandidate(candidate: AlbumArtworkCandidate) {
     setForm(value => ({
       ...value,
+      artist: candidate.artist || value.artist,
       image_url: candidate.imageUrl,
       image_source: candidate.source,
       image_source_id: candidate.sourceId,
@@ -136,7 +137,7 @@ export default function AdminSongsPage() {
   async function runAlbumSearch(force = false, requireChoice = false) {
     const title = form.title.trim()
     const artist = form.artist.trim()
-    if (!title || !artist) return
+    if (!title) return
 
     const nonce = ++searchNonce.current
     setAlbumState('searching')
@@ -169,13 +170,20 @@ export default function AdminSongsPage() {
   }
 
   useEffect(() => {
-    // Invalidate an older in-flight result as soon as the query changes, not only
-    // when the next delayed request begins.
+    // 제목만 입력해도 후보를 찾습니다. 가수가 비어 있으면 자동 선택하지 않고
+    // 후보 중 하나를 직접 고르게 하며, 선택한 후보의 가수명을 폼에 채웁니다.
     searchNonce.current += 1
-    if (!editorOpen || !autoSearchEnabled || form.image_url || !form.title.trim() || !form.artist.trim()) return
+    if (!editorOpen || !autoSearchEnabled || form.image_url) return
+
+    if (!form.title.trim()) {
+      setCandidates([])
+      setAlbumState('idle')
+      return
+    }
+
     setCandidates([])
     setAlbumState('idle')
-    const timer = window.setTimeout(() => void runAlbumSearch(false, false), 1000)
+    const timer = window.setTimeout(() => void runAlbumSearch(false, false), 900)
     return () => window.clearTimeout(timer)
   }, [editorOpen, autoSearchEnabled, form.title, form.artist, form.image_url])
 
@@ -313,7 +321,7 @@ export default function AdminSongsPage() {
 
   const albumMessage = albumState === 'searching' ? '앨범 이미지를 찾고 있어요...'
     : albumState === 'found' ? '앨범 이미지를 찾았어요!'
-    : albumState === 'choose' ? '일치하는 앨범을 선택해 주세요.'
+    : albumState === 'choose' ? '제목이 일치하거나 비슷한 앨범을 선택해 주세요. 선택하면 가수명도 자동 입력됩니다.'
     : albumState === 'none' ? '일치하는 앨범 이미지를 찾지 못했어요.'
     : albumState === 'error' ? '앨범 이미지 검색 중 문제가 발생했어요.'
     : ''
@@ -322,7 +330,7 @@ export default function AdminSongsPage() {
     <div className="admin-page-title">
       <span>SONGBOOK CMS</span>
       <h1>노래책 관리</h1>
-      <p>곡 정보와 앨범 이미지를 관리합니다. 장르는 미리 지정된 카테고리에서 선택해 저장합니다.</p>
+      <p>노래 제목만 입력해도 비슷한 앨범 후보를 찾습니다. 앨범을 선택하면 가수명도 자동 입력됩니다.</p>
     </div>
 
     <AdminPanel
@@ -371,8 +379,8 @@ export default function AdminSongsPage() {
 
         <div className="album-artwork-editor">
           <div className="album-artwork-head">
-            <div><strong>앨범 이미지</strong><small>직접 업로드한 이미지와 이미 저장된 이미지는 자동 검색으로 덮어쓰지 않습니다.</small></div>
-            <button className="admin-secondary compact" type="button" disabled={busy || !form.title.trim() || !form.artist.trim()} onClick={() => void runAlbumSearch(true, true)}>앨범 이미지 다시 찾기</button>
+            <div><strong>앨범 이미지</strong><small>제목과 90% 이상 유사한 후보를 표시하며, 선택한 앨범의 가수명이 자동으로 입력됩니다.</small></div>
+            <button className="admin-secondary compact" type="button" disabled={busy || !form.title.trim()} onClick={() => void runAlbumSearch(true, true)}>앨범 이미지 다시 찾기</button>
           </div>
 
           <div className="album-artwork-current">
