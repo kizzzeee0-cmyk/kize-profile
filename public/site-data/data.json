@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:31:09.834Z",
+    "updated_at": "2026-11-12T22:31:42.306Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1439,6 +1439,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:31:09.834Z",
       "updated_at": "2026-11-12T22:31:09.834Z"
+    },
+    {
+      "id": "f6b585e8-f33f-4370-af9d-0f3b3aa68fa2",
+      "title": "나의 사춘기에게",
+      "artist": "볼빨간사춘기",
+      "image_url": "https://coverartarchive.org/release/d6570f22-3ea5-487b-8ac5-ba3bbe844fe5/front-500",
+      "image_source": "Cover Art Archive / MusicBrainz",
+      "image_source_id": "d6570f22-3ea5-487b-8ac5-ba3bbe844fe5",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T22:31:40.346Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 13,
+      "is_visible": true,
+      "created_at": "2026-11-12T22:31:42.306Z",
+      "updated_at": "2026-11-12T22:31:42.306Z"
     }
   ],
   "wardrobe_items": [
