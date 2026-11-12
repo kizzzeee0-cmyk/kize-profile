@@ -8,6 +8,6 @@ for (const q of qs) {
   }});
   const html=await res.text();
   console.log('QUERY',q,'STATUS',res.status,'LEN',html.length);
-  const idx=html.search(/goSongDetail|album/images|artistName/);
+  const idx=Math.max(0, Math.min(...['goSongDetail','album/images','artistName'].map(x=>{const i=html.indexOf(x); return i<0?Number.MAX_SAFE_INTEGER:i;})));
   console.log(html.slice(Math.max(0,idx-1500),idx+5000));
 }
