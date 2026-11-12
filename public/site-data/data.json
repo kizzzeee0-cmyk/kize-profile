@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:39:56.257Z",
+    "updated_at": "2026-11-12T22:40:08.948Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1479,7 +1479,7 @@
     {
       "id": "b46c26c9-0fe8-49f4-b746-e6cfdf7e8553",
       "title": "만찬가",
-      "artist": "TAEYEON",
+      "artist": "태연",
       "image_url": "https://coverartarchive.org/release/a2c7d1c0-7f0b-43d1-b709-d155db3e730f/front-500",
       "image_source": "Cover Art Archive / MusicBrainz",
       "image_source_id": "a2c7d1c0-7f0b-43d1-b709-d155db3e730f",
@@ -1492,7 +1492,7 @@
       "sort_order": 15,
       "is_visible": true,
       "created_at": "2026-11-12T22:39:56.257Z",
-      "updated_at": "2026-11-12T22:39:56.257Z"
+      "updated_at": "2026-11-12T22:40:08.948Z"
     }
   ],
   "wardrobe_items": [
