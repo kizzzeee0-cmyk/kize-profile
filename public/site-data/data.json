@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T23:08:35.616Z",
+    "updated_at": "2026-11-12T23:08:42.361Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1201,14 +1201,14 @@
     {
       "id": "88e8430b-23ba-4bf7-bdb1-f5d8f0f7c876",
       "image_url": "/api/media?path=public%2Fsite-media%2Fsignature_items%2F1794394361684-857127c99a-_______-5734.png",
-      "title": "오직 남",
+      "title": "오직 남라",
       "number_text": "5734",
       "description": "단컷 8 + 움짤 3 + 움짤프사 + 남라네컷 1 + 배너 택1 (의상 택3)",
       "important_info": "",
       "sort_order": 5,
       "is_visible": true,
       "created_at": "2026-11-11T10:52:45.051Z",
-      "updated_at": "2026-11-12T22:50:54.775Z"
+      "updated_at": "2026-11-12T23:08:42.361Z"
     },
     {
       "id": "d24b8f03-5a36-44d3-9bed-e0c80763f0ae",
