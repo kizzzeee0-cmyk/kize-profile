@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:24:41.430Z",
+    "updated_at": "2026-11-12T22:25:05.336Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1244,7 +1244,7 @@
     },
     {
       "id": "7f079156-18a8-445c-bf5d-1c814177c69d",
-      "title": "永不失联的爱",
+      "title": "永不失联的爱 (영원히 잃고 싶지 않은 사랑)",
       "artist": " 单依纯",
       "image_url": "/api/media?path=public%2Fsite-media%2Fsongs%2F1794521678585-a5e0885e44-_____2026-11-13_071414.png",
       "image_source": "직접 업로드",
@@ -1258,7 +1258,7 @@
       "sort_order": 2,
       "is_visible": true,
       "created_at": "2026-11-12T22:14:48.661Z",
-      "updated_at": "2026-11-12T22:14:48.661Z"
+      "updated_at": "2026-11-12T22:25:05.336Z"
     },
     {
       "id": "a669c882-eb54-498e-a5e6-f6f8966020f8",
