@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T23:02:33.650Z",
+    "updated_at": "2026-11-12T23:03:02.267Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1583,6 +1583,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T23:02:33.650Z",
       "updated_at": "2026-11-12T23:02:33.650Z"
+    },
+    {
+      "id": "58893291-4601-4c1d-a565-e487c74f7f97",
+      "title": "You Are My Eveything",
+      "artist": "거미",
+      "image_url": "https://cdn-images.dzcdn.net/images/cover/d00580f4e62a23b3a5c7a488928e4d27/1000x1000-000000-80-0-0.jpg",
+      "image_source": "Deezer",
+      "image_source_id": "616297492",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T23:02:56.354Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 21,
+      "is_visible": true,
+      "created_at": "2026-11-12T23:03:02.267Z",
+      "updated_at": "2026-11-12T23:03:02.267Z"
     }
   ],
   "wardrobe_items": [
