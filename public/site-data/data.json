@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:27:08.373Z",
+    "updated_at": "2026-11-12T22:29:32.893Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1385,6 +1385,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:27:08.373Z",
       "updated_at": "2026-11-12T22:27:08.373Z"
+    },
+    {
+      "id": "cae2f4c8-4a19-4313-b44b-916b8d850035",
+      "title": "나의 옛날이야기",
+      "artist": "IU",
+      "image_url": "https://coverartarchive.org/release/91892844-c10c-4fe7-a260-dc21bb3d4ec6/front-500",
+      "image_source": "Cover Art Archive / MusicBrainz",
+      "image_source_id": "91892844-c10c-4fe7-a260-dc21bb3d4ec6",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T22:29:31.320Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 10,
+      "is_visible": true,
+      "created_at": "2026-11-12T22:29:32.893Z",
+      "updated_at": "2026-11-12T22:29:32.893Z"
     }
   ],
   "wardrobe_items": [
