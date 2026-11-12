@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:58:47.897Z",
+    "updated_at": "2026-11-12T23:00:42.748Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1547,6 +1547,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:48:11.852Z",
       "updated_at": "2026-11-12T22:48:11.852Z"
+    },
+    {
+      "id": "7efb680d-c9a9-47f8-af41-dc6fc38866e2",
+      "title": "기억을 걷는 시간",
+      "artist": "넬",
+      "image_url": "/api/media?path=public%2Fsite-media%2Fsongs%2F1794524433437-c9c5de045a-_____2026-11-13_080023.png",
+      "image_source": "직접 업로드",
+      "image_source_id": "",
+      "image_origin": "manual",
+      "image_registered_at": "2026-11-12T23:00:36.424Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 19,
+      "is_visible": true,
+      "created_at": "2026-11-12T23:00:42.748Z",
+      "updated_at": "2026-11-12T23:00:42.748Z"
     }
   ],
   "wardrobe_items": [
