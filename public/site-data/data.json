@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T22:29:32.893Z",
+    "updated_at": "2026-11-12T22:30:47.663Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1403,6 +1403,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:29:32.893Z",
       "updated_at": "2026-11-12T22:29:32.893Z"
+    },
+    {
+      "id": "037af32b-5a78-41bf-b66a-670eb18e17db",
+      "title": "밤편지",
+      "artist": "IU",
+      "image_url": "https://coverartarchive.org/release/149fef1f-5921-42d2-b91d-dd41e04895ad/front-500",
+      "image_source": "Cover Art Archive / MusicBrainz",
+      "image_source_id": "149fef1f-5921-42d2-b91d-dd41e04895ad",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-12T22:30:45.175Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 11,
+      "is_visible": true,
+      "created_at": "2026-11-12T22:30:47.663Z",
+      "updated_at": "2026-11-12T22:30:47.663Z"
     }
   ],
   "wardrobe_items": [
