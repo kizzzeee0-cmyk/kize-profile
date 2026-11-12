@@ -13,6 +13,7 @@ import {
   type AlbumArtworkCandidate,
 } from '../../lib/data'
 import type { SongItem } from '../../types'
+import { SONG_CATEGORIES } from '../../lib/songCategories'
 
 type SongForm = {
   title: string
@@ -39,7 +40,7 @@ const emptyForm = (): SongForm => ({
   image_origin: '',
   image_registered_at: '',
   song_key: '',
-  genre: 'K-POP',
+  genre: '한국노래',
   status: '',
   note: '',
   sort_order: 0,
@@ -105,7 +106,7 @@ export default function AdminSongsPage() {
       image_origin: row.image_origin || '',
       image_registered_at: row.image_registered_at || '',
       song_key: row.song_key || '',
-      genre: row.genre || 'K-POP',
+      genre: row.genre || '한국노래',
       status: row.status || '',
       note: row.note || '',
       sort_order: row.sort_order || 0,
@@ -321,7 +322,7 @@ export default function AdminSongsPage() {
     <div className="admin-page-title">
       <span>SONGBOOK CMS</span>
       <h1>노래책 관리</h1>
-      <p>곡 정보와 앨범 이미지를 관리합니다. 제목과 가수를 입력하면 실제 앨범 커버를 자동으로 검색합니다.</p>
+      <p>곡 정보와 앨범 이미지를 관리합니다. 장르는 미리 지정된 카테고리에서 선택해 저장합니다.</p>
     </div>
 
     <AdminPanel
@@ -404,7 +405,10 @@ export default function AdminSongsPage() {
 
         <div className="admin-profile-basic-grid">
           <label className="form-field"><span>키</span><input value={form.song_key} placeholder="예: Cm / +2 / 원키" onChange={e => setForm(value => ({ ...value, song_key: e.target.value }))} /></label>
-          <label className="form-field"><span>장르</span><input required value={form.genre} placeholder="예: K-POP / 발라드 / J-POP / R&B" onChange={e => setForm(value => ({ ...value, genre: e.target.value }))} /></label>
+          <label className="form-field"><span>장르 카테고리</span><select required value={form.genre} onChange={e => setForm(value => ({ ...value, genre: e.target.value }))}>
+            {(!SONG_CATEGORIES.includes(form.genre as typeof SONG_CATEGORIES[number]) && form.genre) && <option value={form.genre}>{form.genre} (기존값)</option>}
+            {SONG_CATEGORIES.map(category => <option key={category} value={category}>{category}</option>)}
+          </select></label>
           <label className="form-field"><span>상태</span><input value={form.status} placeholder="예: 신청 가능 / 연습 중" onChange={e => setForm(value => ({ ...value, status: e.target.value }))} /></label>
           <label className="form-field"><span>공개</span><input type="checkbox" checked={form.is_visible} onChange={e => setForm(value => ({ ...value, is_visible: e.target.checked }))} /></label>
         </div>
