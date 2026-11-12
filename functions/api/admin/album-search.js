@@ -56,6 +56,53 @@ function similarity(left, right) {
   return 1 - rows[a.length] / Math.max(a.length, b.length)
 }
 
+function coreTitle(value) {
+  return clean(value)
+    .replace(/[\(\[（【][^\)\]）】]{0,80}[\)\]）】]/g, ' ')
+    .replace(/\s[-–—:]\s(?:feat\.?|ft\.?|featuring|remaster(?:ed)?|live|acoustic|instrumental|karaoke|version|ver\.?|edit|mix).*$/i, ' ')
+    .replace(/\s+(?:feat\.?|ft\.?|featuring)\s+.*$/i, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function titleSimilarity(left, right) {
+  const direct = similarity(left, right)
+  const core = similarity(coreTitle(left), coreTitle(right))
+  const a = normalized(coreTitle(left))
+  const b = normalized(coreTitle(right))
+
+  let containment = 0
+  if (a && b && (a.includes(b) || b.includes(a))) {
+    const ratio = Math.min(a.length, b.length) / Math.max(a.length, b.length)
+    if (ratio >= 0.9) containment = 0.96
+  }
+
+  return Math.max(direct, core, containment)
+}
+
+function hasHangul(value) {
+  return /[\uac00-\ud7af]/u.test(String(value || ''))
+}
+
+function isLikelyKoreanCandidate(item) {
+  return String(item?.country || '').toUpperCase() === 'KR' ||
+    hasHangul(item?.artist) ||
+    hasHangul(item?.releaseTitle)
+}
+
+function candidatePriority(item, artistProvided) {
+  const exact = item?.exact ? 1000 : 0
+  const similarityScore = Math.round(Number(item?.titleSimilarity || 0) * 100)
+  const koreanBoost = !artistProvided && isLikelyKoreanCandidate(item) ? 180 : 0
+  const krStoreBoost = !artistProvided && String(item?.country || '').toUpperCase() === 'KR' ? 70 : 0
+
+  // High Deezer rank is treated as the "famous global pop song" exception.
+  const popularity = Number(item?.popularity || 0)
+  const famousPopBoost = !artistProvided && popularity >= 700000 && item?.exact ? 320 : 0
+
+  return exact + similarityScore + koreanBoost + krStoreBoost + famousPopBoost
+}
+
 function artistMatch(recording, artist) {
   const queryArtist = normalized(artist)
   if (!queryArtist) return true
@@ -115,8 +162,8 @@ async function searchDeezer(title, artist) {
   const candidates = []
 
   for (const row of Array.isArray(payload?.data) ? payload.data : []) {
-    const titleSimilarity = similarity(row?.title_short || row?.title, title)
-    if (titleSimilarity < 0.9) continue
+    const similarityValue = titleSimilarity(row?.title_short || row?.title, title)
+    if (similarityValue < 0.9) continue
 
     const resultArtist = clean(row?.artist?.name)
     if (artist && !textArtistMatch(resultArtist, artist)) continue
@@ -140,9 +187,10 @@ async function searchDeezer(title, artist) {
       date: '',
       country: '',
       status: 'official',
-      score: Math.round(titleSimilarity * 100),
-      titleSimilarity,
-      exact: titleSimilarity === 1 && textArtistMatch(resultArtist, artist),
+      score: Math.round(similarityValue * 100),
+      titleSimilarity: similarityValue,
+      popularity: Number(row?.rank || 0),
+      exact: similarityValue === 1 && textArtistMatch(resultArtist, artist),
       imageUrl,
       source: 'Deezer',
       sourceId: trackId || albumId,
@@ -151,7 +199,7 @@ async function searchDeezer(title, artist) {
 
   return candidates
     .sort((a, b) =>
-      Number(b.exact) - Number(a.exact) ||
+      candidatePriority(b, Boolean(artist)) - candidatePriority(a, Boolean(artist)) ||
       b.titleSimilarity - a.titleSimilarity ||
       Number(b.score || 0) - Number(a.score || 0)
     )
@@ -188,8 +236,8 @@ async function searchItunes(title, artist) {
     if (payload.status !== 'fulfilled') continue
 
     for (const row of payload.value.results) {
-      const titleSimilarity = similarity(row?.trackName, title)
-      if (titleSimilarity < 0.9) continue
+      const similarityValue = titleSimilarity(row?.trackName, title)
+      if (similarityValue < 0.9) continue
       if (artist && !textArtistMatch(row?.artistName, artist)) continue
 
       const trackId = String(row?.trackId || '')
@@ -211,9 +259,10 @@ async function searchItunes(title, artist) {
         date: clean(row?.releaseDate).slice(0, 10),
         country: payload.value.country,
         status: 'official',
-        score: Math.round(titleSimilarity * 100),
-        titleSimilarity,
-        exact: titleSimilarity === 1 && textArtistMatch(row?.artistName, artist),
+        score: Math.round(similarityValue * 100),
+        titleSimilarity: similarityValue,
+        popularity: 0,
+        exact: similarityValue === 1 && textArtistMatch(row?.artistName, artist),
         imageUrl,
         source: 'iTunes Search',
         sourceId: trackId || collectionId,
@@ -223,9 +272,8 @@ async function searchItunes(title, artist) {
 
   return candidates
     .sort((a, b) =>
-      Number(b.exact) - Number(a.exact) ||
+      candidatePriority(b, Boolean(artist)) - candidatePriority(a, Boolean(artist)) ||
       b.titleSimilarity - a.titleSimilarity ||
-      Number(b.country === 'KR') - Number(a.country === 'KR') ||
       String(b.date || '').localeCompare(String(a.date || ''))
     )
     .slice(0, 8)
@@ -236,14 +284,12 @@ function releaseCandidates(recordings, title, artist) {
   const rows = []
 
   for (const recording of recordings || []) {
-    const titleSimilarity = similarity(recording?.title, title)
-    const exactTitle = titleSimilarity === 1
+    const similarityValue = titleSimilarity(recording?.title, title)
+    const exactTitle = similarityValue === 1
     const exact = exactTitle && artistMatch(recording, artist)
     const searchScore = Number(recording?.score || 0)
 
-    // The title is the primary key for suggestions. Only keep results whose
-    // normalized title is at least 90% similar to what the admin typed.
-    if (titleSimilarity < 0.9) continue
+    if (similarityValue < 0.9) continue
 
     for (const release of recording?.releases || []) {
       const id = String(release?.id || '')
@@ -261,14 +307,15 @@ function releaseCandidates(recordings, title, artist) {
         country: release.country || '',
         status: release.status || '',
         score: searchScore,
-        titleSimilarity,
+        titleSimilarity: similarityValue,
+        popularity: 0,
         exact,
       })
     }
   }
 
   return rows.sort((a, b) =>
-    Number(b.exact) - Number(a.exact) ||
+    candidatePriority(b, Boolean(artist)) - candidatePriority(a, Boolean(artist)) ||
     Number(String(b.status).toLowerCase() === 'official') - Number(String(a.status).toLowerCase() === 'official') ||
     b.titleSimilarity - a.titleSimilarity ||
     b.score - a.score ||
@@ -354,7 +401,7 @@ export async function onRequestGet({ request, env }) {
 
     let candidates = merged
       .sort((a, b) =>
-        Number(b.exact) - Number(a.exact) ||
+        candidatePriority(b, Boolean(artist)) - candidatePriority(a, Boolean(artist)) ||
         Number(b.titleSimilarity || 0) - Number(a.titleSimilarity || 0) ||
         Number(b.score || 0) - Number(a.score || 0)
       )
@@ -368,7 +415,7 @@ export async function onRequestGet({ request, env }) {
       let raw = releaseCandidates(recordings, title, artist)
 
       if (!raw.length) {
-        const best = recordings.find(item => similarity(item?.title, title) >= 0.9) || recordings[0]
+        const best = recordings.find(item => titleSimilarity(item?.title, title) >= 0.9) || recordings[0]
         if (best?.id) {
           await sleep(1100)
           const detail = await lookupRecording(best.id)
@@ -395,9 +442,9 @@ export async function onRequestGet({ request, env }) {
     }
 
     candidates = candidates
-      .filter(item => Number(item.titleSimilarity ?? similarity(item.title, title)) >= 0.9)
+      .filter(item => Number(item.titleSimilarity ?? titleSimilarity(item.title, title)) >= 0.9)
       .sort((a, b) =>
-        Number(b.exact) - Number(a.exact) ||
+        candidatePriority(b, Boolean(artist)) - candidatePriority(a, Boolean(artist)) ||
         Number(b.titleSimilarity || 0) - Number(a.titleSimilarity || 0) ||
         Number(b.score || 0) - Number(a.score || 0)
       )
