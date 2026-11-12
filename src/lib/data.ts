@@ -191,6 +191,7 @@ export type AlbumArtworkCandidate = {
   country: string
   status: string
   score: number
+  titleSimilarity?: number
   exact: boolean
   imageUrl: string
   source: string
@@ -207,7 +208,7 @@ export type AlbumArtworkSearchResult = {
 
 const albumSearchCache = new Map<string, AlbumArtworkSearchResult>()
 
-export async function searchAlbumArtwork(title: string, artist: string, force = false): Promise<AlbumArtworkSearchResult> {
+export async function searchAlbumArtwork(title: string, artist = '', force = false): Promise<AlbumArtworkSearchResult> {
   const key = `${title.trim().toLocaleLowerCase()}::${artist.trim().toLocaleLowerCase()}`
   if (!force && albumSearchCache.has(key)) return albumSearchCache.get(key)!
 
