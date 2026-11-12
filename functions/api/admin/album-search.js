@@ -3,6 +3,7 @@ import { json, errorJson } from '../../_lib/http.js'
 
 const MB_RECORDING_URL = 'https://musicbrainz.org/ws/2/recording/'
 const CAA = 'https://coverartarchive.org'
+const ITUNES_SEARCH_URL = 'https://itunes.apple.com/search'
 const USER_AGENT = 'NAMRA-Profile/1.0 (https://namra-profile.pages.dev/)'
 
 function clean(value) {
@@ -64,6 +65,105 @@ function artistMatch(recording, artist) {
 
 function exactMatch(recording, title, artist) {
   return normalized(recording?.title) === normalized(title) && artistMatch(recording, artist)
+}
+
+
+function textArtistMatch(resultArtist, artist) {
+  const queryArtist = normalized(artist)
+  if (!queryArtist) return true
+  const value = normalized(resultArtist)
+  return Boolean(value) &&
+    (value === queryArtist || value.includes(queryArtist) || queryArtist.includes(value))
+}
+
+function artworkLarge(value) {
+  const url = String(value || '')
+  if (!url) return ''
+  return url
+    .replace(/\/\d+x\d+bb\./i, '/600x600bb.')
+    .replace(/\/\d+x\d+-\d+\./i, '/600x600-75.')
+    .replace(/100x100/g, '600x600')
+}
+
+function storefrontsFor(title) {
+  const value = clean(title)
+  if (/[\u3040-\u30ff]/u.test(value)) return ['JP', 'KR']
+  if (/[\uac00-\ud7af]/u.test(value)) return ['KR']
+  if (/[\u4e00-\u9fff]/u.test(value)) return ['CN', 'TW', 'HK', 'KR']
+  return ['KR', 'US']
+}
+
+async function searchItunes(title, artist) {
+  const countries = storefrontsFor(title)
+  const term = artist ? `${title} ${artist}` : title
+
+  const payloads = await Promise.allSettled(countries.map(async country => {
+    const url = new URL(ITUNES_SEARCH_URL)
+    url.searchParams.set('term', term)
+    url.searchParams.set('media', 'music')
+    url.searchParams.set('entity', 'song')
+    url.searchParams.set('limit', '25')
+    url.searchParams.set('country', country.toLowerCase())
+
+    const response = await fetch(url.toString(), {
+      headers: {
+        Accept: 'application/json',
+        'User-Agent': USER_AGENT,
+      },
+    })
+    if (!response.ok) throw new Error(`iTunes 검색 실패 (${response.status})`)
+    const payload = await response.json()
+    return { country, results: Array.isArray(payload?.results) ? payload.results : [] }
+  }))
+
+  const seen = new Set()
+  const candidates = []
+
+  for (const payload of payloads) {
+    if (payload.status !== 'fulfilled') continue
+
+    for (const row of payload.value.results) {
+      const titleSimilarity = similarity(row?.trackName, title)
+      if (titleSimilarity < 0.9) continue
+      if (artist && !textArtistMatch(row?.artistName, artist)) continue
+
+      const trackId = String(row?.trackId || '')
+      const collectionId = String(row?.collectionId || '')
+      const key = trackId || `${normalized(row?.trackName)}::${normalized(row?.artistName)}::${collectionId}`
+      if (!key || seen.has(key)) continue
+
+      const imageUrl = artworkLarge(row?.artworkUrl100 || row?.artworkUrl60)
+      if (!imageUrl) continue
+
+      seen.add(key)
+      candidates.push({
+        id: `itunes:${key}`,
+        recordingId: null,
+        releaseId: collectionId,
+        title: clean(row?.trackName) || title,
+        artist: clean(row?.artistName) || artist,
+        releaseTitle: clean(row?.collectionName) || clean(row?.trackName) || title,
+        date: clean(row?.releaseDate).slice(0, 10),
+        country: payload.value.country,
+        status: 'official',
+        score: Math.round(titleSimilarity * 100),
+        titleSimilarity,
+        exact: titleSimilarity === 1 && textArtistMatch(row?.artistName, artist),
+        imageUrl,
+        source: 'iTunes Search',
+        sourceId: trackId || collectionId,
+      })
+    }
+  }
+
+  return candidates
+    .sort((a, b) =>
+      Number(b.exact) - Number(a.exact) ||
+      b.titleSimilarity - a.titleSimilarity ||
+      Number(b.country === 'KR') - Number(a.country === 'KR') ||
+      String(b.date || '').localeCompare(String(a.date || ''))
+    )
+    .slice(0, 8)
 }
 
 function releaseCandidates(recordings, title, artist) {
@@ -170,32 +270,53 @@ export async function onRequestGet({ request, env }) {
     const artist = clean(url.searchParams.get('artist'))
     if (!title) return json({ error: '노래 제목을 입력해 주세요.' }, 400)
 
-    const payload = await searchRecordings(title, artist)
-    let recordings = payload?.recordings || []
-    let raw = releaseCandidates(recordings, title, artist)
+    // Title-only lookup first uses iTunes because it returns song title, artist,
+    // album and artwork together. This avoids the old case where MusicBrainz found
+    // a recording but no Cover Art Archive image, which looked like "no search".
+    let candidates = await searchItunes(title, artist)
 
-    if (!raw.length) {
-      const best = recordings.find(item => similarity(item?.title, title) >= 0.9) || recordings[0]
-      if (best?.id) {
-        await sleep(1100)
-        const detail = await lookupRecording(best.id)
-        recordings = [{ ...best, ...detail, score: best.score || 100 }]
-        raw = releaseCandidates(recordings, title, artist)
+    // Supplement/fallback with MusicBrainz + Cover Art Archive when iTunes has
+    // too few usable matches.
+    if (candidates.length < 3) {
+      const payload = await searchRecordings(title, artist)
+      let recordings = payload?.recordings || []
+      let raw = releaseCandidates(recordings, title, artist)
+
+      if (!raw.length) {
+        const best = recordings.find(item => similarity(item?.title, title) >= 0.9) || recordings[0]
+        if (best?.id) {
+          await sleep(1100)
+          const detail = await lookupRecording(best.id)
+          recordings = [{ ...best, ...detail, score: best.score || 100 }]
+          raw = releaseCandidates(recordings, title, artist)
+        }
+      }
+
+      const existing = new Set(candidates.map(item => `${normalized(item.title)}::${normalized(item.artist)}::${normalized(item.releaseTitle)}`))
+      for (const row of raw.slice(0, 10)) {
+        const imageUrl = await hasCover(row.releaseId)
+        if (!imageUrl) continue
+        const key = `${normalized(row.title)}::${normalized(row.artist)}::${normalized(row.releaseTitle)}`
+        if (existing.has(key)) continue
+        existing.add(key)
+        candidates.push({
+          ...row,
+          imageUrl,
+          source: 'Cover Art Archive / MusicBrainz',
+          sourceId: row.releaseId,
+        })
+        if (candidates.length >= 8) break
       }
     }
 
-    const candidates = []
-    for (const row of raw.slice(0, 10)) {
-      const imageUrl = await hasCover(row.releaseId)
-      if (!imageUrl) continue
-      candidates.push({
-        ...row,
-        imageUrl,
-        source: 'Cover Art Archive / MusicBrainz',
-        sourceId: row.releaseId,
-      })
-      if (candidates.length >= 6) break
-    }
+    candidates = candidates
+      .filter(item => Number(item.titleSimilarity ?? similarity(item.title, title)) >= 0.9)
+      .sort((a, b) =>
+        Number(b.exact) - Number(a.exact) ||
+        Number(b.titleSimilarity || 0) - Number(a.titleSimilarity || 0) ||
+        Number(b.score || 0) - Number(a.score || 0)
+      )
+      .slice(0, 8)
 
     const exact = candidates.filter(item => item.exact)
     return json({
