@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T23:08:26.057Z",
+    "updated_at": "2026-11-12T23:08:35.616Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1189,14 +1189,14 @@
     {
       "id": "30d02089-8c87-4a09-8ccf-5421038eafbc",
       "image_url": "/api/media?path=public%2Fsite-media%2Fsignature_items%2F1794394351853-bea4a3b4e8-_______-2834.png",
-      "title": "이쁜 남",
+      "title": "이쁜 남라",
       "number_text": "2834",
       "description": "단컷 4장 +움짤 2장+ 움짤프사 1개 (의상 택2)",
       "important_info": "",
       "sort_order": 4,
       "is_visible": true,
       "created_at": "2026-11-11T10:52:35.428Z",
-      "updated_at": "2026-11-12T22:50:41.833Z"
+      "updated_at": "2026-11-12T23:08:35.616Z"
     },
     {
       "id": "88e8430b-23ba-4bf7-bdb1-f5d8f0f7c876",
