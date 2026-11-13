@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-12T23:39:13.170Z",
+    "updated_at": "2026-11-13T18:18:23.859Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -1691,6 +1691,24 @@
       "is_visible": true,
       "created_at": "2026-11-12T23:39:13.170Z",
       "updated_at": "2026-11-12T23:39:13.170Z"
+    },
+    {
+      "id": "382d30f6-514f-4b38-a559-5bfcdde4a6ee",
+      "title": "혜화동",
+      "artist": "박보람",
+      "image_url": "https://cdnimg.melon.co.kr/cm/album/images/026/53/515/2653515_500.jpg",
+      "image_source": "Melon",
+      "image_source_id": "7953577",
+      "image_origin": "auto",
+      "image_registered_at": "2026-11-13T18:18:20.631Z",
+      "song_key": "",
+      "genre": "한국노래",
+      "status": "",
+      "note": "",
+      "sort_order": 27,
+      "is_visible": true,
+      "created_at": "2026-11-13T18:18:23.859Z",
+      "updated_at": "2026-11-13T18:18:23.859Z"
     }
   ],
   "wardrobe_items": [
