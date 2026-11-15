@@ -68,7 +68,8 @@
       "hero_mobile_position_x": 72,
       "hero_mobile_position_y": 50,
       "hero_overlay_strength": 0.72,
-      "hero_text_position": "left"
+      "hero_text_position": "left",
+      "gift_exchange_url": ""
     }
   ],
   "profile_stats": [
