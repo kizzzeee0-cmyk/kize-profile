@@ -17,6 +17,7 @@ const empty: Omit<Profile, 'id'> = {
   hero_mobile_position_y: 50,
   hero_overlay_strength: 0.72,
   hero_text_position: 'left',
+  gift_exchange_url: '',
   fandom_name: '',
   fandom_character_name: '',
   fandom_description: '',
@@ -88,6 +89,7 @@ export default function AdminProfilePage() {
           <FormField label="SINCE"><input type="date" value={profile.since_date || ''} onChange={e => setProfile(value => ({ ...value, since_date: e.target.value }))}/></FormField>
           <FormField label="배지 문구"><input value={profile.badge_text || ''} onChange={e => setProfile(value => ({ ...value, badge_text: e.target.value }))}/></FormField>
           <FormField label="소개 문구"><textarea value={profile.intro || ''} onChange={e => setProfile(value => ({ ...value, intro: e.target.value }))}/></FormField>
+          <FormField label="선물 보내기 / 역조공 받기 링크"><input type="url" value={profile.gift_exchange_url || ''} placeholder="https://..." onChange={e => setProfile(value => ({ ...value, gift_exchange_url: e.target.value }))}/></FormField>
           <FormField label="메인 16:9 이미지">
             <div className="admin-image-upload-row"><input type="file" accept="image/*" onChange={e => void upload(e.target.files?.[0])}/>{profile.profile_image_url && <button className="admin-secondary compact" type="button" disabled={busy} onClick={() => void removeProfileImage()}><AppIcon name="trash" /> 삭제</button>}</div>
           </FormField>
