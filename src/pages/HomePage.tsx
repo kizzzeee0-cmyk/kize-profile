@@ -114,6 +114,8 @@ export default function HomePage() {
     { key: 'youtube', label: '유튜브', item: social.find(link => /youtube|유튜브/i.test(link.name)) },
   ].filter(entry => entry.item)
 
+  const giftExchangeUrl = String(profile?.gift_exchange_url || '').trim()
+
   const heroStyle = {
     '--hero-x': `${profile?.hero_position_x ?? 70}%`,
     '--hero-y': `${profile?.hero_position_y ?? 50}%`,
@@ -147,6 +149,7 @@ export default function HomePage() {
                 {link.label}
               </a>)}
             </nav>}
+            {giftExchangeUrl && <a className="home-gift-exchange-link" href={giftExchangeUrl} target="_blank" rel="noopener noreferrer">남라에게 선물 보내기 / 역조공 받기</a>}
           </div>
 
           <div className="home-profile-media">
