@@ -26,6 +26,7 @@ export type Profile = {
   hero_mobile_position_y?: number | null
   hero_overlay_strength?: number | null
   hero_text_position?: 'left' | 'right' | null
+  gift_exchange_url?: string | null
   fandom_name: string | null
   fandom_character_name: string | null
   fandom_description: string | null
