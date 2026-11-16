@@ -7132,8 +7132,19 @@ a.journey-row:hover {
   outline-offset: -2px !important;
 }
 
+.modal:has(.admin-schedule-editor) {
+  width: min(820px, calc(100vw - 28px)) !important;
+}
+
 .admin-schedule-editor {
-  min-width: min(760px, calc(100vw - 48px)) !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.admin-schedule-editor > * {
+  min-width: 0 !important;
 }
 
 .admin-schedule-editor-actions {
