@@ -6901,3 +6901,131 @@ a.journey-row:hover {
     font-size: 13px !important;
   }
 }
+
+
+/* 2026-11-16 full-width calendar + wrapped event titles */
+/* Calendar takes the whole content width; upcoming schedules move below it. */
+.schedule-dashboard-grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 16px !important;
+}
+
+.schedule-calendar-card,
+.schedule-right-column,
+.schedule-upcoming-side {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.schedule-right-column {
+  grid-column: 1 / -1 !important;
+}
+
+/* Give event text as much horizontal room as possible. */
+.schedule-day {
+  min-height: 118px !important;
+  gap: 1px !important;
+  padding: 6px 4px 7px !important;
+}
+
+.schedule-day-number {
+  width: 24px !important;
+  height: 24px !important;
+  transform: none !important;
+  margin: 0 0 1px 2px !important;
+  font-size: 14px !important;
+}
+
+.schedule-day-events {
+  width: 100% !important;
+  min-width: 0 !important;
+  gap: 4px !important;
+  margin-top: 1px !important;
+}
+
+/* Full-width compact color bars; title is never forced into a single line. */
+.schedule-cell-event,
+.schedule-cell-event.is-off {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 24px !important;
+  padding: 4px 5px !important;
+  border-radius: 5px !important;
+  overflow: visible !important;
+}
+
+.schedule-cell-event > strong,
+.schedule-cell-event > .schedule-event-title {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+  overflow-wrap: anywhere !important;
+  font-size: min(var(--calendar-title-size, 14px), 12px) !important;
+  line-height: 1.3 !important;
+}
+
+/* Upcoming section becomes a wide list below the calendar. */
+.schedule-upcoming-side {
+  padding: 16px 18px !important;
+}
+
+.schedule-upcoming-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0 18px !important;
+}
+
+.schedule-upcoming-list button {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.schedule-upcoming-list strong {
+  white-space: normal !important;
+  text-overflow: clip !important;
+  overflow: visible !important;
+  line-height: 1.35 !important;
+}
+
+@media (max-width: 900px) {
+  .schedule-upcoming-list {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .schedule-day {
+    min-height: 104px !important;
+    padding: 5px 3px 6px !important;
+    gap: 1px !important;
+  }
+
+  .schedule-day-number {
+    width: 22px !important;
+    height: 22px !important;
+    margin: 0 0 1px 1px !important;
+    font-size: 13px !important;
+  }
+
+  .schedule-day-events {
+    margin-top: 0 !important;
+    gap: 3px !important;
+  }
+
+  .schedule-cell-event,
+  .schedule-cell-event.is-off {
+    min-height: 22px !important;
+    padding: 4px !important;
+  }
+
+  .schedule-cell-event > strong,
+  .schedule-cell-event > .schedule-event-title {
+    font-size: 9.5px !important;
+    line-height: 1.25 !important;
+  }
+}
