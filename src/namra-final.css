@@ -7029,3 +7029,347 @@ a.journey-row:hover {
     line-height: 1.25 !important;
   }
 }
+
+
+/* 2026-11-16 admin calendar editor + viewer-first upbo */
+/* Admin schedule: reuse the public calendar visual language, but make every date directly editable. */
+.admin-schedule-page-title {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+}
+
+.admin-schedule-page-title > div {
+  min-width: 0 !important;
+}
+
+.admin-schedule-page-title > .admin-primary {
+  flex: 0 0 auto !important;
+}
+
+.admin-schedule-calendar {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.admin-schedule-calendar .schedule-legend {
+  margin: 0 0 12px !important;
+}
+
+.admin-schedule-day {
+  position: relative !important;
+  cursor: default !important;
+}
+
+.admin-schedule-day:hover {
+  background: color-mix(in srgb, var(--brand-faint) 52%, #fff) !important;
+}
+
+.admin-calendar-add {
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
+  z-index: 2 !important;
+  width: 22px !important;
+  height: 22px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  border: 1px solid color-mix(in srgb, var(--brand) 28%, var(--border)) !important;
+  border-radius: 7px !important;
+  background: rgba(255, 255, 255, .92) !important;
+  color: var(--brand-strong) !important;
+  font-size: 15px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  opacity: .35 !important;
+  transition: opacity .15s ease, background .15s ease, transform .15s ease !important;
+}
+
+.admin-schedule-day:hover .admin-calendar-add,
+.admin-calendar-add:focus-visible {
+  opacity: 1 !important;
+}
+
+.admin-calendar-add:hover {
+  background: var(--brand-soft) !important;
+  transform: translateY(-1px) !important;
+}
+
+.admin-schedule-event {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 4px !important;
+  text-align: left !important;
+}
+
+.admin-schedule-event > small {
+  color: color-mix(in srgb, var(--text) 70%, transparent) !important;
+  font-size: 8.5px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+.admin-schedule-event > em {
+  padding: 2px 4px !important;
+  border-radius: 5px !important;
+  background: rgba(255, 255, 255, .72) !important;
+  color: var(--muted) !important;
+  font-size: 7.5px !important;
+  line-height: 1 !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+
+.admin-schedule-event.is-hidden {
+  opacity: .52 !important;
+  outline: 1px dashed color-mix(in srgb, var(--muted) 55%, transparent) !important;
+  outline-offset: -2px !important;
+}
+
+.admin-schedule-editor {
+  min-width: min(760px, calc(100vw - 48px)) !important;
+}
+
+.admin-schedule-editor-actions {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto auto !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.admin-schedule-editor-actions .danger {
+  color: #b94b62 !important;
+  border-color: rgba(185, 75, 98, .26) !important;
+}
+
+/* Admin upbo: site-like viewer cards become the primary editing entry point. */
+.upbo-admin-viewer-picker {
+  display: grid !important;
+  gap: 12px !important;
+}
+
+.upbo-admin-viewer-search {
+  width: 100% !important;
+  min-height: 42px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 11px !important;
+  background: #fff !important;
+}
+
+.upbo-admin-viewer-search > svg {
+  width: 16px !important;
+  height: 16px !important;
+  flex: 0 0 auto !important;
+  color: var(--brand) !important;
+}
+
+.upbo-admin-viewer-search > input {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 40px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+.upbo-admin-viewer-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.upbo-admin-viewer-card {
+  min-width: 0 !important;
+  min-height: 168px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  padding: 16px 12px 14px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+  color: var(--text) !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  transition: border-color .15s ease, background .15s ease, transform .15s ease, box-shadow .15s ease !important;
+}
+
+.upbo-admin-viewer-card:hover {
+  border-color: color-mix(in srgb, var(--brand) 46%, var(--border)) !important;
+  transform: translateY(-1px) !important;
+}
+
+.upbo-admin-viewer-card.selected {
+  border-color: color-mix(in srgb, var(--brand) 70%, var(--border)) !important;
+  background: color-mix(in srgb, var(--brand-faint) 55%, #fff) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 12%, transparent) !important;
+}
+
+.upbo-admin-viewer-avatar {
+  position: relative !important;
+  width: 66px !important;
+  height: 66px !important;
+  flex: 0 0 66px !important;
+  margin-bottom: 4px !important;
+  overflow: hidden !important;
+  border: 2px solid color-mix(in srgb, var(--brand) 24%, #fff) !important;
+  border-radius: 9999px !important;
+  background: #f8f7fc !important;
+}
+
+.upbo-admin-viewer-avatar > img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: inherit !important;
+}
+
+.upbo-admin-viewer-card > strong,
+.upbo-admin-viewer-card > small {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.upbo-admin-viewer-card > strong {
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+}
+
+.upbo-admin-viewer-card > small {
+  color: var(--muted) !important;
+  font-size: 10.5px !important;
+}
+
+.upbo-admin-viewer-card > em {
+  margin-top: 4px !important;
+  padding: 5px 10px !important;
+  border-radius: 999px !important;
+  background: var(--brand-soft) !important;
+  color: var(--brand-strong) !important;
+  font-size: 10.5px !important;
+  line-height: 1 !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+}
+
+.upbo-admin-selected-viewer {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin: 16px 0 0 !important;
+  padding: 12px 14px !important;
+  border: 1px solid color-mix(in srgb, var(--brand) 24%, var(--border)) !important;
+  border-radius: 12px !important;
+  background: color-mix(in srgb, var(--brand-faint) 52%, #fff) !important;
+}
+
+.upbo-admin-selected-viewer > div {
+  min-width: 0 !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  align-items: baseline !important;
+  gap: 5px 8px !important;
+}
+
+.upbo-admin-selected-viewer span {
+  color: var(--muted) !important;
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+}
+
+.upbo-admin-selected-viewer strong {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+
+.upbo-admin-selected-viewer small {
+  color: var(--muted) !important;
+  font-size: 10px !important;
+}
+
+@media (max-width: 1100px) {
+  .upbo-admin-viewer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .admin-schedule-page-title {
+    align-items: stretch !important;
+    flex-direction: column !important;
+  }
+
+  .admin-calendar-add {
+    opacity: .9 !important;
+  }
+
+  .admin-schedule-event {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+
+  .admin-schedule-event > small {
+    display: none !important;
+  }
+
+  .admin-schedule-editor {
+    min-width: 0 !important;
+  }
+
+  .admin-schedule-editor-actions {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .admin-schedule-editor-actions > span {
+    display: none !important;
+  }
+
+  .upbo-admin-viewer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .upbo-admin-selected-viewer {
+    align-items: stretch !important;
+    flex-direction: column !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .upbo-admin-viewer-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .upbo-admin-viewer-card {
+    min-height: 148px !important;
+  }
+
+  .upbo-admin-selected-viewer > div {
+    grid-template-columns: 1fr !important;
+    gap: 2px !important;
+  }
+}
