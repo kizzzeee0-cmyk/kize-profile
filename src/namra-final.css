@@ -7140,11 +7140,29 @@ a.journey-row:hover {
   width: 100% !important;
   min-width: 0 !important;
   max-width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  box-sizing: border-box !important;
+}
+
+.admin-schedule-editor,
+.admin-schedule-editor *,
+.admin-schedule-editor input,
+.admin-schedule-editor textarea,
+.admin-schedule-editor select {
   box-sizing: border-box !important;
 }
 
 .admin-schedule-editor > * {
   min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.modal:has(.admin-schedule-editor) .modal-body {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
 }
 
 .admin-schedule-editor-actions {
@@ -7333,6 +7351,16 @@ a.journey-row:hover {
 @media (max-width: 900px) {
   .upbo-admin-viewer-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-schedule-editor {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-schedule-editor .span-all {
+    grid-column: 1 !important;
   }
 }
 
