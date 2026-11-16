@@ -215,7 +215,7 @@ export default function AdminSchedulePage() {
       onClose={() => { if (!busy) setEditorOpen(false) }}
       title={editingId ? '일정 수정' : '일정 추가'}
     >
-      <form className="admin-form two-col admin-schedule-editor" onSubmit={submit}>
+      <form className="admin-form admin-schedule-editor" onSubmit={submit}>
         <FormField label="일정 이름"><input required autoFocus value={form.title || ''} onChange={e => setForm(value => ({ ...value, title: e.target.value }))}/></FormField>
         <FormField label="날짜"><input required type="date" value={form.schedule_date || ''} onChange={e => setForm(value => ({ ...value, schedule_date: e.target.value }))}/></FormField>
         <FormField label="시작 시간"><input type="time" value={form.start_time || ''} onChange={e => setForm(value => ({ ...value, start_time: e.target.value }))}/></FormField>
