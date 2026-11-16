@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState, type CSSProperties, type FormEvent } from 'react'
 import { AdminPanel, FormField, Notice } from '../../components/AdminCommon'
+import { AppIcon } from '../../components/AppIcon'
 import { Modal } from '../../components/Ui'
 import { deleteRow, fetchAdminTable, fetchSchedules, saveRow, uploadImage } from '../../lib/data'
 import { formatDate, formatTime, getMonthGrid, monthLabel, toDateKey } from '../../lib/dates'
@@ -153,15 +154,16 @@ export default function AdminSchedulePage() {
     {error && <Notice error>{error}</Notice>}
 
     <AdminPanel
-      title={monthLabel(month)}
+      title="일정 달력"
       description="빈 날짜를 더블클릭하거나 + 버튼을 누르면 새 일정을 추가할 수 있습니다. 등록된 일정은 클릭하면 바로 수정됩니다."
-      actions={<div className="calendar-actions">
-        <button type="button" onClick={() => setMonth(value => new Date(value.getFullYear(), value.getMonth() - 1, 1))}>←</button>
-        <button type="button" onClick={() => setMonth(new Date())}>오늘</button>
-        <button type="button" onClick={() => setMonth(value => new Date(value.getFullYear(), value.getMonth() + 1, 1))}>→</button>
-      </div>}
     >
       <div className="admin-schedule-calendar">
+        <div className="schedule-calendar-head">
+          <button type="button" onClick={() => setMonth(value => new Date(value.getFullYear(), value.getMonth() - 1, 1))} aria-label="이전 달"><AppIcon name="chevron-left" /></button>
+          <h2>{monthLabel(month)}</h2>
+          <button type="button" onClick={() => setMonth(value => new Date(value.getFullYear(), value.getMonth() + 1, 1))} aria-label="다음 달"><AppIcon name="chevron-right" /></button>
+        </div>
+        <div className="admin-schedule-today-row"><button className="admin-secondary compact" type="button" onClick={() => setMonth(new Date())}>오늘로 이동</button></div>
         <div className="schedule-legend">
           {categories.filter(category => category.is_visible !== false).map(category => <span key={category.id}><i style={{ background: category.color }} />{category.name}</span>)}
         </div>
