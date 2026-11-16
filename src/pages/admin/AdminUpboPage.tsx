@@ -247,9 +247,7 @@ export default function AdminUpboPage() {
   const [personId, setPersonId] = useState<string | undefined>()
   const [itemId, setItemId] = useState<string | undefined>()
   const [selectedPersonId, setSelectedPersonId] = useState('')
-  const [overviewView, setOverviewView] = useState<'viewer' | 'item'>('viewer')
   const [query, setQuery] = useState('')
-  const [sort, setSort] = useState<'quantity' | 'name' | 'recent'>('quantity')
   const [busy, setBusy] = useState(false)
   const [busyItemId, setBusyItemId] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
@@ -325,44 +323,18 @@ export default function AdminUpboPage() {
 
   const selectedPerson = people.find(person => person.id === selectedPersonId)
   const selectedResults = (resultMap.get(selectedPersonId) || []).sort((a, b) => Number(b.quantity || 0) - Number(a.quantity || 0))
-  const pendingTotal = results.reduce((sum, row) => sum + Math.max(0, Number(row.quantity || 0)), 0)
-  const activeViewerCount = new Set(results.filter(row => Number(row.quantity || 0) > 0).map(row => row.person_id)).size
 
-  const viewerOverview = useMemo(() => {
+  const adminViewerRows = useMemo(() => {
     const q = query.trim().toLocaleLowerCase()
-    const rows = people.map(person => {
-      const list = (resultMap.get(person.id) || []).filter(item => Number(item.quantity || 0) > 0)
-      const total = list.reduce((sum, item) => sum + Number(item.quantity || 0), 0)
-      const recent = Math.max(0, ...list.map(item => new Date(item.updated_at || item.created_at || 0).getTime() || 0))
-      return { person, rows: list, total, recent }
-    }).filter(row => row.total > 0)
+    return people
+      .map(person => {
+        const rows = (resultMap.get(person.id) || []).filter(result => Number(result.quantity || 0) > 0)
+        const total = rows.reduce((sum, result) => sum + Number(result.quantity || 0), 0)
+        return { person, total }
+      })
       .filter(row => !q || row.person.soop_name.toLocaleLowerCase().includes(q) || row.person.soop_id.toLocaleLowerCase().includes(q))
-    if (sort === 'name') return rows.sort((a, b) => a.person.soop_name.localeCompare(b.person.soop_name, 'ko'))
-    if (sort === 'recent') return rows.sort((a, b) => b.recent - a.recent)
-    return rows.sort((a, b) => b.total - a.total)
-  }, [people, resultMap, query, sort])
-
-  const itemOverview = useMemo(() => {
-    const map = new Map<string, { label: string; total: number; recent: number; viewers: Array<{ person: UpboPerson; quantity: number }> }>()
-    results.forEach(result => {
-      const quantity = Number(result.quantity || 0)
-      const person = personMap.get(result.person_id)
-      if (!person || quantity <= 0) return
-      const label = result.result_label
-      const row = map.get(label) || { label, total: 0, recent: 0, viewers: [] }
-      row.total += quantity
-      row.recent = Math.max(row.recent, new Date(result.updated_at || result.created_at || 0).getTime() || 0)
-      const viewer = row.viewers.find(value => value.person.id === person.id)
-      if (viewer) viewer.quantity += quantity
-      else row.viewers.push({ person, quantity })
-      map.set(label, row)
-    })
-    const q = query.trim().toLocaleLowerCase()
-    const rows = [...map.values()].filter(row => !q || row.label.toLocaleLowerCase().includes(q))
-    if (sort === 'name') return rows.sort((a, b) => a.label.localeCompare(b.label, 'ko'))
-    if (sort === 'recent') return rows.sort((a, b) => b.recent - a.recent)
-    return rows.sort((a, b) => b.total - a.total)
-  }, [results, personMap, query, sort])
+      .sort((a, b) => a.person.sort_order - b.person.sort_order || a.person.soop_name.localeCompare(b.person.soop_name, 'ko'))
+  }, [people, resultMap, query])
 
   async function searchSoopUsers(e?: FormEvent) {
     e?.preventDefault()
@@ -549,12 +521,75 @@ export default function AdminUpboPage() {
     </nav>
 
     {tab === 'manage' && <>
-      <section className="upbo-admin-summary">
-        <div><span>미처리 총수량</span><strong>{pendingTotal}</strong></div>
-        <div><span>업보 있는 시청자</span><strong>{activeViewerCount}명</strong></div>
-        <div><span>등록 시청자</span><strong>{people.length}명</strong></div>
-        <div><span>업보 항목</span><strong>{items.length}개</strong></div>
-      </section>
+      <AdminPanel title="시청자 선택 · 업보 추가" description="사이트와 같은 카드 목록에서 시청자를 선택한 뒤 업보를 바로 추가하거나 처리합니다.">
+        <div className="upbo-admin-viewer-picker">
+          <label className="diary-search upbo-admin-viewer-search">
+            <AppIcon name="search" />
+            <input value={query} onChange={e => setQuery(e.target.value)} placeholder="시청자 이름 또는 SOOP 아이디 검색" />
+          </label>
+
+          {adminViewerRows.length ? <div className="upbo-admin-viewer-grid">
+            {adminViewerRows.map(row => <button
+              type="button"
+              className={'upbo-admin-viewer-card' + (selectedPersonId === row.person.id ? ' selected' : '')}
+              key={row.person.id}
+              onClick={() => setSelectedPersonId(row.person.id)}
+            >
+              <span className="upbo-admin-viewer-avatar">
+                <img
+                  src={row.person.profile_image_url || primarySoopProfileUrl(row.person.soop_id)}
+                  alt=""
+                  loading="lazy"
+                  onError={e => {
+                    const next = primarySoopProfileUrl(row.person.soop_id)
+                    if (next && e.currentTarget.src !== next) e.currentTarget.src = next
+                    else e.currentTarget.style.display = 'none'
+                  }}
+                />
+              </span>
+              <strong>{row.person.soop_name}</strong>
+              <small>@{row.person.soop_id}</small>
+              <em>업보 {row.total}</em>
+            </button>)}
+          </div> : <p className="admin-empty">검색 조건에 맞는 시청자가 없습니다.</p>}
+        </div>
+
+        {selectedPerson && <div className="upbo-admin-selected-viewer">
+          <div>
+            <span>선택한 시청자</span>
+            <strong>{selectedPerson.soop_name}</strong>
+            <small>@{selectedPerson.soop_id}</small>
+          </div>
+          <button type="button" className="admin-secondary compact" onClick={() => openNote(selectedPerson)}>메모 {selectedPerson.admin_note ? '수정' : '작성'}</button>
+        </div>}
+
+        {selectedPerson && <div className="upbo-pending-section"><div className="upbo-section-caption"><strong>미처리 업보</strong><span>총 {selectedResults.reduce((sum, row) => sum + Number(row.quantity || 0), 0)}개</span></div>
+          {selectedResults.length ? selectedResults.map(result => {
+            const quantity = Number(result.quantity || 0)
+            const completionValue = Math.max(1, Math.min(quantity, completionQty[result.id] || 1))
+            const waitingRemoval = pendingRemovalResultId === result.id && Boolean(undo)
+            return <div className={'upbo-pending-row' + (waitingRemoval ? ' pending-removal' : '')} key={result.id}>
+              <strong>{result.result_label}</strong>
+              <span className="upbo-pending-quantity">× {quantity}</span>
+              {waitingRemoval
+                ? <div className="upbo-pending-removal-state"><span>완료됨 · 5초 후 제거</span><button type="button" className="admin-secondary compact" onClick={() => undo && void undoCompletion(undo)}>실행 취소</button></div>
+                : <>
+                  <button type="button" className="admin-secondary compact" disabled={Boolean(busyItemId)} onClick={() => void complete(result, 1)}>1개 완료</button>
+                  {quantity > 1 && <button type="button" className="admin-secondary compact" disabled={Boolean(busyItemId)} onClick={() => void complete(result, quantity)}>전체 완료</button>}
+                  {quantity > 1 && <div className="upbo-partial-complete"><input type="number" min="1" max={quantity} value={completionValue} onChange={e => setCompletionQty(value => ({ ...value, [result.id]: Math.max(1, Math.min(quantity, Number(e.target.value) || 1)) }))}/><button type="button" className="admin-primary compact" onClick={() => void complete(result, completionValue)}>완료</button></div>}
+                </>}
+            </div>
+          }) : <p className="admin-empty">현재 미처리 업보가 없습니다.</p>}
+        </div>}
+
+        {selectedPersonId && <div className="upbo-adjustment-section"><div className="upbo-section-caption"><strong>수량 직접 조정</strong><span>버튼을 누르면 즉시 저장됩니다.</span></div><div className="upbo-counter-grid">
+          {items.filter(item => item.is_visible !== false).map(item => {
+            const existing = findResult(item)
+            const quantity = Math.max(0, Number(existing?.quantity || 0))
+            return <div className="upbo-counter-card" key={item.id}><div className="upbo-counter-copy"><strong>{item.name}</strong>{item.note && <small>{item.note}</small>}</div><div className="upbo-counter-stepper"><button type="button" disabled={quantity <= 0 || Boolean(busyItemId)} onClick={() => void changeQuantity(item, -1)}>−</button><span>{busyItemId === item.id ? '…' : quantity}</span><button type="button" disabled={Boolean(busyItemId)} onClick={() => void changeQuantity(item, 1)}>+</button></div></div>
+          })}
+        </div></div>}
+      </AdminPanel>
 
       <AdminPanel title="SOOP 시청자" description="닉네임만 검색해도 같은 이름을 가진 SOOP 계정을 확인하고 정확한 계정을 선택할 수 있습니다. 관리자 메모는 공개 사이트에 노출되지 않습니다.">
         <div className="soop-user-search-box">
@@ -618,37 +653,6 @@ export default function AdminUpboPage() {
         </div>
       </AdminPanel>
 
-      <AdminPanel title="시청자별 업보 처리" description="시청자를 선택해 수량을 조정하거나 배송완료 처리합니다.">
-        <div className="upbo-counter-toolbar"><FormField label="시청자 선택"><select value={selectedPersonId} onChange={e => setSelectedPersonId(e.target.value)}><option value="">시청자를 선택해 주세요.</option>{people.map(person => <option key={person.id} value={person.id}>{person.soop_name} (@{person.soop_id})</option>)}</select></FormField>{selectedPerson && <button type="button" className="admin-secondary compact" onClick={() => openNote(selectedPerson)}>메모 {selectedPerson.admin_note ? '수정' : '작성'}</button>}</div>
-
-        {selectedPerson && <div className="upbo-pending-section"><div className="upbo-section-caption"><strong>미처리 업보</strong><span>총 {selectedResults.reduce((sum, row) => sum + Number(row.quantity || 0), 0)}개</span></div>
-          {selectedResults.length ? selectedResults.map(result => {
-            const quantity = Number(result.quantity || 0)
-            const completionValue = Math.max(1, Math.min(quantity, completionQty[result.id] || 1))
-            const waitingRemoval = pendingRemovalResultId === result.id && Boolean(undo)
-            return <div className={'upbo-pending-row' + (waitingRemoval ? ' pending-removal' : '')} key={result.id}>
-              <strong>{result.result_label}</strong>
-              <span className="upbo-pending-quantity">× {quantity}</span>
-              {waitingRemoval
-                ? <div className="upbo-pending-removal-state"><span>완료됨 · 5초 후 제거</span><button type="button" className="admin-secondary compact" onClick={() => undo && void undoCompletion(undo)}>실행 취소</button></div>
-                : <>
-                  <button type="button" className="admin-secondary compact" disabled={Boolean(busyItemId)} onClick={() => void complete(result, 1)}>1개 완료</button>
-                  {quantity > 1 && <button type="button" className="admin-secondary compact" disabled={Boolean(busyItemId)} onClick={() => void complete(result, quantity)}>전체 완료</button>}
-                  {quantity > 1 && <div className="upbo-partial-complete"><input type="number" min="1" max={quantity} value={completionValue} onChange={e => setCompletionQty(value => ({ ...value, [result.id]: Math.max(1, Math.min(quantity, Number(e.target.value) || 1)) }))}/><button type="button" className="admin-primary compact" onClick={() => void complete(result, completionValue)}>완료</button></div>}
-                </>}
-            </div>
-          }) : <p className="admin-empty">현재 미처리 업보가 없습니다.</p>}
-        </div>}
-
-        {selectedPersonId && <div className="upbo-adjustment-section"><div className="upbo-section-caption"><strong>수량 직접 조정</strong><span>버튼을 누르면 즉시 저장됩니다.</span></div><div className="upbo-counter-grid">
-          {items.filter(item => item.is_visible !== false).map(item => {
-            const existing = findResult(item)
-            const quantity = Math.max(0, Number(existing?.quantity || 0))
-            return <div className="upbo-counter-card" key={item.id}><div className="upbo-counter-copy"><strong>{item.name}</strong>{item.note && <small>{item.note}</small>}</div><div className="upbo-counter-stepper"><button type="button" disabled={quantity <= 0 || Boolean(busyItemId)} onClick={() => void changeQuantity(item, -1)}>−</button><span>{busyItemId === item.id ? '…' : quantity}</span><button type="button" disabled={Boolean(busyItemId)} onClick={() => void changeQuantity(item, 1)}>+</button></div></div>
-          })}
-        </div></div>}
-      </AdminPanel>
-
       <AdminPanel title="업보 항목" description="위플랩 원본 이름과 달라도 연동 탭에서 매핑할 수 있습니다.">
         <AdminSortableList rows={items} disabled={busy} onReorder={reorderItems} emptyText="등록된 업보 항목이 없습니다."
           renderMain={row => <div className="admin-list-summary"><div><strong>{row.name}</strong><small>{row.note || '업보 항목'}</small></div></div>}
@@ -662,21 +666,7 @@ export default function AdminUpboPage() {
         </form></div>
       </AdminPanel>
 
-      <AdminPanel title="업보 현황" description="같은 데이터를 시청자별 또는 항목별로 확인합니다.">
-        <div className="upbo-view-tabs admin">
-          <button type="button" className={overviewView === 'viewer' ? 'active' : ''} onClick={() => { setOverviewView('viewer'); setQuery('') }}>시청자별</button>
-          <button type="button" className={overviewView === 'item' ? 'active' : ''} onClick={() => { setOverviewView('item'); setQuery('') }}>항목별</button>
-        </div>
-        <div className="upbo-admin-filter-row">
-          <input value={query} onChange={e => setQuery(e.target.value)} placeholder={overviewView === 'viewer' ? '시청자 이름 / 아이디 검색' : '업보 항목명 검색'} />
-          <select value={sort} onChange={e => setSort(e.target.value as 'quantity' | 'name' | 'recent')}><option value="quantity">미처리 수량순</option><option value="name">이름순</option><option value="recent">최근 등록순</option></select>
-        </div>
-        <div className="upbo-admin-overview-list">
-          {overviewView === 'viewer'
-            ? viewerOverview.map(row => <details key={row.person.id} className="upbo-admin-overview-row"><summary><strong>{row.person.soop_name}</strong><small>@{row.person.soop_id}</small><span>총 {row.total}개</span></summary><div>{row.rows.map(result => <p key={result.id}><span>{result.result_label}</span><strong>× {result.quantity}</strong></p>)}</div></details>)
-            : itemOverview.map(row => <details key={row.label} className="upbo-admin-overview-row"><summary><strong>{row.label}</strong><small>{row.viewers.length}명</small><span>총 {row.total}개</span></summary><div>{row.viewers.map(viewer => <p key={viewer.person.id}><span>{viewer.person.soop_name}</span><strong>× {viewer.quantity}</strong></p>)}</div></details>)}
-        </div>
-      </AdminPanel>
+
     </>}
 
     {tab === 'weflab' && <>
