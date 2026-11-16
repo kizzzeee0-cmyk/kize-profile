@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-15T11:55:18.722Z",
+    "updated_at": "2026-11-16T03:05:23.216Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -556,6 +556,22 @@
       "is_visible": true,
       "created_at": "2026-11-12T22:09:31.364Z",
       "updated_at": "2026-11-12T22:09:31.364Z"
+    },
+    {
+      "id": "3c369e6d-5649-4adf-8261-c7b24f05ef70",
+      "title": "남라 생일",
+      "schedule_date": "2026-12-14",
+      "start_time": null,
+      "end_time": null,
+      "category_id": "f8a33213-7b63-4a0b-a9b3-7dec7a41c0b5",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-16T03:05:23.216Z",
+      "updated_at": "2026-11-16T03:05:23.216Z"
     }
   ],
   "site_texts": [
