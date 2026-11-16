@@ -398,7 +398,7 @@ export default function AdminUpboPage() {
   async function saveItem(e: FormEvent) {
     e.preventDefault(); setBusy(true); setError(null); setMessage(null)
     try {
-      await saveRow('upbo_items', { ...itemForm, name: String(itemForm.name || '').trim(), sort_order: itemId ? itemForm.sort_order : items.length + 1 }, itemId)
+      await saveRow('upbo_items', { ...itemForm, name: String(itemForm.name || '').trim(), note: '', sort_order: itemId ? itemForm.sort_order : items.length + 1 }, itemId)
       setItemForm(emptyItem); setItemId(undefined); setMessage('업보 항목을 저장했습니다.'); await load(); await loadWeflab()
     } catch (e) { setError(e instanceof Error ? e.message : '업보 항목 저장 실패') }
     finally { setBusy(false) }
@@ -586,7 +586,7 @@ export default function AdminUpboPage() {
           {items.filter(item => item.is_visible !== false).map(item => {
             const existing = findResult(item)
             const quantity = Math.max(0, Number(existing?.quantity || 0))
-            return <div className="upbo-counter-card" key={item.id}><div className="upbo-counter-copy"><strong>{item.name}</strong>{item.note && <small>{item.note}</small>}</div><div className="upbo-counter-stepper"><button type="button" disabled={quantity <= 0 || Boolean(busyItemId)} onClick={() => void changeQuantity(item, -1)}>−</button><span>{busyItemId === item.id ? '…' : quantity}</span><button type="button" disabled={Boolean(busyItemId)} onClick={() => void changeQuantity(item, 1)}>+</button></div></div>
+            return <div className="upbo-counter-card" key={item.id}><div className="upbo-counter-copy"><strong>{item.name}</strong></div><div className="upbo-counter-stepper"><button type="button" disabled={quantity <= 0 || Boolean(busyItemId)} onClick={() => void changeQuantity(item, -1)}>−</button><span>{busyItemId === item.id ? '…' : quantity}</span><button type="button" disabled={Boolean(busyItemId)} onClick={() => void changeQuantity(item, 1)}>+</button></div></div>
           })}
         </div></div>}
       </AdminPanel>
