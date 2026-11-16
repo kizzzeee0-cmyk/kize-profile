@@ -7403,3 +7403,152 @@ a.journey-row:hover {
 .admin-schedule-today-row .admin-secondary {
   min-height: 30px !important;
 }
+
+
+/* 2026-11-16 compact admin upbo item chips */
+.upbo-item-inline-editor {
+  margin: 0 0 12px !important;
+  padding: 10px 11px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  background: var(--brand-faint) !important;
+}
+
+.upbo-item-inline-form {
+  display: grid !important;
+  grid-template-columns: minmax(180px, 320px) auto auto auto !important;
+  align-items: end !important;
+  justify-content: start !important;
+  gap: 7px !important;
+}
+
+.upbo-item-inline-form .form-field {
+  min-width: 0 !important;
+}
+
+.upbo-item-inline-form .form-field > span {
+  font-size: 11px !important;
+}
+
+.upbo-item-inline-form .form-field input {
+  min-height: 34px !important;
+  padding: 6px 9px !important;
+  font-size: 12px !important;
+}
+
+.upbo-item-visible-toggle {
+  min-height: 34px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 0 8px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  color: var(--body) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+.upbo-item-visible-toggle input {
+  width: 15px !important;
+  height: 15px !important;
+  margin: 0 !important;
+  accent-color: var(--brand-strong) !important;
+}
+
+.upbo-item-inline-form .admin-primary,
+.upbo-item-inline-form .admin-secondary {
+  min-height: 34px !important;
+  height: 34px !important;
+  padding: 0 10px !important;
+  font-size: 11px !important;
+}
+
+.upbo-item-compact-list .admin-sortable-list {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: flex-start !important;
+  gap: 6px !important;
+}
+
+.upbo-item-compact-list .admin-list-row {
+  width: max-content !important;
+  max-width: 100% !important;
+  min-height: 36px !important;
+  display: grid !important;
+  grid-template-columns: 24px auto auto !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 4px 5px !important;
+  border-radius: 9px !important;
+}
+
+.upbo-item-compact-list .drag-handle {
+  width: 24px !important;
+  height: 26px !important;
+  min-width: 24px !important;
+  padding: 0 !important;
+}
+
+.upbo-item-compact-list .drag-handle svg {
+  width: 13px !important;
+  height: 13px !important;
+}
+
+.upbo-item-chip-name {
+  min-width: 0 !important;
+  padding: 0 4px 0 1px !important;
+}
+
+.upbo-item-chip-name strong {
+  display: block !important;
+  max-width: 220px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: var(--text) !important;
+  font-size: 11.5px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+}
+
+.upbo-item-compact-list .admin-list-actions {
+  gap: 3px !important;
+}
+
+.upbo-item-compact-list .admin-list-actions button {
+  width: 27px !important;
+  min-width: 27px !important;
+  height: 27px !important;
+  min-height: 27px !important;
+  padding: 0 !important;
+  justify-content: center !important;
+  border-radius: 7px !important;
+}
+
+.upbo-item-compact-list .admin-list-actions button svg {
+  width: 13px !important;
+  height: 13px !important;
+}
+
+@media (max-width: 700px) {
+  .upbo-item-inline-form {
+    grid-template-columns: minmax(0, 1fr) auto auto !important;
+  }
+
+  .upbo-item-visible-toggle {
+    grid-row: 2 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .upbo-item-inline-form {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+
+  .upbo-item-inline-form .form-field {
+    grid-column: 1 / -1 !important;
+  }
+}
