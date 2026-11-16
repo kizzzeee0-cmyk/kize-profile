@@ -4586,7 +4586,7 @@ body div {
 
 .upbo-counter-grid {
   display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 10px !important;
 }
 
@@ -7313,9 +7313,9 @@ a.journey-row:hover {
   font-size: 10px !important;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 900px) {
   .upbo-admin-viewer-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
@@ -7349,17 +7349,13 @@ a.journey-row:hover {
     display: none !important;
   }
 
-  .upbo-admin-viewer-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-
   .upbo-admin-selected-viewer {
     align-items: stretch !important;
     flex-direction: column !important;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
   .upbo-admin-viewer-grid {
     grid-template-columns: 1fr !important;
   }
@@ -7372,4 +7368,15 @@ a.journey-row:hover {
     grid-template-columns: 1fr !important;
     gap: 2px !important;
   }
+}
+
+
+.admin-schedule-today-row {
+  display: flex !important;
+  justify-content: flex-end !important;
+  margin: -4px 0 10px !important;
+}
+
+.admin-schedule-today-row .admin-secondary {
+  min-height: 30px !important;
 }
