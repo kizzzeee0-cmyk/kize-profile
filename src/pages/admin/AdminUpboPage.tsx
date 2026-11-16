@@ -653,17 +653,27 @@ export default function AdminUpboPage() {
         </div>
       </AdminPanel>
 
-      <AdminPanel title="업보 항목" description="위플랩 원본 이름과 달라도 연동 탭에서 매핑할 수 있습니다.">
-        <AdminSortableList rows={items} disabled={busy} onReorder={reorderItems} emptyText="등록된 업보 항목이 없습니다."
-          renderMain={row => <div className="admin-list-summary"><div><strong>{row.name}</strong><small>{row.note || '업보 항목'}</small></div></div>}
-          renderActions={row => <><button type="button" onClick={() => { setItemId(row.id); setItemForm({ ...row }) }}><AppIcon name="edit" /> 수정</button><button className="danger" type="button" onClick={() => void remove('upbo_items', row.id)}><AppIcon name="trash" /> 삭제</button></>}
-        />
-        <div className="admin-inline-editor"><h3>{itemId ? '업보 항목 수정' : '새 업보 항목 추가'}</h3><form className="admin-form admin-profile-basic-grid" onSubmit={saveItem}>
-          <FormField label="항목 이름"><input required value={itemForm.name || ''} onChange={e => setItemForm(value => ({ ...value, name: e.target.value }))}/></FormField>
-          <FormField label="설명 (선택)"><input value={itemForm.note || ''} onChange={e => setItemForm(value => ({ ...value, note: e.target.value }))}/></FormField>
-          <FormField label="사용"><input type="checkbox" checked={Boolean(itemForm.is_visible)} onChange={e => setItemForm(value => ({ ...value, is_visible: e.target.checked }))}/></FormField>
-          <div className="form-actions"><button className="admin-primary" disabled={busy}>{itemId ? '수정 저장' : '항목 추가'}</button>{itemId && <button className="admin-secondary" type="button" onClick={() => { setItemId(undefined); setItemForm(emptyItem) }}>취소</button>}</div>
-        </form></div>
+      <AdminPanel title="업보 항목" description="항목명만 간단히 관리합니다. 길게 눌러 드래그하면 순서를 바꿀 수 있습니다.">
+        <div className="upbo-item-inline-editor">
+          <form className="upbo-item-inline-form" onSubmit={saveItem}>
+            <FormField label={itemId ? '항목 이름 수정' : '새 업보 항목'}>
+              <input required value={itemForm.name || ''} placeholder="업보 항목 이름" onChange={e => setItemForm(value => ({ ...value, name: e.target.value }))}/>
+            </FormField>
+            <label className="upbo-item-visible-toggle"><input type="checkbox" checked={Boolean(itemForm.is_visible)} onChange={e => setItemForm(value => ({ ...value, is_visible: e.target.checked }))}/><span>사용</span></label>
+            <button className="admin-primary compact" disabled={busy}>{itemId ? '수정 저장' : '추가'}</button>
+            {itemId && <button className="admin-secondary compact" type="button" onClick={() => { setItemId(undefined); setItemForm(emptyItem) }}>취소</button>}
+          </form>
+        </div>
+
+        <div className="upbo-item-compact-list">
+          <AdminSortableList rows={items} disabled={busy} onReorder={reorderItems} emptyText="등록된 업보 항목이 없습니다."
+            renderMain={row => <div className="upbo-item-chip-name"><strong>{row.name}</strong></div>}
+            renderActions={row => <>
+              <button type="button" title="수정" aria-label={row.name + ' 수정'} onClick={() => { setItemId(row.id); setItemForm({ ...row }) }}><AppIcon name="edit" /></button>
+              <button className="danger" type="button" title="삭제" aria-label={row.name + ' 삭제'} onClick={() => void remove('upbo_items', row.id)}><AppIcon name="trash" /></button>
+            </>}
+          />
+        </div>
       </AdminPanel>
 
 
