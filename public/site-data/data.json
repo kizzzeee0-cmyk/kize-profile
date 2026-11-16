@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-16T04:02:08.020Z",
+    "updated_at": "2026-11-16T04:02:20.157Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -604,6 +604,22 @@
       "is_visible": true,
       "created_at": "2026-11-16T04:02:08.020Z",
       "updated_at": "2026-11-16T04:02:08.020Z"
+    },
+    {
+      "id": "7a94447f-2ba3-4143-b443-97c56527bee3",
+      "title": "호타이쿤 마크서버",
+      "schedule_date": "2026-11-27",
+      "start_time": null,
+      "end_time": null,
+      "category_id": "1ed974c6-baa4-49cc-9f62-d89c5482a608",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-16T04:02:20.157Z",
+      "updated_at": "2026-11-16T04:02:20.157Z"
     }
   ],
   "site_texts": [
