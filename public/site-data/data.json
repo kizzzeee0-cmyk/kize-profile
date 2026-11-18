@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-18T21:44:16.308Z",
+    "updated_at": "2026-11-18T21:44:28.515Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -2581,7 +2581,7 @@
       "id": "primary",
       "desired_enabled": true,
       "auto_register": true,
-      "alert_url_encrypted": "v1.kd97SHXn3GpOayQLeAakbkNZ5_53ECprfY0lcjveM7pqbgqSJM6fpt-yf9KHM5PkBAqRtJz002hgprrdl3uZv9Vj6w",
+      "alert_url_encrypted": "v1.9egpNI5YzOm5UvQQkpN_l0-EM6OAjOG_14xCj4o4TVbFScQyj3cOQvzpBm7o25xBl6T7TkDbmqSEDvSmUrOjNBNHqg",
       "receiver_token_hash": "WutRgplO73RK2-kNoXmEMw1vUfsOvN_7RmM6EzYwWu4",
       "receiver_token_created_at": "2026-11-11T03:28:10.428Z",
       "last_receiver_heartbeat": null,
@@ -2597,7 +2597,7 @@
       "last_test_ack_at": null,
       "preset_refresh_request_id": "",
       "preset_refresh_requested_at": null,
-      "updated_at": "2026-11-18T21:44:16.308Z"
+      "updated_at": "2026-11-18T21:44:28.515Z"
     }
   ]
 }
