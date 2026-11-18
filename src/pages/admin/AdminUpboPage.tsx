@@ -336,6 +336,32 @@ export default function AdminUpboPage() {
       .sort((a, b) => a.person.sort_order - b.person.sort_order || a.person.soop_name.localeCompare(b.person.soop_name, 'ko'))
   }, [people, resultMap, query])
 
+  const totalByItem = useMemo(() => {
+    const totals = new Map<string, { key: string; name: string; quantity: number; sortOrder: number }>()
+
+    for (const result of results) {
+      const quantity = Math.max(0, Number(result.quantity || 0))
+      if (!quantity) continue
+
+      const linkedItem = result.item_id
+        ? itemMap.get(String(result.item_id))
+        : items.find(item => item.name === result.result_label)
+      const key = linkedItem?.id || 'label:' + String(result.result_label || '업보')
+      const current = totals.get(key) || {
+        key,
+        name: linkedItem?.name || String(result.result_label || '업보'),
+        quantity: 0,
+        sortOrder: linkedItem?.sort_order ?? 99999,
+      }
+      current.quantity += quantity
+      totals.set(key, current)
+    }
+
+    return [...totals.values()]
+      .filter(row => row.quantity > 0)
+      .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name, 'ko'))
+  }, [results, items, itemMap])
+
   async function searchSoopUsers(e?: FormEvent) {
     e?.preventDefault()
     const keyword = soopSearchQuery.trim()
@@ -521,6 +547,15 @@ export default function AdminUpboPage() {
     </nav>
 
     {tab === 'manage' && <>
+      <section className="upbo-admin-total-strip" aria-label="전체 시청자 업보 항목별 총합">
+        <strong>전체 총합</strong>
+        <div>
+          {totalByItem.length
+            ? totalByItem.map(row => <span key={row.key}>{row.name} <b>{row.quantity}개</b></span>)
+            : <small>현재 추가된 업보가 없습니다.</small>}
+        </div>
+      </section>
+
       <AdminPanel title="시청자 선택 · 업보 추가" description="사이트와 같은 카드 목록에서 시청자를 선택한 뒤 업보를 바로 추가하거나 처리합니다.">
         <div className="upbo-admin-viewer-picker">
           <label className="diary-search upbo-admin-viewer-search">
