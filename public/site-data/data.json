@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-18T21:44:28.515Z",
+    "updated_at": "2026-11-18T21:44:33.420Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -2592,12 +2592,12 @@
       "bridge_version": "",
       "source_verified": false,
       "last_event_at": null,
-      "last_test_requested_at": null,
-      "last_test_challenge": "",
+      "last_test_requested_at": "2026-11-18T21:44:33.420Z",
+      "last_test_challenge": "0bUpmIyv0OwAZxV1",
       "last_test_ack_at": null,
       "preset_refresh_request_id": "",
       "preset_refresh_requested_at": null,
-      "updated_at": "2026-11-18T21:44:28.515Z"
+      "updated_at": "2026-11-18T21:44:33.420Z"
     }
   ]
 }
