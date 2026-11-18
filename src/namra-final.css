@@ -7580,3 +7580,71 @@ a.journey-row:hover {
     grid-column: 1 / -1 !important;
   }
 }
+
+
+/* 2026-11-19 compact all-viewer upbo totals */
+.upbo-admin-total-strip {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 9px !important;
+  margin: 0 0 10px !important;
+  padding: 8px 10px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+}
+
+.upbo-admin-total-strip > strong {
+  flex: 0 0 auto !important;
+  padding-top: 4px !important;
+  color: var(--text) !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+
+.upbo-admin-total-strip > div {
+  min-width: 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 5px !important;
+}
+
+.upbo-admin-total-strip > div > span {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  min-height: 25px !important;
+  padding: 4px 7px !important;
+  border: 1px solid color-mix(in srgb, var(--brand) 18%, var(--border)) !important;
+  border-radius: 7px !important;
+  background: color-mix(in srgb, var(--brand-faint) 55%, #fff) !important;
+  color: var(--body) !important;
+  font-size: 10.5px !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.upbo-admin-total-strip > div > span b {
+  color: var(--brand-strong) !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+}
+
+.upbo-admin-total-strip > div > small {
+  padding: 4px 0 !important;
+  color: var(--muted) !important;
+  font-size: 10.5px !important;
+}
+
+@media (max-width: 560px) {
+  .upbo-admin-total-strip {
+    flex-direction: column !important;
+    gap: 5px !important;
+  }
+
+  .upbo-admin-total-strip > strong {
+    padding-top: 0 !important;
+  }
+}
