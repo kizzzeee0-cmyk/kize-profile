@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-22T23:46:11.354Z",
+    "updated_at": "2026-11-22T23:47:24.268Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -684,6 +684,22 @@
       "is_visible": true,
       "created_at": "2026-11-17T11:24:16.238Z",
       "updated_at": "2026-11-17T11:24:16.238Z"
+    },
+    {
+      "id": "4ded0b5f-7ff0-4e98-8de3-d2c8f3c3e344",
+      "title": "프랫폴합방 / 수능 풀기",
+      "schedule_date": "2026-11-19",
+      "start_time": null,
+      "end_time": null,
+      "category_id": null,
+      "description": "",
+      "participants": "송민트, 깅무우, 김뭉글",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-22T23:47:24.268Z",
+      "updated_at": "2026-11-22T23:47:24.268Z"
     }
   ],
   "site_texts": [
