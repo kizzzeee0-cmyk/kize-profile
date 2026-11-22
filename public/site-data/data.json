@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-22T23:48:00.467Z",
+    "updated_at": "2026-11-22T23:48:30.762Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -689,7 +689,7 @@
       "id": "4ded0b5f-7ff0-4e98-8de3-d2c8f3c3e344",
       "title": "프랫폴합방 / 수능 풀기",
       "schedule_date": "2026-11-19",
-      "start_time": null,
+      "start_time": "19:00",
       "end_time": null,
       "category_id": "7074a5d3-93aa-4c25-b02d-24d6f9a8433d",
       "description": "",
@@ -699,7 +699,7 @@
       "note": "",
       "is_visible": true,
       "created_at": "2026-11-22T23:47:24.268Z",
-      "updated_at": "2026-11-22T23:47:31.237Z"
+      "updated_at": "2026-11-22T23:48:30.762Z"
     },
     {
       "id": "c355c45c-9c57-4cc2-8b81-d7dddaadd16a",
