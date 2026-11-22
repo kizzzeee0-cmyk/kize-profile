@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-22T23:48:50.992Z",
+    "updated_at": "2026-11-22T23:49:06.160Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -732,6 +732,22 @@
       "is_visible": true,
       "created_at": "2026-11-22T23:48:50.992Z",
       "updated_at": "2026-11-22T23:48:50.992Z"
+    },
+    {
+      "id": "384fa126-3c0d-4263-9547-cb09a849bf08",
+      "title": "휴뱅",
+      "schedule_date": "2026-11-23",
+      "start_time": null,
+      "end_time": null,
+      "category_id": "34deb339-470b-41a6-bd5f-bd55c859c000",
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-22T23:49:06.160Z",
+      "updated_at": "2026-11-22T23:49:06.160Z"
     }
   ],
   "site_texts": [
