@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-22T23:45:54.049Z",
+    "updated_at": "2026-11-22T23:46:11.354Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -27,7 +27,7 @@
       "wardrobe_items"
     ],
     "failed_tables": [],
-    "upbo_updated_at": "2026-11-22T23:45:54.049Z"
+    "upbo_updated_at": "2026-11-22T23:46:11.354Z"
   },
   "site_settings": [
     {
@@ -2325,6 +2325,17 @@
       "sort_order": 6,
       "created_at": "2026-11-11T20:08:15.490Z",
       "updated_at": "2026-11-11T20:08:15.490Z"
+    },
+    {
+      "id": "b0c0d0a7-32d8-447d-918b-79f3fc8f7d17",
+      "person_id": "0bc57efe-a7db-4d31-9256-6d264159b6e9",
+      "item_id": "c3542cf4-f29b-4342-9f39-30aed04724ca",
+      "result_label": "C 의상 단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 4,
+      "created_at": "2026-11-22T23:46:11.354Z",
+      "updated_at": "2026-11-22T23:46:11.354Z"
     }
   ],
   "upbo_items": [
@@ -2582,6 +2593,18 @@
         "result_id": "68db8e69-3b9d-4cb8-966e-f30e80748d7d"
       },
       "created_at": "2026-11-22T23:45:54.049Z"
+    },
+    {
+      "id": "ecd218e6-018d-449e-8771-df04df7620e8",
+      "action": "manual_increment",
+      "person_id": "0bc57efe-a7db-4d31-9256-6d264159b6e9",
+      "item_id": "c3542cf4-f29b-4342-9f39-30aed04724ca",
+      "quantity": 1,
+      "source": "admin",
+      "detail": {
+        "result_id": "b0c0d0a7-32d8-447d-918b-79f3fc8f7d17"
+      },
+      "created_at": "2026-11-22T23:46:11.354Z"
     }
   ],
   "weflab_mappings": [],
