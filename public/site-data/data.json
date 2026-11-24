@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-22T23:49:46.807Z",
+    "updated_at": "2026-11-24T06:34:27.147Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -780,6 +780,22 @@
       "is_visible": true,
       "created_at": "2026-11-22T23:49:46.807Z",
       "updated_at": "2026-11-22T23:49:46.807Z"
+    },
+    {
+      "id": "fb1cc2a2-243c-471b-b95b-391a693b2aac",
+      "title": "인보키어 합방",
+      "schedule_date": "2026-11-29",
+      "start_time": "19:00",
+      "end_time": null,
+      "category_id": null,
+      "description": "",
+      "participants": "먀오, 부잉이, 아코",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-24T06:34:27.147Z",
+      "updated_at": "2026-11-24T06:34:27.147Z"
     }
   ],
   "site_texts": [
