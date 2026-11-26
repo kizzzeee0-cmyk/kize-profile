@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-26T18:08:55.808Z",
+    "updated_at": "2026-11-26T18:09:10.379Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -27,7 +27,7 @@
       "wardrobe_items"
     ],
     "failed_tables": [],
-    "upbo_updated_at": "2026-11-26T18:08:55.808Z"
+    "upbo_updated_at": "2026-11-26T18:09:10.379Z"
   },
   "site_settings": [
     {
@@ -2509,6 +2509,17 @@
       "sort_order": 13,
       "created_at": "2026-11-26T18:08:55.808Z",
       "updated_at": "2026-11-26T18:08:55.808Z"
+    },
+    {
+      "id": "6fc4f483-b60b-4f1a-b03b-6431ac038eb9",
+      "person_id": "0bc57efe-a7db-4d31-9256-6d264159b6e9",
+      "item_id": "c632a5bd-4eba-40d3-b94a-f86e91c542f1",
+      "result_label": "얼빡단컷",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 1,
+      "created_at": "2026-11-26T18:09:10.379Z",
+      "updated_at": "2026-11-26T18:09:10.379Z"
     }
   ],
   "upbo_items": [
@@ -2838,6 +2849,18 @@
         "result_id": "109e37d3-7c89-43af-9960-02862cb26d60"
       },
       "created_at": "2026-11-26T18:08:55.808Z"
+    },
+    {
+      "id": "7ec671fb-1ab3-45d5-9e61-26915b66b35a",
+      "action": "manual_increment",
+      "person_id": "0bc57efe-a7db-4d31-9256-6d264159b6e9",
+      "item_id": "c632a5bd-4eba-40d3-b94a-f86e91c542f1",
+      "quantity": 1,
+      "source": "admin",
+      "detail": {
+        "result_id": "6fc4f483-b60b-4f1a-b03b-6431ac038eb9"
+      },
+      "created_at": "2026-11-26T18:09:10.379Z"
     }
   ],
   "weflab_mappings": [],
