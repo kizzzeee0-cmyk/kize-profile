@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-26T18:08:42.418Z",
+    "updated_at": "2026-11-26T18:08:55.808Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -27,7 +27,7 @@
       "wardrobe_items"
     ],
     "failed_tables": [],
-    "upbo_updated_at": "2026-11-26T18:08:38.804Z"
+    "upbo_updated_at": "2026-11-26T18:08:55.808Z"
   },
   "site_settings": [
     {
@@ -2498,6 +2498,17 @@
       "sort_order": 5,
       "created_at": "2026-11-26T18:08:23.977Z",
       "updated_at": "2026-11-26T18:08:23.977Z"
+    },
+    {
+      "id": "109e37d3-7c89-43af-9960-02862cb26d60",
+      "person_id": "a715ed76-5f07-417f-afae-9c31d1b43d2c",
+      "item_id": "35815baf-f5d0-4e93-9b29-06adf5235712",
+      "result_label": "하단배너",
+      "quantity": 1,
+      "note": "",
+      "sort_order": 13,
+      "created_at": "2026-11-26T18:08:55.808Z",
+      "updated_at": "2026-11-26T18:08:55.808Z"
     }
   ],
   "upbo_items": [
@@ -2815,6 +2826,18 @@
         "result_id": "af00d590-1adf-4697-9129-2ba7fdbe9be3"
       },
       "created_at": "2026-11-26T18:08:23.977Z"
+    },
+    {
+      "id": "42158c3a-d715-4891-a43f-7320b517c0a7",
+      "action": "manual_increment",
+      "person_id": "a715ed76-5f07-417f-afae-9c31d1b43d2c",
+      "item_id": "35815baf-f5d0-4e93-9b29-06adf5235712",
+      "quantity": 1,
+      "source": "admin",
+      "detail": {
+        "result_id": "109e37d3-7c89-43af-9960-02862cb26d60"
+      },
+      "created_at": "2026-11-26T18:08:55.808Z"
     }
   ],
   "weflab_mappings": [],
