@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "storage": "github-json",
-    "updated_at": "2026-11-26T18:09:10.379Z",
+    "updated_at": "2026-11-28T09:47:31.233Z",
     "migration_pending": false,
     "migration_note": "One-time import from the existing Supabase project. Remove old Supabase variables only after this becomes false.",
     "migrated_from": "supabase",
@@ -812,6 +812,22 @@
       "is_visible": true,
       "created_at": "2026-11-25T02:01:06.089Z",
       "updated_at": "2026-11-25T02:01:06.089Z"
+    },
+    {
+      "id": "96f1ce8b-f266-459a-adaf-7b605f49ce49",
+      "title": "쓱삭서버",
+      "schedule_date": "2026-12-01",
+      "start_time": "09:00",
+      "end_time": null,
+      "category_id": null,
+      "description": "",
+      "participants": "",
+      "related_url": null,
+      "image_url": null,
+      "note": "",
+      "is_visible": true,
+      "created_at": "2026-11-28T09:47:31.233Z",
+      "updated_at": "2026-11-28T09:47:31.233Z"
     }
   ],
   "site_texts": [
